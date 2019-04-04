@@ -1,5 +1,3 @@
-import org.gradle.internal.os.OperatingSystem
-
 buildscript {
     repositories {
         mavenLocal()
@@ -73,28 +71,6 @@ springBoot {
     mainClassName = 'com.amp.cocome.P1App'
 }
 
-if (OperatingSystem.current().isWindows()) {
-    // https://stackoverflow.com/questions/40037487/the-filename-or-extension-is-too-long-error-using-gradle
-    task classpathJar(type: Jar) {
-        dependsOn configurations.runtime
-        appendix = 'classpath'
-
-        doFirst {
-            manifest {
-                attributes 'Class-Path': configurations.runtime.files.collect {
-                    it.toURI().toURL().toString().replaceFirst(/file:\/+/, '/').replaceAll(' ', '%20')
-                }.join(' ')
-            }
-        }
-    }
-
-    bootRun {
-        dependsOn classpathJar
-        doFirst {
-            classpath = files("$buildDir/classes/java/main", "$buildDir/resources/main", classpathJar.archivePath)
-        }
-    }
-}
 
 test {
     exclude '**/CucumberTest*'
