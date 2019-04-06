@@ -41,4 +41,11 @@ export class HomeComponent implements OnInit {
     login() {
         this.modalRef = this.loginModalService.open();
     }
+    goToRoute() {
+
+    }
+
+    goToPoI() {
+
+    }
 }

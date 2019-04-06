@@ -12,12 +12,41 @@ Main page styles
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
-    only screen and (-moz-min-device-pixel-ratio: 2),
-    only screen and (-o-min-device-pixel-ratio: 2/1),
-    only screen and (min-resolution: 192dpi),
-    only screen and (min-resolution: 2dppx) {
+only screen and (-moz-min-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {
     .hipster {
         background: url('../../content/images/earth.svg') no-repeat center top;
         background-size: contain;
     }
+}
+
+.section-info {
+    display: inline-flex;
+}
+
+.section-info > div {
+    flex: 1;
+    margin: 1em 1em 1em 0em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.col-info {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    padding: 0.75rem 1.25rem;
+}
+
+.col-info-flexitem {
+    flex-basis: 100%;
+
+}
+
+.col-info .col-info-header {
+    text-decoration: underline;
+    font-weight: bold;
 }
