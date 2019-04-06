@@ -11,5 +11,5 @@ services:
             - 8080:8080
     p1-mariadb:
         extends:
-            file: mariadb.yml
+            file: docker-compose.yml
             service: p1-mariadb
