@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="rating">
+            <h2><span jhiTranslate="p1App.rating.detail.title">Rating</span> {{rating.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="p1App.rating.creationDate">Creation Date</span></dt>
+                <dd>
+                    <span>{{rating.creationDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="p1App.rating.name">Name</span></dt>
+                <dd>
+                    <span>{{rating.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="p1App.rating.score">Score</span></dt>
+                <dd>
+                    <span>{{rating.score}}</span>
+                </dd>
+                <dt><span jhiTranslate="p1App.rating.belongsToRoute">Belongs To Route</span></dt>
+                <dd>
+                    <span *ngFor="let belongsToRoute of rating.belongsToRoutes; let last = last">
+                        <a [routerLink]="['/t-route', belongsToRoute?.id, 'view' ]">{{belongsToRoute.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="p1App.rating.belongsToPoint">Belongs To Point</span></dt>
+                <dd>
+                    <span *ngFor="let belongsToPoint of rating.belongsToPoints; let last = last">
+                        <a [routerLink]="['/point-interest', belongsToPoint?.id, 'view' ]">{{belongsToPoint.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="p1App.rating.extendedUser">Extended User</span></dt>
+                <dd>
+                    <div *ngIf="rating.extendedUser">
+                        <a [routerLink]="['/extended-user', rating.extendedUser?.id, 'view']">{{rating.extendedUser?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/rating', rating.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

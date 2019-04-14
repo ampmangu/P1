@@ -1,0 +1,76 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="p1App.rating.home.title">Ratings</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-rating" [routerLink]="['/rating/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="p1App.rating.home.createLabel">
+            Create new Rating
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="ratings">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="p1App.rating.creationDate">Creation Date</span></th>
+            <th><span jhiTranslate="p1App.rating.name">Name</span></th>
+            <th><span jhiTranslate="p1App.rating.score">Score</span></th>
+            <th><span jhiTranslate="p1App.rating.belongsToRoute">Belongs To Route</span></th>
+            <th><span jhiTranslate="p1App.rating.belongsToPoint">Belongs To Point</span></th>
+            <th><span jhiTranslate="p1App.rating.extendedUser">Extended User</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let rating of ratings ;trackBy: trackId">
+                <td><a [routerLink]="['/rating', rating.id, 'view' ]">{{rating.id}}</a></td>
+                <td>{{rating.creationDate | date:'medium'}}</td>
+                <td>{{rating.name}}</td>
+                <td>{{rating.score}}</td>
+                <td>
+                    <span *ngFor="let belongsToRoute of rating.belongsToRoutes; let last = last">
+                            <a class="form-control-static" [routerLink]="['../t-route', belongsToRoute?.id, 'view' ]">{{belongsToRoute.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let belongsToPoint of rating.belongsToPoints; let last = last">
+                            <a class="form-control-static" [routerLink]="['../point-interest', belongsToPoint?.id, 'view' ]">{{belongsToPoint.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <div *ngIf="rating.extendedUser">
+                        <a [routerLink]="['../extended-user', rating.extendedUser?.id, 'view' ]" >{{rating.extendedUser?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/rating', rating.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/rating', rating.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'rating', { outlets: { popup: rating.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

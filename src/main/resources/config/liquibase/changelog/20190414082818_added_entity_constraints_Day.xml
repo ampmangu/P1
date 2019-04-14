@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Day.
+    -->
+    <changeSet id="20190414082818-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="t_route_id"
+                                 baseTableName="day"
+                                 constraintName="fk_day_t_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="t_route"/>
+
+        <addForeignKeyConstraint baseColumnNames="extended_user_id"
+                                 baseTableName="day"
+                                 constraintName="fk_day_extended_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="extended_user"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,68 @@
+{
+    "name": "TRoute",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "tag",
+            "otherEntityRelationshipName": "tRoute",
+            "relationshipName": "tagsInRoute"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "day",
+            "otherEntityRelationshipName": "tRoute",
+            "relationshipName": "daysInRoute"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "rating",
+            "otherEntityRelationshipName": "belongsToRoute",
+            "relationshipName": "routeHasRatings",
+            "otherEntityField": "id",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "extendedUser",
+            "otherEntityRelationshipName": "followsRoute",
+            "relationshipName": "isFollowedBy",
+            "otherEntityField": "id",
+            "ownerSide": false
+        },
+        {
+            "relationshipName": "extendedUser",
+            "otherEntityName": "extendedUser",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190414082814",
+    "entityTableName": "t_route",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

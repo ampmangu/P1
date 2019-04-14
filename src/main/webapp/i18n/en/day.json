@@ -1,0 +1,24 @@
+{
+    "p1App": {
+        "day": {
+            "home": {
+                "title": "Days",
+                "createLabel": "Create a new Day",
+                "createOrEditLabel": "Create or edit a Day"
+            },
+            "created": "A new Day is created with identifier {{ param }}",
+            "updated": "A Day is updated with identifier {{ param }}",
+            "deleted": "A Day is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Day {{ id }}?"
+            },
+            "detail": {
+                "title": "Day"
+            },
+            "title": "Title",
+            "description": "Description",
+            "tRoute": "T Route",
+            "extendedUser": "Extended User"
+        }
+    }
+}

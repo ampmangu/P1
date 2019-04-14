@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="day">
+            <h2><span jhiTranslate="p1App.day.detail.title">Day</span> {{day.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="p1App.day.title">Title</span></dt>
+                <dd>
+                    <span>{{day.title}}</span>
+                </dd>
+                <dt><span jhiTranslate="p1App.day.description">Description</span></dt>
+                <dd>
+                    <span>{{day.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="p1App.day.tRoute">T Route</span></dt>
+                <dd>
+                    <div *ngIf="day.tRoute">
+                        <a [routerLink]="['/t-route', day.tRoute?.id, 'view']">{{day.tRoute?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="p1App.day.extendedUser">Extended User</span></dt>
+                <dd>
+                    <div *ngIf="day.extendedUser">
+                        <a [routerLink]="['/extended-user', day.extendedUser?.id, 'view']">{{day.extendedUser?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/day', day.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

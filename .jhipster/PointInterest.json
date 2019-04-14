@@ -1,0 +1,55 @@
+{
+    "name": "PointInterest",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "city",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "tag",
+            "otherEntityRelationshipName": "pointInterest",
+            "relationshipName": "tagsInPointInterest"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "rating",
+            "otherEntityRelationshipName": "belongsToPoint",
+            "relationshipName": "pointHasRatings",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20190414082817",
+    "entityTableName": "point_interest",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -2,8 +2,10 @@ package com.amp.cocome.service;
 
 import com.amp.cocome.config.Constants;
 import com.amp.cocome.domain.Authority;
+import com.amp.cocome.domain.ExtendedUser;
 import com.amp.cocome.domain.User;
 import com.amp.cocome.repository.AuthorityRepository;
+import com.amp.cocome.repository.ExtendedUserRepository;
 import com.amp.cocome.repository.PersistentTokenRepository;
 import com.amp.cocome.repository.UserRepository;
 import com.amp.cocome.security.AuthoritiesConstants;
@@ -47,12 +49,15 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final ExtendedUserRepository extendedUserRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, CacheManager cacheManager, ExtendedUserRepository extendedUserRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.extendedUserRepository = extendedUserRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -92,7 +97,7 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password) {
+    public User registerUser(UserDTO userDTO, String password, String alias) {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
@@ -115,16 +120,23 @@ public class UserService {
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
-        // new user is not active
-        newUser.setActivated(false);
-        // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        // new user is active
+        newUser.setActivated(true);
+        // new user gets registration key to null to avoid email thing
+        //might want to change it later on
+        newUser.setActivationKey(null);
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        ExtendedUser extendedUser = new ExtendedUser();
+        extendedUser.setUser(newUser);
+        extendedUser.setAlias(alias);
+        extendedUser.setId(newUser.getId());
+        extendedUserRepository.save(extendedUser);
+        log.debug("Created Information for ExtendedUser: {}", extendedUser);
         return newUser;
     }
 

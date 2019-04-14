@@ -1,0 +1,52 @@
+entity TRoute {
+	Title String required,
+    Description String, 
+    Date ZonedDateTime required,
+}
+
+entity Tag {
+	Name String required,
+    Premium Boolean required,
+}
+
+entity PointInterest {
+    Name String required,
+    Address String required, 
+    City String required,
+    Description String,
+}
+
+entity Day {
+	Title String required,
+    Description String,
+}
+
+entity Rating {
+	CreationDate ZonedDateTime required,
+    Name String,
+  	Score Integer required min(1) max(5),
+}
+entity ExtendedUser {
+	Alias String,
+}
+
+relationship OneToMany {
+	TRoute{tagsInRoute} to Tag,
+    PointInterest{tagsInPointInterest} to Tag,
+    TRoute{daysInRoute} to Day,
+    ExtendedUser{createsRoute} to TRoute,
+    ExtendedUser{createsRating} to Rating,
+    ExtendedUser{createsDay} to Day,
+}
+
+relationship ManyToMany {
+	Rating{belongsToRoute} to TRoute{routeHasRatings},
+    Rating{belongsToPoint} to PointInterest{pointHasRatings},
+    ExtendedUser{followsRoute} to TRoute{isFollowedBy}
+}
+
+relationship OneToOne {
+	ExtendedUser{user} to User
+}
+paginate TRoute, PointInterest, Day with infinite-scroll
+service all with serviceImpl

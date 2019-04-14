@@ -1,0 +1,28 @@
+{
+    "p1App": {
+        "tRoute": {
+            "home": {
+                "title": "T Routes",
+                "createLabel": "Crear nuevo T Route",
+                "createOrEditLabel": "Crear o editar T Route"
+            },
+            "created": "Un nuevo T Route ha sido creado con el identificador {{ param }}",
+            "updated": "Un T Route ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un T Route ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar T Route {{ id }}?"
+            },
+            "detail": {
+                "title": "T Route"
+            },
+            "title": "Title",
+            "description": "Description",
+            "date": "Date",
+            "tagsInRoute": "Tags In Route",
+            "daysInRoute": "Days In Route",
+            "routeHasRatings": "Route Has Ratings",
+            "isFollowedBy": "Is Followed By",
+            "extendedUser": "Extended User"
+        }
+    }
+}

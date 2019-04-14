@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Rating.
+    -->
+    <changeSet id="20190414082819-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="rating_id"
+                                 baseTableName="rating_belongs_to_route"
+                                 constraintName="fk_rating_belongs_to_route_rating_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rating"/>
+        <addForeignKeyConstraint baseColumnNames="belongs_to_route_id"
+                                 baseTableName="rating_belongs_to_route"
+                                 constraintName="fk_rating_belongs_to_route_belongs_to_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="t_route"/>
+        
+        <addForeignKeyConstraint baseColumnNames="rating_id"
+                                 baseTableName="rating_belongs_to_point"
+                                 constraintName="fk_rating_belongs_to_point_rating_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rating"/>
+        <addForeignKeyConstraint baseColumnNames="belongs_to_point_id"
+                                 baseTableName="rating_belongs_to_point"
+                                 constraintName="fk_rating_belongs_to_point_belongs_to_point_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="point_interest"/>
+        
+        <addForeignKeyConstraint baseColumnNames="extended_user_id"
+                                 baseTableName="rating"
+                                 constraintName="fk_rating_extended_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="extended_user"/>
+
+    </changeSet>
+</databaseChangeLog>

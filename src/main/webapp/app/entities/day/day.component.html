@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="p1App.day.home.title">Days</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-day" [routerLink]="['/day/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="p1App.day.home.createLabel">
+            Create new Day
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="days">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="title"><span jhiTranslate="p1App.day.title">Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="description"><span jhiTranslate="p1App.day.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tRoute.id"><span jhiTranslate="p1App.day.tRoute">T Route</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="extendedUser.id"><span jhiTranslate="p1App.day.extendedUser">Extended User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let day of days ;trackBy: trackId">
+                <td><a [routerLink]="['/day', day.id, 'view' ]">{{day.id}}</a></td>
+                <td>{{day.title}}</td>
+                <td>{{day.description}}</td>
+                <td>
+                    <div *ngIf="day.tRoute">
+                        <a [routerLink]="['../t-route', day.tRoute?.id, 'view' ]" >{{day.tRoute?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="day.extendedUser">
+                        <a [routerLink]="['../extended-user', day.extendedUser?.id, 'view' ]" >{{day.extendedUser?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/day', day.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/day', day.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'day', { outlets: { popup: day.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

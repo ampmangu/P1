@@ -14,7 +14,7 @@ public class ManagedUserVM extends UserDTO {
 
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
-
+    private String alias;
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
     }
@@ -31,5 +31,13 @@ public class ManagedUserVM extends UserDTO {
     public String toString() {
         return "ManagedUserVM{" +
             "} " + super.toString();
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

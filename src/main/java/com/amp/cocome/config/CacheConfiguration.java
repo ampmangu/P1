@@ -40,6 +40,24 @@ public class CacheConfiguration {
             cm.createCache(com.amp.cocome.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.TRoute.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".tagsInRoutes", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".daysInRoutes", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".routeHasRatings", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".isFollowedBies", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.Tag.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.PointInterest.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.PointInterest.class.getName() + ".tagsInPointInterests", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.PointInterest.class.getName() + ".pointHasRatings", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.Day.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.Rating.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.Rating.class.getName() + ".belongsToRoutes", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.Rating.class.getName() + ".belongsToPoints", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".createsRoutes", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".createsRatings", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".createsDays", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".followsRoutes", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

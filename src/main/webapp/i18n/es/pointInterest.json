@@ -1,0 +1,26 @@
+{
+    "p1App": {
+        "pointInterest": {
+            "home": {
+                "title": "Point Interests",
+                "createLabel": "Crear nuevo Point Interest",
+                "createOrEditLabel": "Crear o editar Point Interest"
+            },
+            "created": "Un nuevo Point Interest ha sido creado con el identificador {{ param }}",
+            "updated": "Un Point Interest ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Point Interest ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Point Interest {{ id }}?"
+            },
+            "detail": {
+                "title": "Point Interest"
+            },
+            "name": "Name",
+            "address": "Address",
+            "city": "City",
+            "description": "Description",
+            "tagsInPointInterest": "Tags In Point Interest",
+            "pointHasRatings": "Point Has Ratings"
+        }
+    }
+}

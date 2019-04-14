@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-rating-heading" jhiTranslate="p1App.rating.home.createOrEditLabel">Create or edit a Rating</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!rating.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="rating.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="p1App.rating.creationDate" for="field_creationDate">Creation Date</label>
+                    <div class="d-flex">
+                        <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="creationDate" placeholder="YYYY-MM-DD HH:mm"
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.creationDate?.dirty && editForm.controls.creationDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.creationDate?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.creationDate?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="p1App.rating.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="rating.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="p1App.rating.score" for="field_score">Score</label>
+                    <input type="number" class="form-control" name="score" id="field_score"
+                        [(ngModel)]="rating.score" required min="1" jhiMin="1" max="5" jhiMax="5"/>
+                    <div [hidden]="!(editForm.controls.score?.dirty && editForm.controls.score?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.score?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.score?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 1 }">
+                            This field should be at least 1.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.score?.errors?.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 5 }">
+                            This field cannot be more than 5.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.score?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="p1App.rating.belongsToRoute" for="field_belongsToRoute">Belongs To Route</label>
+                    <select class="form-control" id="field_belongsToRoute" multiple name="belongsToRoute" [(ngModel)]="rating.belongsToRoutes">
+                        <option [ngValue]="getSelected(rating.belongsToRoutes, tRouteOption)" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="p1App.rating.belongsToPoint" for="field_belongsToPoint">Belongs To Point</label>
+                    <select class="form-control" id="field_belongsToPoint" multiple name="belongsToPoint" [(ngModel)]="rating.belongsToPoints">
+                        <option [ngValue]="getSelected(rating.belongsToPoints, pointInterestOption)" *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="p1App.rating.extendedUser" for="field_extendedUser">Extended User</label>
+                    <select class="form-control" id="field_extendedUser" name="extendedUser" [(ngModel)]="rating.extendedUser" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="extendedUserOption.id === rating.extendedUser?.id ? rating.extendedUser : extendedUserOption" *ngFor="let extendedUserOption of extendedusers; trackBy: trackExtendedUserById">{{extendedUserOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
