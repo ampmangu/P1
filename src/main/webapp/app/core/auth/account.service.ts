@@ -1,26 +1,27 @@
-import { Injectable } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
-import { SessionStorageService } from 'ngx-webstorage';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {JhiLanguageService} from 'ng-jhipster';
+import {SessionStorageService} from 'ngx-webstorage';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {Observable, Subject} from 'rxjs';
 
-import { SERVER_API_URL } from 'app/app.constants';
-import { Account } from 'app/core/user/account.model';
+import {SERVER_API_URL} from 'app/app.constants';
+import {Account} from 'app/core/user/account.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AccountService {
     private userIdentity: any;
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
-    constructor(private languageService: JhiLanguageService, private sessionStorage: SessionStorageService, private http: HttpClient) {}
+    constructor(private languageService: JhiLanguageService, private sessionStorage: SessionStorageService, private http: HttpClient) {
+    }
 
     fetch(): Observable<HttpResponse<Account>> {
-        return this.http.get<Account>(SERVER_API_URL + 'api/account', { observe: 'response' });
+        return this.http.get<Account>(SERVER_API_URL + 'api/account', {observe: 'response'});
     }
 
     save(account: any): Observable<HttpResponse<any>> {
-        return this.http.post(SERVER_API_URL + 'api/account', account, { observe: 'response' });
+        return this.http.post(SERVER_API_URL + 'api/account', account, {observe: 'response'});
     }
 
     authenticate(identity) {
@@ -58,6 +59,16 @@ export class AccountService {
         );
     }
 
+    identifyO(force?: boolean) {
+        if (force) {
+            this.userIdentity = undefined;
+        }
+        if (this.userIdentity) {
+            return this.userIdentity;
+        }
+        return this.fetch();
+    }
+
     identity(force?: boolean): Promise<any> {
         if (force) {
             this.userIdentity = undefined;
@@ -87,12 +98,6 @@ export class AccountService {
                 }
                 this.authenticationState.next(this.userIdentity);
                 return this.userIdentity;
-            })
-            .catch(err => {
-                this.userIdentity = null;
-                this.authenticated = false;
-                this.authenticationState.next(this.userIdentity);
-                return null;
             });
     }
 

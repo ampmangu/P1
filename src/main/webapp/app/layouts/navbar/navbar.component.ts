@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiLanguageService } from 'ng-jhipster';
-import { SessionStorageService } from 'ngx-webstorage';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {JhiLanguageService} from 'ng-jhipster';
+import {SessionStorageService} from 'ngx-webstorage';
 
-import { VERSION } from 'app/app.constants';
-import { JhiLanguageHelper, AccountService, LoginModalService, LoginService } from 'app/core';
-import { ProfileService } from 'app/layouts/profiles/profile.service';
+import {VERSION} from 'app/app.constants';
+import {Account, AccountService, JhiLanguageHelper, LoginModalService, LoginService} from 'app/core';
+import {ProfileService} from 'app/layouts/profiles/profile.service';
 
 @Component({
     selector: 'jhi-navbar',
@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    account: Account;
 
     constructor(
         private loginService: LoginService,
@@ -39,10 +40,26 @@ export class NavbarComponent implements OnInit {
         this.languageHelper.getAll().then(languages => {
             this.languages = languages;
         });
-
+        this.getUser();
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+    }
+
+    getUser() {
+        this.accountService.identifyO().subscribe(response => {
+            console.log(response.body);
+            const account = response.body;
+            if (account) {
+                // After retrieve the account info, the language will be changed to
+                // the user's preferred language configured in the account setting
+                const langKey = this.sessionStorage.retrieve('locale') || 'en';
+                this.languageService.changeLanguage(langKey);
+                this.account = account;
+            } else {
+                this.account = account;
+            }
         });
     }
 
