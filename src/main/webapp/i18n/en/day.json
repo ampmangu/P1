@@ -18,7 +18,7 @@
             "title": "Title",
             "description": "Description",
             "tRoute": "T Route",
-            "extendedUser": "Extended User"
+            "User": "User"
         }
     }
 }

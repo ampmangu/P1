@@ -14,11 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="t_route"/>
 
-        <addForeignKeyConstraint baseColumnNames="extended_user_id"
+        <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="day"
-                                 constraintName="fk_day_extended_user_id"
+                                 constraintName="fk_day_user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="extended_user"/>
+                                 referencedTableName="jhi_user"/>
 
     </changeSet>
 </databaseChangeLog>

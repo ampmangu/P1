@@ -49,6 +49,16 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
+        <createTable tableName="user_follows_route">
+            <column name="follows_route_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_id, follows_route_id" tableName="user_follows_route"/>
 
         <createTable tableName="jhi_user_authority">
             <column name="user_id" type="bigint">

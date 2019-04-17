@@ -38,7 +38,7 @@ public class Day implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("createsDays")
-    private ExtendedUser extendedUser;
+    private User User;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -88,17 +88,17 @@ public class Day implements Serializable {
         this.tRoute = tRoute;
     }
 
-    public ExtendedUser getExtendedUser() {
-        return extendedUser;
+    public User getUser() {
+        return User;
     }
 
-    public Day extendedUser(ExtendedUser extendedUser) {
-        this.extendedUser = extendedUser;
+    public Day User(User User) {
+        this.User = User;
         return this;
     }
 
-    public void setExtendedUser(ExtendedUser extendedUser) {
-        this.extendedUser = extendedUser;
+    public void setUser(User User) {
+        this.User = User;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

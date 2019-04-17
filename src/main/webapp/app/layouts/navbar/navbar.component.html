@@ -67,10 +67,16 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="extended-user" routerLinkActive="active"
+                        <a class="dropdown-item" routerLink="user" routerLinkActive="active"
                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.extendedUser">Extended User</span>
+                            <span jhiTranslate="global.menu.entities.user">User</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.User">User</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -159,7 +165,7 @@
                     <fa-icon icon="user"></fa-icon>
                       <span *ngIf="account; else showAccount">
                             <span>
-                                {{(account.alias || account.login)}}
+                                {{(account.login || account.firstName || account.email)}}
                             </span>
                       </span>
                       <ng-template #showAccount>

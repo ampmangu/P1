@@ -12,8 +12,8 @@ import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { PointInterestService } from 'app/entities/point-interest';
-import { IExtendedUser } from 'app/shared/model/extended-user.model';
-import { ExtendedUserService } from 'app/entities/extended-user';
+import {User} from 'app/core';
+import {UserService} from 'app/core';
 
 @Component({
     selector: 'jhi-rating-update',
@@ -27,7 +27,7 @@ export class RatingUpdateComponent implements OnInit {
 
     pointinterests: IPointInterest[];
 
-    extendedusers: IExtendedUser[];
+    users: User[];
     creationDate: string;
 
     constructor(
@@ -35,7 +35,7 @@ export class RatingUpdateComponent implements OnInit {
         protected ratingService: RatingService,
         protected tRouteService: TRouteService,
         protected pointInterestService: PointInterestService,
-        protected extendedUserService: ExtendedUserService,
+        protected userService: UserService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -59,13 +59,13 @@ export class RatingUpdateComponent implements OnInit {
                 map((response: HttpResponse<IPointInterest[]>) => response.body)
             )
             .subscribe((res: IPointInterest[]) => (this.pointinterests = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.extendedUserService
+        this.userService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IExtendedUser[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IExtendedUser[]>) => response.body)
+                filter((mayBeOk: HttpResponse<User[]>) => mayBeOk.ok),
+                map((response: HttpResponse<User[]>) => response.body)
             )
-            .subscribe((res: IExtendedUser[]) => (this.extendedusers = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: User[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -107,7 +107,7 @@ export class RatingUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackExtendedUserById(index: number, item: IExtendedUser) {
+    trackUserById(index: number, item: User) {
         return item.id;
     }
 

@@ -44,10 +44,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.tRoute.extendedUser" for="field_extendedUser">Extended User</label>
-                    <select class="form-control" id="field_extendedUser" name="extendedUser" [(ngModel)]="tRoute.extendedUser" >
+                    <label class="form-control-label" jhiTranslate="p1App.tRoute.user" for="field_User">User</label>
+                    <select class="form-control" id="field_User" name="user" [(ngModel)]="tRoute.user" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="extendedUserOption.id === tRoute.extendedUser?.id ? tRoute.extendedUser : extendedUserOption" *ngFor="let extendedUserOption of extendedusers; trackBy: trackExtendedUserById">{{extendedUserOption.id}}</option>
+                        <option [ngValue]="UserOption.id === tRoute.user?.id ? tRoute.user : UserOption" *ngFor="let UserOption of users; trackBy: trackUserById">{{UserOption.id}}</option>
                     </select>
                 </div>
             </div>

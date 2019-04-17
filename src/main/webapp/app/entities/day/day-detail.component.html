@@ -19,10 +19,10 @@
                         <a [routerLink]="['/t-route', day.tRoute?.id, 'view']">{{day.tRoute?.id}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="p1App.day.extendedUser">Extended User</span></dt>
+                <dt><span jhiTranslate="p1App.day.user">User</span></dt>
                 <dd>
-                    <div *ngIf="day.extendedUser">
-                        <a [routerLink]="['/extended-user', day.extendedUser?.id, 'view']">{{day.extendedUser?.id}}</a>
+                    <div *ngIf="day.user">
+                        <a [routerLink]="['/user', day.user?.id, 'view']">{{day.user?.id}}</a>
                     </div>
                 </dd>
             </dl>

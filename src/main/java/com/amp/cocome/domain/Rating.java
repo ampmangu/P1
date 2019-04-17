@@ -57,7 +57,7 @@ public class Rating implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("createsRatings")
-    private ExtendedUser extendedUser;
+    private User User;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -157,17 +157,17 @@ public class Rating implements Serializable {
         this.belongsToPoints = pointInterests;
     }
 
-    public ExtendedUser getExtendedUser() {
-        return extendedUser;
+    public User getUser() {
+        return User;
     }
 
-    public Rating extendedUser(ExtendedUser extendedUser) {
-        this.extendedUser = extendedUser;
+    public Rating User(User User) {
+        this.User = User;
         return this;
     }
 
-    public void setExtendedUser(ExtendedUser extendedUser) {
-        this.extendedUser = extendedUser;
+    public void setUser(User User) {
+        this.User = User;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

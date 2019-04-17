@@ -2,7 +2,7 @@ import { Moment } from 'moment';
 import { ITag } from 'app/shared/model/tag.model';
 import { IDay } from 'app/shared/model/day.model';
 import { IRating } from 'app/shared/model/rating.model';
-import { IExtendedUser } from 'app/shared/model/extended-user.model';
+import {User} from 'app/core';
 
 export interface ITRoute {
     id?: number;
@@ -12,8 +12,8 @@ export interface ITRoute {
     tagsInRoutes?: ITag[];
     daysInRoutes?: IDay[];
     routeHasRatings?: IRating[];
-    isFollowedBies?: IExtendedUser[];
-    extendedUser?: IExtendedUser;
+    isFollowedBies?: User[];
+    user?: User;
 }
 
 export class TRoute implements ITRoute {
@@ -25,7 +25,7 @@ export class TRoute implements ITRoute {
         public tagsInRoutes?: ITag[],
         public daysInRoutes?: IDay[],
         public routeHasRatings?: IRating[],
-        public isFollowedBies?: IExtendedUser[],
-        public extendedUser?: IExtendedUser
+        public isFollowedBies?: User[],
+        public user?: User
     ) {}
 }

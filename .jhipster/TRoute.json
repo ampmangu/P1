@@ -43,15 +43,15 @@
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityName": "extendedUser",
+            "otherEntityName": "User",
             "otherEntityRelationshipName": "followsRoute",
             "relationshipName": "isFollowedBy",
             "otherEntityField": "id",
             "ownerSide": false
         },
         {
-            "relationshipName": "extendedUser",
-            "otherEntityName": "extendedUser",
+            "relationshipName": "User",
+            "otherEntityName": "User",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }

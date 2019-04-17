@@ -23,10 +23,6 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'rating',
                 loadChildren: './rating/rating.module#P1RatingModule'
-            },
-            {
-                path: 'extended-user',
-                loadChildren: './extended-user/extended-user.module#P1ExtendedUserModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

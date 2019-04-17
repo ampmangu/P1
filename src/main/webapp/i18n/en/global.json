@@ -13,7 +13,7 @@
                 "pointInterest": "Point Interest",
                 "day": "Day",
                 "rating": "Rating",
-                "extendedUser": "Extended User",
+                "User": "User",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -50,9 +50,7 @@
             "confirmpassword": "New password confirmation",
             "confirmpassword.placeholder": "Confirm the new password",
             "email": "Email",
-            "email.placeholder": "Your email",
-            "alias": "Alias",
-            "alias.placeholder": "An alias of your choice"
+            "email.placeholder": "Your email"
         },
         "messages": {
             "info": {

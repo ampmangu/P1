@@ -14,13 +14,7 @@
             },
             "detail": {
                 "title": "Extended User"
-            },
-            "alias": "Alias",
-            "user": "User",
-            "createsRoute": "Creates Route",
-            "createsRating": "Creates Rating",
-            "createsDay": "Creates Day",
-            "followsRoute": "Follows Route"
+            }
         }
     }
 }

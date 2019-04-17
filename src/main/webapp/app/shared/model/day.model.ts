@@ -1,12 +1,12 @@
 import { ITRoute } from 'app/shared/model/t-route.model';
-import { IExtendedUser } from 'app/shared/model/extended-user.model';
+import {User} from 'app/core';
 
 export interface IDay {
     id?: number;
     title?: string;
     description?: string;
     tRoute?: ITRoute;
-    extendedUser?: IExtendedUser;
+    user?: User;
 }
 
 export class Day implements IDay {
@@ -15,6 +15,6 @@ export class Day implements IDay {
         public title?: string,
         public description?: string,
         public tRoute?: ITRoute,
-        public extendedUser?: IExtendedUser
+        public user?: User
     ) {}
 }

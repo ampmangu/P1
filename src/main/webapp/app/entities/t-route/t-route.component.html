@@ -18,7 +18,7 @@
             <th jhiSortBy="title"><span jhiTranslate="p1App.tRoute.title">Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="description"><span jhiTranslate="p1App.tRoute.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="date"><span jhiTranslate="p1App.tRoute.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="extendedUser.id"><span jhiTranslate="p1App.tRoute.extendedUser">Extended User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="user.id"><span jhiTranslate="p1App.tRoute.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -29,8 +29,8 @@
                 <td>{{tRoute.description}}</td>
                 <td>{{tRoute.date | date:'medium'}}</td>
                 <td>
-                    <div *ngIf="tRoute.extendedUser">
-                        <a [routerLink]="['../extended-user', tRoute.extendedUser?.id, 'view' ]" >{{tRoute.extendedUser?.id}}</a>
+                    <div *ngIf="tRoute.user">
+                        <a [routerLink]="['../user', tRoute.user?.id, 'view' ]" >{{tRoute.user?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

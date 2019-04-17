@@ -20,7 +20,7 @@
             <th><span jhiTranslate="p1App.rating.score">Score</span></th>
             <th><span jhiTranslate="p1App.rating.belongsToRoute">Belongs To Route</span></th>
             <th><span jhiTranslate="p1App.rating.belongsToPoint">Belongs To Point</span></th>
-            <th><span jhiTranslate="p1App.rating.extendedUser">Extended User</span></th>
+            <th><span jhiTranslate="p1App.rating.user">User</span></th>
             <th></th>
             </tr>
             </thead>
@@ -41,8 +41,8 @@
                         </span>
                 </td>
                 <td>
-                    <div *ngIf="rating.extendedUser">
-                        <a [routerLink]="['../extended-user', rating.extendedUser?.id, 'view' ]" >{{rating.extendedUser?.id}}</a>
+                    <div *ngIf="rating.user">
+                        <a [routerLink]="['../user', rating.user?.id, 'view' ]" >{{rating.user?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

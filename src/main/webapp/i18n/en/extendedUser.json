@@ -1,26 +1,20 @@
 {
     "p1App": {
-        "extendedUser": {
+        "User": {
             "home": {
-                "title": "Extended Users",
-                "createLabel": "Create a new Extended User",
-                "createOrEditLabel": "Create or edit a Extended User"
+                "title": "Users",
+                "createLabel": "Create a new User",
+                "createOrEditLabel": "Create or edit a User"
             },
-            "created": "A new Extended User is created with identifier {{ param }}",
-            "updated": "A Extended User is updated with identifier {{ param }}",
-            "deleted": "A Extended User is deleted with identifier {{ param }}",
+            "created": "A new User is created with identifier {{ param }}",
+            "updated": "A User is updated with identifier {{ param }}",
+            "deleted": "A User is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Extended User {{ id }}?"
+                "question": "Are you sure you want to delete User {{ id }}?"
             },
             "detail": {
-                "title": "Extended User"
-            },
-            "alias": "Alias",
-            "user": "User",
-            "createsRoute": "Creates Route",
-            "createsRating": "Creates Rating",
-            "createsDay": "Creates Day",
-            "followsRoute": "Follows Route"
+                "title": "User"
+            }
         }
     }
 }

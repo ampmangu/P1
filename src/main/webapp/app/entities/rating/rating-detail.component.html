@@ -29,10 +29,10 @@
                         <a [routerLink]="['/point-interest', belongsToPoint?.id, 'view' ]">{{belongsToPoint.id}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
-                <dt><span jhiTranslate="p1App.rating.extendedUser">Extended User</span></dt>
+                <dt><span jhiTranslate="p1App.rating.user">User</span></dt>
                 <dd>
-                    <div *ngIf="rating.extendedUser">
-                        <a [routerLink]="['/extended-user', rating.extendedUser?.id, 'view']">{{rating.extendedUser?.id}}</a>
+                    <div *ngIf="rating.user">
+                        <a [routerLink]="['/user', rating.user?.id, 'view']">{{rating.user?.id}}</a>
                     </div>
                 </dd>
             </dl>

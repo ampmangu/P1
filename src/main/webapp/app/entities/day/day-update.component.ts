@@ -8,8 +8,8 @@ import { IDay } from 'app/shared/model/day.model';
 import { DayService } from './day.service';
 import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
-import { IExtendedUser } from 'app/shared/model/extended-user.model';
-import { ExtendedUserService } from 'app/entities/extended-user';
+import {User} from 'app/core';
+import {UserService} from 'app/core';
 
 @Component({
     selector: 'jhi-day-update',
@@ -21,13 +21,13 @@ export class DayUpdateComponent implements OnInit {
 
     troutes: ITRoute[];
 
-    extendedusers: IExtendedUser[];
+    users: User[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected dayService: DayService,
         protected tRouteService: TRouteService,
-        protected extendedUserService: ExtendedUserService,
+        protected userService: UserService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -43,13 +43,13 @@ export class DayUpdateComponent implements OnInit {
                 map((response: HttpResponse<ITRoute[]>) => response.body)
             )
             .subscribe((res: ITRoute[]) => (this.troutes = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.extendedUserService
+        this.userService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IExtendedUser[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IExtendedUser[]>) => response.body)
+                filter((mayBeOk: HttpResponse<User[]>) => mayBeOk.ok),
+                map((response: HttpResponse<User[]>) => response.body)
             )
-            .subscribe((res: IExtendedUser[]) => (this.extendedusers = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: User[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -86,7 +86,7 @@ export class DayUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackExtendedUserById(index: number, item: IExtendedUser) {
+    trackUserById(index: number, item: User) {
         return item.id;
     }
 }

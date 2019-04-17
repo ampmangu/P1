@@ -36,6 +36,10 @@ public class CacheConfiguration {
             cm.createCache(com.amp.cocome.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
             cm.createCache(com.amp.cocome.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.User.class.getName(), jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.User.class.getName() + ".createsRoutes", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.User.class.getName() + ".createsRatings", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.User.class.getName() + ".createsDays", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.User.class.getName() + ".followsRoutes", jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.PersistentToken.class.getName(), jcacheConfiguration);
@@ -53,11 +57,7 @@ public class CacheConfiguration {
             cm.createCache(com.amp.cocome.domain.Rating.class.getName(), jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.Rating.class.getName() + ".belongsToRoutes", jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.Rating.class.getName() + ".belongsToPoints", jcacheConfiguration);
-            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName(), jcacheConfiguration);
-            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".createsRoutes", jcacheConfiguration);
-            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".createsRatings", jcacheConfiguration);
-            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".createsDays", jcacheConfiguration);
-            cm.createCache(com.amp.cocome.domain.ExtendedUser.class.getName() + ".followsRoutes", jcacheConfiguration);
+
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -42,8 +42,8 @@
             "ownerSide": true
         },
         {
-            "relationshipName": "extendedUser",
-            "otherEntityName": "extendedUser",
+            "relationshipName": "User",
+            "otherEntityName": "User",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }

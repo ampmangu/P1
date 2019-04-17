@@ -54,11 +54,11 @@ public class TRoute implements Serializable {
     @ManyToMany(mappedBy = "followsRoutes")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
-    private Set<ExtendedUser> isFollowedBies = new HashSet<>();
+    private Set<User> isFollowedBies = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("createsRoutes")
-    private ExtendedUser extendedUser;
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -183,42 +183,42 @@ public class TRoute implements Serializable {
         this.routeHasRatings = ratings;
     }
 
-    public Set<ExtendedUser> getIsFollowedBies() {
+    public Set<User> getIsFollowedBies() {
         return isFollowedBies;
     }
 
-    public TRoute isFollowedBies(Set<ExtendedUser> extendedUsers) {
-        this.isFollowedBies = extendedUsers;
+    public TRoute isFollowedBies(Set<User> Users) {
+        this.isFollowedBies = Users;
         return this;
     }
 
-    public TRoute addIsFollowedBy(ExtendedUser extendedUser) {
-        this.isFollowedBies.add(extendedUser);
-        extendedUser.getFollowsRoutes().add(this);
+    public TRoute addIsFollowedBy(User User) {
+        this.isFollowedBies.add(User);
+        User.getFollowsRoutes().add(this);
         return this;
     }
 
-    public TRoute removeIsFollowedBy(ExtendedUser extendedUser) {
-        this.isFollowedBies.remove(extendedUser);
-        extendedUser.getFollowsRoutes().remove(this);
+    public TRoute removeIsFollowedBy(User User) {
+        this.isFollowedBies.remove(User);
+        User.getFollowsRoutes().remove(this);
         return this;
     }
 
-    public void setIsFollowedBies(Set<ExtendedUser> extendedUsers) {
-        this.isFollowedBies = extendedUsers;
+    public void setIsFollowedBies(Set<User> Users) {
+        this.isFollowedBies = Users;
     }
 
-    public ExtendedUser getExtendedUser() {
-        return extendedUser;
+    public User getUser() {
+        return user;
     }
 
-    public TRoute extendedUser(ExtendedUser extendedUser) {
-        this.extendedUser = extendedUser;
+    public TRoute User(User User) {
+        this.user = User;
         return this;
     }
 
-    public void setExtendedUser(ExtendedUser extendedUser) {
-        this.extendedUser = extendedUser;
+    public void setUser(User user) {
+        this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

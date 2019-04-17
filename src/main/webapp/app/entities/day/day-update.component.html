@@ -34,10 +34,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.day.extendedUser" for="field_extendedUser">Extended User</label>
-                    <select class="form-control" id="field_extendedUser" name="extendedUser" [(ngModel)]="day.extendedUser" >
+                    <label class="form-control-label" jhiTranslate="p1App.day.user" for="field_User"> User</label>
+                    <select class="form-control" id="field_User" name="user" [(ngModel)]="day.user" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="extendedUserOption.id === day.extendedUser?.id ? day.extendedUser : extendedUserOption" *ngFor="let extendedUserOption of extendedusers; trackBy: trackExtendedUserById">{{extendedUserOption.id}}</option>
+                        <option [ngValue]="UserOption.id === day.user?.id ? day.user : UserOption" *ngFor="let UserOption of users; trackBy: trackUserById">{{UserOption.id}}</option>
                     </select>
                 </div>
             </div>

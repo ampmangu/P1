@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 import { ITRoute } from 'app/shared/model/t-route.model';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
-import { IExtendedUser } from 'app/shared/model/extended-user.model';
+import {User} from 'app/core';
 
 export interface IRating {
     id?: number;
@@ -10,7 +10,7 @@ export interface IRating {
     score?: number;
     belongsToRoutes?: ITRoute[];
     belongsToPoints?: IPointInterest[];
-    extendedUser?: IExtendedUser;
+    user?: User;
 }
 
 export class Rating implements IRating {
@@ -21,6 +21,6 @@ export class Rating implements IRating {
         public score?: number,
         public belongsToRoutes?: ITRoute[],
         public belongsToPoints?: IPointInterest[],
-        public extendedUser?: IExtendedUser
+        public user?: User
     ) {}
 }

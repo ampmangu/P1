@@ -17,10 +17,10 @@
                 <dd>
                     <span>{{tRoute.date}}</span>
                 </dd>
-                <dt><span jhiTranslate="p1App.tRoute.extendedUser">Extended User</span></dt>
+                <dt><span jhiTranslate="p1App.tRoute.user">User</span></dt>
                 <dd>
-                    <div *ngIf="tRoute.extendedUser">
-                        <a [routerLink]="['/extended-user', tRoute.extendedUser?.id, 'view']">{{tRoute.extendedUser?.id}}</a>
+                    <div *ngIf="tRoute.user">
+                        <a [routerLink]="['/user', tRoute.user?.id, 'view']">{{tRoute.user?.id}}</a>
                     </div>
                 </dd>
             </dl>

@@ -1,24 +1,23 @@
 package com.amp.cocome.domain;
 
 import com.amp.cocome.config.Constants;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import javax.validation.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.time.Instant;
 
 /**
  * A user.
@@ -84,6 +83,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -98,6 +98,21 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<TRoute> createsRoutes = new HashSet<>();
+    @OneToMany(mappedBy = "User")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Rating> createsRatings = new HashSet<>();
+    @OneToMany(mappedBy = "User")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Day> createsDays = new HashSet<>();
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "user_follows_route",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "follows_route_id", referencedColumnName = "id"))
+    private Set<TRoute> followsRoutes = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -212,6 +227,107 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.persistentTokens = persistentTokens;
     }
 
+
+    public Set<TRoute> getCreatesRoutes() {
+        return createsRoutes;
+    }
+
+    public void setCreatesRoutes(Set<TRoute> tRoutes) {
+        this.createsRoutes = tRoutes;
+    }
+
+    public User createsRoutes(Set<TRoute> tRoutes) {
+        this.createsRoutes = tRoutes;
+        return this;
+    }
+
+    public User addCreatesRoute(TRoute tRoute) {
+        this.createsRoutes.add(tRoute);
+        tRoute.setUser(this);
+        return this;
+    }
+
+    public User removeCreatesRoute(TRoute tRoute) {
+        this.createsRoutes.remove(tRoute);
+        tRoute.setUser(null);
+        return this;
+    }
+
+    public Set<Rating> getCreatesRatings() {
+        return createsRatings;
+    }
+
+    public void setCreatesRatings(Set<Rating> ratings) {
+        this.createsRatings = ratings;
+    }
+
+    public User createsRatings(Set<Rating> ratings) {
+        this.createsRatings = ratings;
+        return this;
+    }
+
+    public User addCreatesRating(Rating rating) {
+        this.createsRatings.add(rating);
+        rating.setUser(this);
+        return this;
+    }
+
+    public User removeCreatesRating(Rating rating) {
+        this.createsRatings.remove(rating);
+        rating.setUser(null);
+        return this;
+    }
+
+    public Set<Day> getCreatesDays() {
+        return createsDays;
+    }
+
+    public void setCreatesDays(Set<Day> days) {
+        this.createsDays = days;
+    }
+
+    public User createsDays(Set<Day> days) {
+        this.createsDays = days;
+        return this;
+    }
+
+    public User addCreatesDay(Day day) {
+        this.createsDays.add(day);
+        day.setUser(this);
+        return this;
+    }
+
+    public User removeCreatesDay(Day day) {
+        this.createsDays.remove(day);
+        day.setUser(null);
+        return this;
+    }
+
+    public Set<TRoute> getFollowsRoutes() {
+        return followsRoutes;
+    }
+
+    public void setFollowsRoutes(Set<TRoute> tRoutes) {
+        this.followsRoutes = tRoutes;
+    }
+
+    public User followsRoutes(Set<TRoute> tRoutes) {
+        this.followsRoutes = tRoutes;
+        return this;
+    }
+
+    public User addFollowsRoute(TRoute tRoute) {
+        this.followsRoutes.add(tRoute);
+        tRoute.getIsFollowedBies().add(this);
+        return this;
+    }
+
+    public User removeFollowsRoute(TRoute tRoute) {
+        this.followsRoutes.remove(tRoute);
+        tRoute.getIsFollowedBies().remove(this);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -233,14 +349,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-            "login='" + login + '\'' +
+            "id=" + id +
+            ", login='" + login + '\'' +
+            ", password='" + password + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated='" + activated + '\'' +
+            ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
+            '}';
     }
 }

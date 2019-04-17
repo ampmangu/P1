@@ -10,8 +10,8 @@ import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from './t-route.service';
 import { IRating } from 'app/shared/model/rating.model';
 import { RatingService } from 'app/entities/rating';
-import { IExtendedUser } from 'app/shared/model/extended-user.model';
-import { ExtendedUserService } from 'app/entities/extended-user';
+import {User} from 'app/core';
+import {UserService} from 'app/core';
 
 @Component({
     selector: 'jhi-t-route-update',
@@ -23,14 +23,14 @@ export class TRouteUpdateComponent implements OnInit {
 
     ratings: IRating[];
 
-    extendedusers: IExtendedUser[];
+    users: User[];
     date: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected tRouteService: TRouteService,
         protected ratingService: RatingService,
-        protected extendedUserService: ExtendedUserService,
+        protected userService: UserService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -47,13 +47,13 @@ export class TRouteUpdateComponent implements OnInit {
                 map((response: HttpResponse<IRating[]>) => response.body)
             )
             .subscribe((res: IRating[]) => (this.ratings = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.extendedUserService
+        this.userService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IExtendedUser[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IExtendedUser[]>) => response.body)
+                filter((mayBeOk: HttpResponse<User[]>) => mayBeOk.ok),
+                map((response: HttpResponse<User[]>) => response.body)
             )
-            .subscribe((res: IExtendedUser[]) => (this.extendedusers = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: User[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -91,7 +91,7 @@ export class TRouteUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackExtendedUserById(index: number, item: IExtendedUser) {
+    trackUserById(index: number, item: User) {
         return item.id;
     }
 

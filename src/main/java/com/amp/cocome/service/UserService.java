@@ -2,10 +2,8 @@ package com.amp.cocome.service;
 
 import com.amp.cocome.config.Constants;
 import com.amp.cocome.domain.Authority;
-import com.amp.cocome.domain.ExtendedUser;
 import com.amp.cocome.domain.User;
 import com.amp.cocome.repository.AuthorityRepository;
-import com.amp.cocome.repository.ExtendedUserRepository;
 import com.amp.cocome.repository.PersistentTokenRepository;
 import com.amp.cocome.repository.UserRepository;
 import com.amp.cocome.security.AuthoritiesConstants;
@@ -49,15 +47,13 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    private final ExtendedUserRepository extendedUserRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, CacheManager cacheManager, ExtendedUserRepository extendedUserRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
-        this.extendedUserRepository = extendedUserRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -97,7 +93,7 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password, String alias) {
+    public User registerUser(UserDTO userDTO, String password) {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
@@ -131,12 +127,7 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
-        ExtendedUser extendedUser = new ExtendedUser();
-        extendedUser.setUser(newUser);
-        extendedUser.setAlias(alias);
-        extendedUser.setId(newUser.getId());
-        extendedUserRepository.save(extendedUser);
-        log.debug("Created Information for ExtendedUser: {}", extendedUser);
+
         return newUser;
     }
 
