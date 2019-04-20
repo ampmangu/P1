@@ -1,9 +1,10 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="p1App.tRoute.home.title">T Routes</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-t-route" [routerLink]="['/t-route/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-t-route"
+                [routerLink]="['/t-route/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="p1App.tRoute.home.createLabel">
+            <span jhiTranslate="p1App.tRoute.home.createLabel">
             Create new T Route
             </span>
         </button>
@@ -14,26 +15,32 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span jhiTranslate="p1App.tRoute.title">Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="description"><span jhiTranslate="p1App.tRoute.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="date"><span jhiTranslate="p1App.tRoute.date">Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="user.id"><span jhiTranslate="p1App.tRoute.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+                <!--<th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                <th jhiSortBy="title"><span jhiTranslate="p1App.tRoute.title">Title</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="description"><span jhiTranslate="p1App.tRoute.description">Description</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="date"><span jhiTranslate="p1App.tRoute.date">Date</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="user.id"><span jhiTranslate="p1App.tRoute.user">User</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                   [infiniteScrollDistance]="0">
             <tr *ngFor="let tRoute of tRoutes ;trackBy: trackId">
-                <td><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.id}}</a></td>
-                <td>{{tRoute.title}}</td>
+                <!--<td>{{tRoute.id}}</a></td>-->
+                <td><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
                 <td>{{tRoute.description}}</td>
                 <td>{{tRoute.date | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="tRoute.user">
-                        <a [routerLink]="['../user', tRoute.user?.id, 'view' ]" >{{tRoute.user?.id}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
+                <td>{{tRoute.user?.login}}</td>
+                {{acc.login}}
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/t-route', tRoute.id, 'view' ]"

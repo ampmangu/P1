@@ -59,13 +59,8 @@ export class AccountService {
         );
     }
 
-    identifyO(force?: boolean) {
-        if (force) {
-            this.userIdentity = undefined;
-        }
-        if (this.userIdentity) {
-            return this.userIdentity;
-        }
+    identifyO(): Observable<HttpResponse<Account>>  {
+        console.log("In");
         return this.fetch();
     }
 

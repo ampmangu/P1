@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
     constructor(
         private accountService: AccountService,
         private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        protected router: Router
     ) {}
 
     ngOnInit() {
@@ -41,8 +43,8 @@ export class HomeComponent implements OnInit {
     login() {
         this.modalRef = this.loginModalService.open();
     }
-    goToRoute() {
-
+    goToRoutes() {
+        this.router.navigate(['t-route/']);
     }
 
     goToPoI() {

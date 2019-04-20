@@ -63,6 +63,10 @@ export class NavbarComponent implements OnInit {
         });
     }
 
+    getUserName() {
+        return this.account;
+    }
+
     changeLanguage(languageKey: string) {
         this.sessionStorage.store('locale', languageKey);
         this.languageService.changeLanguage(languageKey);
