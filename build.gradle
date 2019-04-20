@@ -125,11 +125,13 @@ liquibase {
         main {
             driver 'org.mariadb.jdbc.Driver'
             url 'jdbc:mariadb://localhost:3306/P1'
-            username ''
+            referenceUrl 'jdbc:mariadb://localhost:3306/P1'
+            referenceUsername 'root'
+            username 'root'
             password ''
             changeLogFile 'src/main/resources/config/liquibase/master.xml'
             defaultSchemaName ''
-            logLevel 'debug'
+            logLevel 'severe'
             classpath 'src/main/resources/'
         }
         diffLog {
