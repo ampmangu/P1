@@ -60,6 +60,9 @@ public class TRoute implements Serializable {
     @JsonIgnoreProperties("createsRoutes")
     private User user;
 
+    @OneToMany(mappedBy = "route")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<PointInterest> pointInterests;
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

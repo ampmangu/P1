@@ -37,10 +37,13 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
+            <column name="route_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+        <addForeignKeyConstraint baseTableName="point_interest" baseColumnNames="route_id" constraintName="fk_point_route_id" referencedTableName="t_route"
+                                 referencedColumnNames="id"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

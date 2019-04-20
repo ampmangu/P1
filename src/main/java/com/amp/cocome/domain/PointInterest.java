@@ -6,12 +6,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A PointInterest.
@@ -22,7 +21,7 @@ import java.util.Objects;
 public class PointInterest implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,6 +49,10 @@ public class PointInterest implements Serializable {
     @JsonIgnore
     private Set<Rating> pointHasRatings = new HashSet<>();
 
+    @ManyToOne
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private TRoute route;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -63,17 +66,21 @@ public class PointInterest implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public PointInterest name(String name) {
         this.name = name;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public PointInterest address(String address) {
@@ -81,12 +88,12 @@ public class PointInterest implements Serializable {
         return this;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public PointInterest city(String city) {
@@ -94,12 +101,12 @@ public class PointInterest implements Serializable {
         return this;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public PointInterest description(String description) {
@@ -107,12 +114,12 @@ public class PointInterest implements Serializable {
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Set<Tag> getTagsInPointInterests() {
         return tagsInPointInterests;
+    }
+
+    public void setTagsInPointInterests(Set<Tag> tags) {
+        this.tagsInPointInterests = tags;
     }
 
     public PointInterest tagsInPointInterests(Set<Tag> tags) {
@@ -132,12 +139,12 @@ public class PointInterest implements Serializable {
         return this;
     }
 
-    public void setTagsInPointInterests(Set<Tag> tags) {
-        this.tagsInPointInterests = tags;
-    }
-
     public Set<Rating> getPointHasRatings() {
         return pointHasRatings;
+    }
+
+    public void setPointHasRatings(Set<Rating> ratings) {
+        this.pointHasRatings = ratings;
     }
 
     public PointInterest pointHasRatings(Set<Rating> ratings) {
@@ -157,10 +164,15 @@ public class PointInterest implements Serializable {
         return this;
     }
 
-    public void setPointHasRatings(Set<Rating> ratings) {
-        this.pointHasRatings = ratings;
+    public TRoute getRoute() {
+        return route;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public void setRoute(TRoute route) {
+        this.route = route;
+    }
+
+// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

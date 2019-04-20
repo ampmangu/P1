@@ -49,6 +49,8 @@ public class CacheConfiguration {
             cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".daysInRoutes", jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".routeHasRatings", jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".isFollowedBies", jcacheConfiguration);
+            cm.createCache(com.amp.cocome.domain.TRoute.class.getName() + ".pointInterests", jcacheConfiguration);
+
             cm.createCache(com.amp.cocome.domain.Tag.class.getName(), jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.PointInterest.class.getName(), jcacheConfiguration);
             cm.createCache(com.amp.cocome.domain.PointInterest.class.getName() + ".tagsInPointInterests", jcacheConfiguration);
