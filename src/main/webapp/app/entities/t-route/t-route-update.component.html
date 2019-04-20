@@ -47,7 +47,7 @@
                     <label class="form-control-label" jhiTranslate="p1App.tRoute.user" for="field_User">User</label>
                     <select class="form-control" id="field_User" name="user" [(ngModel)]="tRoute.user" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="UserOption.id === tRoute.user?.id ? tRoute.user : UserOption" *ngFor="let UserOption of users; trackBy: trackUserById">{{UserOption.id}}</option>
+                        <option [ngValue]="UserOption.id === tRoute.user?.id ? tRoute.user : UserOption" *ngFor="let UserOption of users; trackBy: trackUserById">{{UserOption.login}}</option>
                     </select>
                 </div>
             </div>

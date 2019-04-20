@@ -3,8 +3,7 @@ import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http
 import {Subscription} from 'rxjs';
 import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
 import {ITRoute} from 'app/shared/model/t-route.model';
-import {Account} from 'app/core';
-import {NavbarComponent} from 'app/layouts';
+import {Account, AccountService} from 'app/core';
 import {ITEMS_PER_PAGE} from 'app/shared';
 import {TRouteService} from './t-route.service';
 
@@ -22,14 +21,14 @@ export class TRouteComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     totalItems: number;
-    acc: Account;
+    account: Account;
 
     constructor(
         protected tRouteService: TRouteService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        protected navbarComponent: NavbarComponent
+        private accountService: AccountService,
     ) {
         this.tRoutes = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -39,7 +38,6 @@ export class TRouteComponent implements OnInit, OnDestroy {
         };
         this.predicate = 'id';
         this.reverse = true;
-         //this.getUser();
     }
 
     loadAll() {
@@ -67,26 +65,23 @@ export class TRouteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-         //this.getUser();
-        this.acc = this.navbarComponent.getUserName();
-        console.log(this.acc);
+        this.getUser();
         this.loadAll();
         this.registerChangeInTRoutes();
     }
 
-    // getUser() {
-    //     this.accountService.identifyO().subscribe(response => {
-    //         console.log(response.body);
-    //         const account = response.body;
-    //         if (account) {
-    //             // After retrieve the account info, the language will be changed to
-    //             // the user's preferred language configured in the account setting
-    //             this.acc = account;
-    //         } else {
-    //             this.acc = account;
-    //         }
-    //     }, (res: HttpErrorResponse) => this.onError(res.message));
-    // }
+    getUser() {
+        this.accountService.identifyO().subscribe((response: HttpResponse<Account>) => {
+            const account = response.body;
+            if (account) {
+                // After retrieve the account info, the language will be changed to
+                // the user's preferred language configured in the account setting
+                this.account = account;
+            } else {
+                this.account = account;
+            }
+        }, (res: HttpErrorResponse) => this.onError(res.message));
+    }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);

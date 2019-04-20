@@ -39,7 +39,6 @@
                 <td>{{tRoute.description}}</td>
                 <td>{{tRoute.date | date:'medium'}}</td>
                 <td>{{tRoute.user?.login}}</td>
-                {{acc.login}}
                 <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

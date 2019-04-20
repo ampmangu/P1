@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
-    account: Account;
+    public account: Account;
 
     constructor(
         private loginService: LoginService,
@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit {
         });
     }
 
-    getUserName() {
+    getUserName(): Account {
         return this.account;
     }
 

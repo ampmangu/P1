@@ -60,7 +60,6 @@ export class AccountService {
     }
 
     identifyO(): Observable<HttpResponse<Account>>  {
-        console.log("In");
         return this.fetch();
     }
 

@@ -18,18 +18,20 @@
                     <span>{{tRoute.date}}</span>
                 </dd>
                 <dt><span jhiTranslate="p1App.tRoute.user">User</span></dt>
-                <dd>{{tRoute.user?.login}}
-
+                <dd>
+                    {{tRoute.user?.login}}
                 </dd>
             </dl>
-            {{(account.login || account.firstName || account.email)}}
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
-            <span *ngIf="acc">
-                HELLO
+            <span *ngIf="account?.id === tRoute.user?.id">
+               <button type="button"
+                       [routerLink]="['/t-route', tRoute.id, 'edit']"
+                       class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </span>
             <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
                     [routerLink]="['/t-route', tRoute.id, 'edit']"

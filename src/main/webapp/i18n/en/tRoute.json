@@ -2,18 +2,18 @@
     "p1App": {
         "tRoute": {
             "home": {
-                "title": "T Routes",
-                "createLabel": "Create a new T Route",
-                "createOrEditLabel": "Create or edit a T Route"
+                "title": "Routes",
+                "createLabel": "Create a new Route",
+                "createOrEditLabel": "Create or edit a Route"
             },
-            "created": "A new T Route is created with identifier {{ param }}",
-            "updated": "A T Route is updated with identifier {{ param }}",
-            "deleted": "A T Route is deleted with identifier {{ param }}",
+            "created": "A new Route is created with identifier {{ param }}",
+            "updated": "A Route is updated with identifier {{ param }}",
+            "deleted": "A Route is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete T Route {{ id }}?"
+                "question": "Are you sure you want to delete Route {{ id }}?"
             },
             "detail": {
-                "title": "T Route"
+                "title": "Route"
             },
             "title": "Title",
             "description": "Description",
