@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IPointInterest } from 'app/shared/model/point-interest.model';
-import { AccountService } from 'app/core';
+import {Account, AccountService} from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { PointInterestService } from './point-interest.service';
@@ -24,6 +24,7 @@ export class PointInterestComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     totalItems: number;
+    account: Account;
 
     constructor(
         protected pointInterestService: PointInterestService,
@@ -54,7 +55,18 @@ export class PointInterestComponent implements OnInit, OnDestroy {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
-
+    getUser() {
+        this.accountService.identifyO().subscribe((response: HttpResponse<Account>) => {
+            const account = response.body;
+            if (account) {
+                // After retrieve the account info, the language will be changed to
+                // the user's preferred language configured in the account setting
+                this.account = account;
+            } else {
+                this.account = account;
+            }
+        }, (res: HttpErrorResponse) => this.onError(res.message));
+    }
     reset() {
         this.page = 0;
         this.pointInterests = [];
@@ -67,6 +79,7 @@ export class PointInterestComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.getUser();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;

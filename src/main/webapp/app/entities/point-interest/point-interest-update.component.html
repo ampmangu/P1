@@ -47,7 +47,12 @@
                     <input type="text" class="form-control" name="description" id="field_description"
                         [(ngModel)]="pointInterest.description" />
                 </div>
-
+                <div class="form-group">
+                    <label class="form-control-label" jhitranslate="p1App.pointInterest.route" for="route">Route</label>
+                    <select class="form-control" id="route" name="route" [(ngModel)]="pointInterest.route" required>
+                        <option [ngValue]="r.id === pointInterest.route?.id ? pointInterest.route : r" *ngFor="let r of routes; trackBy: trackRouteById">{{r.title}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

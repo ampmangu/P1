@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiAlertService } from 'ng-jhipster';
-import { IPointInterest } from 'app/shared/model/point-interest.model';
-import { PointInterestService } from './point-interest.service';
-import { IRating } from 'app/shared/model/rating.model';
-import { RatingService } from 'app/entities/rating';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {JhiAlertService} from 'ng-jhipster';
+import {IPointInterest} from 'app/shared/model/point-interest.model';
+import {PointInterestService} from './point-interest.service';
+import {IRating} from 'app/shared/model/rating.model';
+import {RatingService} from 'app/entities/rating';
+import {ITRoute} from 'app/shared/model/t-route.model';
+import {TRouteService} from 'app/entities/t-route';
 
 @Component({
     selector: 'jhi-point-interest-update',
@@ -16,21 +18,30 @@ import { RatingService } from 'app/entities/rating';
 export class PointInterestUpdateComponent implements OnInit {
     pointInterest: IPointInterest;
     isSaving: boolean;
-
+    routes: ITRoute[];
     ratings: IRating[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected pointInterestService: PointInterestService,
         protected ratingService: RatingService,
+        protected routesService: TRouteService,
         protected activatedRoute: ActivatedRoute
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ pointInterest }) => {
+        this.activatedRoute.data.subscribe(({pointInterest}) => {
             this.pointInterest = pointInterest;
         });
+        this.routesService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ITRoute[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ITRoute[]>) => response.body)
+            )
+            .subscribe((res: ITRoute[]) => (this.routes = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.ratingService
             .query()
             .pipe(
@@ -71,6 +82,9 @@ export class PointInterestUpdateComponent implements OnInit {
     }
 
     trackRatingById(index: number, item: IRating) {
+        return item.id;
+    }
+    trackRouteById(index: number, item: ITRoute) {
         return item.id;
     }
 

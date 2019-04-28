@@ -22,7 +22,7 @@
             "daysInRoute": "Days In Route",
             "routeHasRatings": "Route Has Ratings",
             "isFollowedBy": "Is Followed By",
-            "user": "User"
+            "user": "User that created it "
         }
     }
 }

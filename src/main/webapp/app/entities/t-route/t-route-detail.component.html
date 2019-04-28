@@ -1,18 +1,16 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="tRoute">
-            <h2><span jhiTranslate="p1App.tRoute.detail.title">T Route</span> {{tRoute.id}}</h2>
+            <h2><b>{{tRoute.title}}</b></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="p1App.tRoute.title">Title</span></dt>
-                <dd>
-                    <span>{{tRoute.title}}</span>
-                </dd>
                 <dt><span jhiTranslate="p1App.tRoute.description">Description</span></dt>
                 <dd>
-                    <span>{{tRoute.description}}</span>
-                </dd>
+                    <span *ngIf="tRoute.description; else nothing">{{tRoute.description}}</span>
+                    <ng-template #nothing>
+                        <span><b>-</b></span>
+                    </ng-template>                </dd>
                 <dt><span jhiTranslate="p1App.tRoute.date">Date</span></dt>
                 <dd>
                     <span>{{tRoute.date}}</span>

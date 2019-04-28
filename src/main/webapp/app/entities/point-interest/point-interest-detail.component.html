@@ -1,14 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="pointInterest">
-            <h2><span jhiTranslate="p1App.pointInterest.detail.title">Point Interest</span> {{pointInterest.id}}</h2>
+            <h2><b>{{pointInterest.name}}</b></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="p1App.pointInterest.name">Name</span></dt>
-                <dd>
-                    <span>{{pointInterest.name}}</span>
-                </dd>
                 <dt><span jhiTranslate="p1App.pointInterest.address">Address</span></dt>
                 <dd>
                     <span>{{pointInterest.address}}</span>
@@ -19,7 +15,14 @@
                 </dd>
                 <dt><span jhiTranslate="p1App.pointInterest.description">Description</span></dt>
                 <dd>
-                    <span>{{pointInterest.description}}</span>
+                    <span *ngIf="pointInterest.description; else nothing">{{pointInterest.description}}</span>
+                    <ng-template #nothing>
+                        <span><b>-</b></span>
+                    </ng-template>
+                </dd>
+                <dt><span jhitranslate="p1App.pointInterest.route">Route it belongs</span> </dt>
+                <dd>
+                    <span>{{pointInterest.route?.title}}</span>
                 </dd>
             </dl>
 
@@ -28,8 +31,14 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
-
+            <span *ngIf="account?.id === pointInterest?.route?.user?.id">
             <button type="button"
+                    [routerLink]="['/point-interest', pointInterest.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+            </span>
+            <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
                     [routerLink]="['/point-interest', pointInterest.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>

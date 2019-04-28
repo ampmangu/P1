@@ -20,7 +20,8 @@
             "city": "City",
             "description": "Description",
             "tagsInPointInterest": "Tags In Point Interest",
-            "pointHasRatings": "Point Has Ratings"
+            "pointHasRatings": "Point Has Ratings",
+            "route": "Route it belongs"
         }
     }
 }
