@@ -63,6 +63,18 @@ export const ratingRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'new/:routeId/:title/:userId',
+        component: RatingUpdateComponent,
+        resolve: {
+            rating: RatingResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.rating.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: RatingUpdateComponent,
         resolve: {

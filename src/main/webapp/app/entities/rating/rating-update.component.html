@@ -9,20 +9,45 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="rating.id" readonly />
                 </div>
+                <!--<div class="form-group">-->
+                    <!--<label class="form-control-label" jhiTranslate="p1App.rating.creationDate" for="field_creationDate">Creation Date</label>-->
+                    <!--<div class="d-flex">-->
+                        <!--&lt;!&ndash;<input id="field_creationDate" min="today" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="creationDate" placeholder="YYYY-MM-DD HH:mm"&ndash;&gt;-->
+                        <!--<input id="field_creationDate" min="today" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="creationDate" placeholder="DD/MM/YYYY HH:mm"-->
+
+                        <!--required/>-->
+                    <!--</div>-->
+                    <!--<div [hidden]="!(editForm.controls.creationDate?.dirty && editForm.controls.creationDate?.invalid)">-->
+                        <!--<small class="form-text text-danger"-->
+                        <!--[hidden]="!editForm.controls.creationDate?.errors?.required" jhiTranslate="entity.validation.required">-->
+                        <!--This field is required.-->
+                        <!--</small>-->
+                        <!--<small class="form-text text-danger"-->
+                            <!--[hidden]="!editForm.controls.creationDate?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">-->
+                            <!--This field should be a date and time.-->
+                        <!--</small>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.rating.creationDate" for="field_creationDate">Creation Date</label>
-                    <div class="d-flex">
-                        <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="creationDate" placeholder="YYYY-MM-DD HH:mm"
-                        required/>
-                    </div>
-                    <div [hidden]="!(editForm.controls.creationDate?.dirty && editForm.controls.creationDate?.invalid)">
+                    <label class="form-control-label" jhiTranslate="p1App.rating.score" for="field_score">Score</label>
+                    <input type="number" class="form-control" name="score" id="field_score"
+                           [(ngModel)]="rating.score" required min="1" jhiMin="1" max="5" jhiMax="5"/>
+                    <div [hidden]="!(editForm.controls.score?.dirty && editForm.controls.score?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.creationDate?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.score?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.creationDate?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
-                            This field should be a date and time.
+                               [hidden]="!editForm.controls.score?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 1 }">
+                            This field should be at least 1.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.score?.errors?.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 5 }">
+                            This field cannot be more than 5.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.score?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
                         </small>
                     </div>
                 </div>
@@ -31,47 +56,19 @@
                     <input type="text" class="form-control" name="name" id="field_name"
                         [(ngModel)]="rating.name" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.rating.score" for="field_score">Score</label>
-                    <input type="number" class="form-control" name="score" id="field_score"
-                        [(ngModel)]="rating.score" required min="1" jhiMin="1" max="5" jhiMax="5"/>
-                    <div [hidden]="!(editForm.controls.score?.dirty && editForm.controls.score?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.score?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.score?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 1 }">
-                            This field should be at least 1.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.score?.errors?.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 5 }">
-                            This field cannot be more than 5.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.score?.errors?.number" jhiTranslate="entity.validation.number">
-                            This field should be a number.
-                        </small>
-                    </div>
-                </div>
 
-                <div class="form-group">
+
+                <div class="form-group" *ngIf="routeTitle">
                     <label jhiTranslate="p1App.rating.belongsToRoute" for="field_belongsToRoute">Belongs To Route</label>
-                    <select class="form-control" id="field_belongsToRoute" multiple name="belongsToRoute" [(ngModel)]="rating.belongsToRoutes">
-                        <option [ngValue]="getSelected(rating.belongsToRoutes, tRouteOption)" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.id}}</option>
+                    <select ng-init="routeTitle" class="form-control" id="field_belongsToRoute" multiple name="belongsToRoute" [(ngModel)]="rating.belongsToRoutes">
+                        <!--<option [ngValue]="getSelected(rating.belongsToRoutes, tRouteOption)" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.title}}</option>-->
+                        <option [ngValue]="getSelected(rating.belongsToRoutes, routeTitle)">{{routeTitle}}</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="pointTitle">
                     <label jhiTranslate="p1App.rating.belongsToPoint" for="field_belongsToPoint">Belongs To Point</label>
                     <select class="form-control" id="field_belongsToPoint" multiple name="belongsToPoint" [(ngModel)]="rating.belongsToPoints">
-                        <option [ngValue]="getSelected(rating.belongsToPoints, pointInterestOption)" *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.rating.user" for="field_User">User</label>
-                    <select class="form-control" id="field_User" name="user" [(ngModel)]="rating.user" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="UserOption.id === rating.user?.id ? rating.user : UserOption" *ngFor="let UserOption of users; trackBy: trackUserById">{{UserOption.id}}</option>
+                        <option style="height: 0;" [ngValue]="getSelected(rating.belongsToPoints, pointInterestOption)"  *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.title}}</option>
                     </select>
                 </div>
             </div>
@@ -86,3 +83,39 @@
         </form>
     </div>
 </div>
+<script>
+    $.fn.setNow = function (onlyBlank) {
+        var now = new Date($.now())
+            , year
+            , month
+            , date
+            , hours
+            , minutes
+            , seconds
+            , formattedDateTime
+        ;
+
+        year = now.getFullYear();
+        month = now.getMonth().toString().length === 1 ? '0' + (now.getMonth() + 1).toString() : now.getMonth() + 1;
+        date = now.getDate().toString().length === 1 ? '0' + (now.getDate()).toString() : now.getDate();
+        hours = now.getHours().toString().length === 1 ? '0' + now.getHours().toString() : now.getHours();
+        minutes = now.getMinutes().toString().length === 1 ? '0' + now.getMinutes().toString() : now.getMinutes();
+        seconds = now.getSeconds().toString().length === 1 ? '0' + now.getSeconds().toString() : now.getSeconds();
+
+        formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
+
+        if ( onlyBlank === true && $(this).val() ) {
+            return this;
+        }
+
+        $(this).val(formattedDateTime);
+
+        return this;
+    }
+
+    $(function () {
+        // Handler for .ready() called.
+        $('input[type="datetime"]').setNow();
+
+    });
+</script>

@@ -10,7 +10,8 @@
                     <span *ngIf="tRoute.description; else nothing">{{tRoute.description}}</span>
                     <ng-template #nothing>
                         <span><b>-</b></span>
-                    </ng-template>                </dd>
+                    </ng-template>
+                </dd>
                 <dt><span jhiTranslate="p1App.tRoute.date">Date</span></dt>
                 <dd>
                     <span>{{tRoute.date}}</span>
@@ -18,6 +19,10 @@
                 <dt><span jhiTranslate="p1App.tRoute.user">User</span></dt>
                 <dd>
                     {{tRoute.user?.login}}
+                </dd>
+                <dt><span jhiTranslate="p1App.tRoute.avg">Average</span></dt>
+                <dd>
+                    {{average}}
                 </dd>
             </dl>
             <button type="submit"
@@ -37,5 +42,13 @@
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
         </div>
+    </div>
+    <div class="col-md-3 col-info" id="separator">
+        <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.ratethis">
+            You can rate this route
+        </h3>
+        <button class="btn btn-primary" (click)="goRate()">
+            <span jhiTranslate="p1App.tRoute.clickhere">Click here to rate this route</span>
+        </button>
     </div>
 </div>

@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { formatDate } from '@angular/common';
+
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IRating } from 'app/shared/model/rating.model';
 import { RatingService } from './rating.service';
-import { ITRoute } from 'app/shared/model/t-route.model';
+import { ITRoute, TRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { PointInterestService } from 'app/entities/point-interest';
-import {User} from 'app/core';
-import {UserService} from 'app/core';
+import { User, UserService } from 'app/core';
 
 @Component({
     selector: 'jhi-rating-update',
@@ -29,6 +30,15 @@ export class RatingUpdateComponent implements OnInit {
 
     users: User[];
     creationDate: string;
+    sub: any;
+    routeTitle: any;
+    routeId: any;
+    route: ITRoute;
+    userId: any;
+    user: User;
+    pointId: any;
+    pointTitle: any;
+    today: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -41,6 +51,22 @@ export class RatingUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
+        this.today = formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en');
+        this.sub = this.activatedRoute.params.subscribe(params => {
+            this.routeTitle = params['title'];
+            this.routeId = params['routeId'];
+            this.userId = params['userId'];
+            this.pointId = params['pointId'];
+            this.pointTitle = params['pointTitle'];
+            this.userService
+                .find(this.userId)
+                .pipe(
+                    filter((mayBeOk: HttpResponse<User>) => mayBeOk.ok),
+                    map((response: HttpResponse<User>) => response.body)
+                )
+                .subscribe((res: User) => (this.user = res), (res: HttpErrorResponse) => this.onError(res.message));
+        });
+
         this.activatedRoute.data.subscribe(({ rating }) => {
             this.rating = rating;
             this.creationDate = this.rating.creationDate != null ? this.rating.creationDate.format(DATE_TIME_FORMAT) : null;
@@ -66,6 +92,13 @@ export class RatingUpdateComponent implements OnInit {
                 map((response: HttpResponse<User[]>) => response.body)
             )
             .subscribe((res: User[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.tRouteService
+            .find(this.routeId)
+            .pipe(
+                filter((response: HttpResponse<TRoute>) => response.ok),
+                map((tRoute: HttpResponse<TRoute>) => tRoute.body)
+            )
+            .subscribe((res: TRoute) => (this.route = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -74,7 +107,15 @@ export class RatingUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.rating.creationDate = this.creationDate != null ? moment(this.creationDate, DATE_TIME_FORMAT) : null;
+        this.rating.creationDate = moment(this.today, DATE_TIME_FORMAT);
+        this.rating.user = this.user;
+        if (this.route) {
+            if (this.rating.belongsToRoutes) {
+                this.rating.belongsToRoutes.push(this.route);
+            } else {
+                this.rating.belongsToRoutes = [this.route];
+            }
+        }
         if (this.rating.id !== undefined) {
             this.subscribeToSaveResponse(this.ratingService.update(this.rating));
         } else {
