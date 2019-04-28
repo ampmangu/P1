@@ -1,9 +1,10 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="p1App.pointInterest.home.title">Point Interests</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-point-interest" [routerLink]="['/point-interest/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-point-interest"
+                [routerLink]="['/point-interest/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="p1App.pointInterest.home.createLabel">
+            <span jhiTranslate="p1App.pointInterest.home.createLabel">
             Create new Point Interest
             </span>
         </button>
@@ -14,16 +15,29 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="name"><span jhiTranslate="p1App.pointInterest.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="address"><span jhiTranslate="p1App.pointInterest.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="city"><span jhiTranslate="p1App.pointInterest.city">City</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="description"><span jhiTranslate="p1App.pointInterest.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhisortby="route"><span jhitranslate="p1App.pointInterest.route">Route it belongs</span><fa-icon [icon]="'sort'"></fa-icon> </th>
-            <th></th>
+                <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="name"><span jhiTranslate="p1App.pointInterest.name">Name</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="address"><span jhiTranslate="p1App.pointInterest.address">Address</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="city"><span jhiTranslate="p1App.pointInterest.city">City</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="description"><span jhiTranslate="p1App.pointInterest.description">Description</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhisortby="route"><span jhitranslate="p1App.pointInterest.route">Route it belongs</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                   [infiniteScrollDistance]="0">
             <tr *ngFor="let pointInterest of pointInterests ;trackBy: trackId">
                 <td><a [routerLink]="['/point-interest', pointInterest.id, 'view' ]">{{pointInterest.id}}</a></td>
                 <td>{{pointInterest.name}}</td>
@@ -31,7 +45,8 @@
                 <td>{{pointInterest.city}}</td>
                 <td>{{pointInterest.description}}</td>
                 <td>{{pointInterest.route?.title}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
+
+                <td *ngIf="account?.id === pointInterest?.route?.user?.id; else admin">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/point-interest', pointInterest.id, 'edit']"
@@ -49,24 +64,26 @@
                         </button>
                     </div>
                 </td>
-                <td *ngIf="account?.id === pointInterest?.route?.user?.id">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/point-interest', pointInterest.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'point-interest', { outlets: { popup: pointInterest.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
+                <ng-template #admin>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/point-interest', pointInterest.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 'point-interest', { outlets: { popup: pointInterest.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </ng-template>
             </tr>
             </tbody>
         </table>
