@@ -21,9 +21,12 @@
                     {{tRoute.user?.login}}
                 </dd>
                 <dt><span jhiTranslate="p1App.tRoute.avg">Average</span></dt>
-                <dd>
+                <dd *ngIf="average; else noavg">
                     {{average}}
                 </dd>
+                <ng-template #noavg>
+                    <span><b>-</b></span>
+                </ng-template>
             </dl>
             <button type="submit"
                     (click)="previousState()"

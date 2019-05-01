@@ -44,7 +44,7 @@
                 <td>{{pointInterest.address}}</td>
                 <td>{{pointInterest.city}}</td>
                 <td>{{pointInterest.description}}</td>
-                <td>{{pointInterest.route?.title}}</td>
+                <td><a [routerLink]="['/t-route', pointInterest.route?.id, 'view' ]">{{pointInterest.route?.title}}</a></td>
 
                 <td *ngIf="account?.id === pointInterest?.route?.user?.id; else admin">
                     <div class="btn-group flex-btn-group-container">
