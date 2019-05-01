@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { Account, AccountService } from 'app/core';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 import { IRating } from 'app/shared/model/rating.model';
 import { RatingService } from 'app/entities/rating';
 import { filter, map } from 'rxjs/operators';
+import { ITRoute } from 'app/shared/model/t-route.model';
+import { TRouteService } from 'app/entities/t-route';
+import { ITEMS_PER_PAGE } from 'app/shared';
 
 @Component({
     selector: 'jhi-point-interest-detail',
@@ -19,17 +22,70 @@ export class PointInterestDetailComponent implements OnInit {
     account: Account;
     ratings: number[];
     average: number;
+    routesIn: ITRoute[];
+    page: any;
+    links: any;
+    itemsPerPage: number;
+    predicate: any;
+    totalItems: number;
+
+    reverse: any;
+
     constructor(
         protected activatedRoute: ActivatedRoute,
         private accountService: AccountService,
         protected jhiAlertService: JhiAlertService,
+        protected routesService: TRouteService,
         protected ratingService: RatingService,
+        protected parseLinks: JhiParseLinks,
         protected router: Router
-    ) {}
+    ) {
+        this.links = {
+            last: 0
+        };
+        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = true;
+    }
+
+    loadAll() {
+        this.routesService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    protected paginateTRoutes(data: ITRoute[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.routesIn.push(data[i]);
+        }
+    }
+
+    loadPage(page) {
+        this.page = page;
+        this.loadAll();
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
 
     ngOnInit() {
         this.getUser();
-
+        this.ratings = [];
         this.activatedRoute.data.subscribe(({ pointInterest }) => {
             this.pointInterest = pointInterest;
         });
@@ -57,6 +113,13 @@ export class PointInterestDetailComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.routesService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ITRoute[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ITRoute[]>) => response.body)
+            )
+            .subscribe((res: ITRoute[]) => (this.routesIn = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     getUser() {
@@ -71,6 +134,12 @@ export class PointInterestDetailComponent implements OnInit {
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
+    }
+
+    reset() {
+        this.page = 0;
+        this.routesIn = [];
+        // this.loadAll();
     }
 
     previousState() {

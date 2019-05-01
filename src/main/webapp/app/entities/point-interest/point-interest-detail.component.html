@@ -20,14 +20,19 @@
                         <span><b>-</b></span>
                     </ng-template>
                 </dd>
-                <dt><span jhitranslate="p1App.pointInterest.route">Route it belongs</span> </dt>
+                <dt><span jhitranslate="p1App.pointInterest.route">Route it belongs</span></dt>
                 <dd>
                     <span>{{pointInterest.route?.title}}</span>
                 </dd>
                 <dt><span jhiTranslate="p1App.tRoute.avg">Average</span></dt>
-                <dd>
-                    {{average}}
-                </dd>
+                    <span *ngIf="average; else noavg">
+                    <dd>
+                        {{average}}
+                    </dd>
+                    </span>
+                <ng-template #noavg>
+                    <span><b>-</b></span>
+                </ng-template>
             </dl>
 
             <button type="submit"
@@ -35,18 +40,20 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
-            <span *ngIf="account?.id === pointInterest?.route?.user?.id">
+            <span *ngIf="account?.id === pointInterest?.route?.user?.id; else admin">
             <button type="button"
                     [routerLink]="['/point-interest', pointInterest.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
             </span>
+            <ng-template #admin>
             <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
                     [routerLink]="['/point-interest', pointInterest.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
+            </ng-template>
         </div>
     </div>
     <div class="col-md-3 col-info" id="separator">
@@ -57,4 +64,26 @@
             <span jhiTranslate="p1App.pointInterest.clickhere">Click here to rate this point of interest</span>
         </button>
     </div>
+        <div class="col-8">
+            <h3 jhiTranslate="p1App.pointInterest.appearsIn"></h3>
+            <div class="table-responsive"  *ngIf="pointInterest">
+                <table class="table table-striped">
+                    <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                        <th><span jhiTranslate="p1App.tRoute.title">Title</span>
+                            <fa-icon [icon]="'sort'"></fa-icon>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                           [infiniteScrollDistance]="0">
+                    <tr *ngFor="let tRoute of routesIn ;trackBy: trackId">
+                        <td><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </div>

@@ -30,17 +30,20 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
-            <span *ngIf="account?.id === tRoute.user?.id">
+            <span *ngIf="account?.id === tRoute.user?.id; else admin">
                <button type="button"
                        [routerLink]="['/t-route', tRoute.id, 'edit']"
                        class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+               </button>
             </span>
+            <ng-template #admin>
             <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
                     [routerLink]="['/t-route', tRoute.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
+            </ng-template>
         </div>
     </div>
     <div class="col-md-3 col-info" id="separator">

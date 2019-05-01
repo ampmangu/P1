@@ -57,14 +57,15 @@ export class RatingUpdateComponent implements OnInit {
             this.routeId = params['routeId'];
             this.userId = params['userId'];
             this.pointId = params['pointId'];
-            console.log(params);
-            this.pointInterestService
-                .find(this.pointId)
-                .pipe(
-                    filter((mayBeOk: HttpResponse<PointInterest>) => mayBeOk.ok),
-                    map((response: HttpResponse<PointInterest>) => response.body)
-                )
-                .subscribe((res: PointInterest) => (this.point = res));
+            if (this.pointId) {
+                this.pointInterestService
+                    .find(this.pointId)
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<PointInterest>) => mayBeOk.ok),
+                        map((response: HttpResponse<PointInterest>) => response.body)
+                    )
+                    .subscribe((res: PointInterest) => (this.point = res));
+            }
             this.userService
                 .find(this.userId)
                 .pipe(
@@ -99,13 +100,15 @@ export class RatingUpdateComponent implements OnInit {
                 map((response: HttpResponse<User[]>) => response.body)
             )
             .subscribe((res: User[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.tRouteService
-            .find(this.routeId)
-            .pipe(
-                filter((response: HttpResponse<TRoute>) => response.ok),
-                map((tRoute: HttpResponse<TRoute>) => tRoute.body)
-            )
-            .subscribe((res: TRoute) => (this.route = res));
+        if (this.routeId) {
+            this.tRouteService
+                .find(this.routeId)
+                .pipe(
+                    filter((response: HttpResponse<TRoute>) => response.ok),
+                    map((tRoute: HttpResponse<TRoute>) => tRoute.body)
+                )
+                .subscribe((res: TRoute) => (this.route = res));
+        }
     }
 
     previousState() {
@@ -113,22 +116,26 @@ export class RatingUpdateComponent implements OnInit {
     }
 
     save() {
-        this.isSaving = true;
-        this.rating.creationDate = moment(this.today, DATE_TIME_FORMAT);
-        this.rating.user = this.user;
-        if (this.route) {
-            if (this.rating.belongsToRoutes) {
-                this.rating.belongsToRoutes.push(this.route);
-            } else {
-                this.rating.belongsToRoutes = [this.route];
+        try {
+            this.isSaving = true;
+            this.rating.creationDate = moment(this.today, DATE_TIME_FORMAT);
+            this.rating.user = this.user;
+            if (this.route) {
+                if (this.rating.belongsToRoutes) {
+                    this.rating.belongsToRoutes.push(this.route);
+                } else {
+                    this.rating.belongsToRoutes = [this.route];
+                }
             }
-        }
-        if (this.point) {
-            if (this.rating.belongsToPoints) {
-                this.rating.belongsToPoints.push(this.point);
-            } else {
-                this.rating.belongsToPoints = [this.point];
+            if (this.point) {
+                if (this.rating.belongsToPoints) {
+                    this.rating.belongsToPoints.push(this.point);
+                } else {
+                    this.rating.belongsToPoints = [this.point];
+                }
             }
+        } catch (e) {
+            this.onError(e);
         }
         if (this.rating.id !== undefined) {
             this.subscribeToSaveResponse(this.ratingService.update(this.rating));

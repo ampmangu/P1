@@ -23,7 +23,8 @@
             "pointHasRatings": "Point Has Ratings",
             "route": "Route it belongs",
             "ratethis": "You can rate this point of interest",
-            "clickhere": "Click here to rate this point of interest"
+            "clickhere": "Click here to rate this point of interest",
+            "appearsIn": "This point of interest appears in the following routes:"
         }
     }
 }
