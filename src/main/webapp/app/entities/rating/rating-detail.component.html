@@ -9,30 +9,37 @@
                 <dd>
                     <span>{{rating.creationDate}}</span>
                 </dd>
-                <dt><span jhiTranslate="p1App.rating.name">Name</span></dt>
+                <dt><span jhiTranslate="p1App.rating.comments">Comments</span></dt>
                 <dd>
-                    <span>{{rating.name}}</span>
+                    <span *ngIf="rating.name; else noname">{{rating.name}}</span>
+                    <ng-template #noname>
+                        <span><b>-</b></span>
+                    </ng-template>
                 </dd>
                 <dt><span jhiTranslate="p1App.rating.score">Score</span></dt>
                 <dd>
                     <span>{{rating.score}}</span>
                 </dd>
-                <dt><span jhiTranslate="p1App.rating.belongsToRoute">Belongs To Route</span></dt>
+                <dt *ngIf="rating.belongsToRoute?.length !== 0"><span jhiTranslate="p1App.rating.belongsToRoute">Belongs To Route</span></dt>
                 <dd>
                     <span *ngFor="let belongsToRoute of rating.belongsToRoutes; let last = last">
-                        <a [routerLink]="['/t-route', belongsToRoute?.id, 'view' ]">{{belongsToRoute.id}}</a>{{last ? '' : ', '}}
+                        <span *ngIf="belongsToRoute">
+                            <a [routerLink]="['/t-route', belongsToRoute?.id, 'view' ]">{{belongsToRoute.title}}</a>{{last ? '' : ', '}}
+                        </span>
                     </span>
                 </dd>
-                <dt><span jhiTranslate="p1App.rating.belongsToPoint">Belongs To Point</span></dt>
+                <dt *ngIf="rating.belongsToPoints?.length !== 0"><span jhiTranslate="p1App.rating.belongsToPoint">Belongs To Point</span></dt>
                 <dd>
                     <span *ngFor="let belongsToPoint of rating.belongsToPoints; let last = last">
-                        <a [routerLink]="['/point-interest', belongsToPoint?.id, 'view' ]">{{belongsToPoint.id}}</a>{{last ? '' : ', '}}
+                        <span *ngIf="belongsToPoint">
+                            <a [routerLink]="['/point-interest', belongsToPoint?.id, 'view' ]">{{belongsToPoint.name}}</a>{{last ? '' : ', '}}
+                        </span>
                     </span>
                 </dd>
                 <dt><span jhiTranslate="p1App.rating.user">User</span></dt>
                 <dd>
                     <div *ngIf="rating.user">
-                        <a [routerLink]="['/user', rating.user?.id, 'view']">{{rating.user?.id}}</a>
+                        {{rating.user?.id}}
                     </div>
                 </dd>
             </dl>
@@ -42,12 +49,20 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
-
-            <button type="button"
-                    [routerLink]="['/rating', rating.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-            </button>
+            <span *ngIf="account?.id === rating.user?.id; else admin">
+                <button type="button"
+                        [routerLink]="['/rating', rating.id, 'edit']"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                </button>
+            </span>
+            <ng-template #admin>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
+                        [routerLink]="['/rating', rating.id, 'edit']"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                </button>
+            </ng-template>
         </div>
     </div>
 </div>
