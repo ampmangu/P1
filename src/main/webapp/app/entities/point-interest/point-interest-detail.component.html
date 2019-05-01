@@ -71,7 +71,8 @@
                     <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
                            [infiniteScrollDistance]="0">
                     <tr *ngFor="let tRoute of routesIn ;trackBy: trackId">
-                        <td><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
+
+                        <td *ngIf="tRoute.id===pointInterest.route?.id"><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
 
                     </tr>
 
