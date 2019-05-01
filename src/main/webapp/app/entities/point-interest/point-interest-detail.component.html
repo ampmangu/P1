@@ -55,16 +55,9 @@
             </button>
             </ng-template>
         </div>
-    </div>
-    <div class="col-md-3 col-info" id="separator">
-        <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.pointInterest.ratethis">
-            You can rate this point of interest
-        </h3>
-        <button class="btn btn-primary" (click)="goRate()">
-            <span jhiTranslate="p1App.pointInterest.clickhere">Click here to rate this point of interest</span>
-        </button>
-    </div>
+        <br/>
         <div class="col-8">
+            <div>
             <h3 jhiTranslate="p1App.pointInterest.appearsIn"></h3>
             <div class="table-responsive"  *ngIf="pointInterest">
                 <table class="table table-striped">
@@ -85,5 +78,16 @@
                     </tbody>
                 </table>
             </div>
+            </div>
         </div>
+    </div>
+    <div class="col-md-3 col-info" id="separator">
+        <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.pointInterest.ratethis">
+            You can rate this point of interest
+        </h3>
+        <button class="btn btn-primary" (click)="goRate()">
+            <span jhiTranslate="p1App.pointInterest.clickhere">Click here to rate this point of interest</span>
+        </button>
+    </div>
+
 </div>
