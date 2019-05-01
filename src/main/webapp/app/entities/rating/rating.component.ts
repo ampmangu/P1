@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IRating } from 'app/shared/model/rating.model';
-import { AccountService } from 'app/core';
+import { Account, AccountService } from 'app/core';
 import { RatingService } from './rating.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class RatingComponent implements OnInit, OnDestroy {
     ratings: IRating[];
     currentAccount: any;
     eventSubscriber: Subscription;
+    account: Account;
 
     constructor(
         protected ratingService: RatingService,
@@ -38,8 +39,23 @@ export class RatingComponent implements OnInit, OnDestroy {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
-
+    getUser() {
+        this.accountService.identifyO().subscribe(
+            (response: HttpResponse<Account>) => {
+                const account = response.body;
+                if (account) {
+                    // After retrieve the account info, the language will be changed to
+                    // the user's preferred language configured in the account setting
+                    this.account = account;
+                } else {
+                    this.account = account;
+                }
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
     ngOnInit() {
+        this.getUser();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;

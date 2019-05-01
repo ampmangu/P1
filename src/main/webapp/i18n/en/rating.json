@@ -20,7 +20,9 @@
             "score": "Score",
             "belongsToRoute": "Belongs To Route",
             "belongsToPoint": "Belongs To Point",
-            "user": "User"
+            "user": "User",
+            "usercreator": "User that created it",
+            "comments": "Comment"
         }
     }
 }
