@@ -20,12 +20,8 @@
                         <span><b>-</b></span>
                     </ng-template>
                 </dd>
-                <dt><span jhitranslate="p1App.pointInterest.route">Route it belongs</span></dt>
-                <dd>
-                    <span>{{pointInterest.route?.title}}</span>
-                </dd>
                 <dt><span jhiTranslate="p1App.tRoute.avg">Average</span></dt>
-                    <span *ngIf="average; else noavg">
+                <span *ngIf="average; else noavg">
                     <dd>
                         {{average}}
                     </dd>
@@ -48,37 +44,39 @@
             </button>
             </span>
             <ng-template #admin>
-            <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
-                    [routerLink]="['/point-interest', pointInterest.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-            </button>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
+                        [routerLink]="['/point-interest', pointInterest.id, 'edit']"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                </button>
             </ng-template>
         </div>
         <br/>
         <div>
             <div>
-            <h3 jhiTranslate="p1App.pointInterest.appearsIn"></h3>
-            <div class="table-responsive"  *ngIf="pointInterest">
-                <table class="table table-striped">
-                    <thead>
-                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-                        <th><span jhiTranslate="p1App.tRoute.title">Title</span>
-                            <fa-icon [icon]="'sort'"></fa-icon>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
-                           [infiniteScrollDistance]="0">
-                    <tr *ngFor="let tRoute of routesIn ;trackBy: trackId">
+                <h3 jhiTranslate="p1App.pointInterest.appearsIn"></h3>
+                <div class="table-responsive" *ngIf="pointInterest">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                            <th><span jhiTranslate="p1App.tRoute.title">Title</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody infinite-scroll (scrolled)="loadPage(page + 1)"
+                               [infiniteScrollDisabled]="page >= links['last']"
+                               [infiniteScrollDistance]="0">
+                        <tr *ngFor="let tRoute of routesIn ;trackBy: trackId">
 
-                        <td *ngIf="tRoute.id===pointInterest.route?.id"><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
+                            <td *ngIf="tRoute.id===pointInterest.route?.id"><a
+                                [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
 
-                    </tr>
+                        </tr>
 
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

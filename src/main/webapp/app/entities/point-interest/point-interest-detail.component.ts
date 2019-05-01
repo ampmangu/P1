@@ -20,7 +20,7 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 export class PointInterestDetailComponent implements OnInit {
     pointInterest: IPointInterest;
     account: Account;
-    ratings: number[];
+    ratings: any[];
     average: number;
     routesIn: ITRoute[];
     page: any;
@@ -100,13 +100,13 @@ export class PointInterestDetailComponent implements OnInit {
                     for (const rating of res) {
                         for (const pointInList of rating.belongsToPoints) {
                             if (this.pointInterest.id === pointInList.id) {
-                                this.ratings.push(rating.score);
+                                this.ratings.push(rating);
                             }
                         }
                     }
                     if (this.ratings.length) {
                         const sum = this.ratings.reduce(function(a, b) {
-                            return a + b;
+                            return a.score + b.score;
                         });
                         this.average = sum / this.ratings.length;
                     }

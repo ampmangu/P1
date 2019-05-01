@@ -24,7 +24,8 @@
             "route": "Route it belongs",
             "ratethis": "You can rate this point of interest",
             "clickhere": "Click here to rate this point of interest",
-            "appearsIn": "This point of interest appears in the following routes:"
+            "appearsIn": "This point of interest appears in the following routes:",
+            "latest": "Latest ratings:"
         }
     }
 }
