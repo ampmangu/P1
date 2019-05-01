@@ -24,6 +24,10 @@
                 <dd>
                     <span>{{pointInterest.route?.title}}</span>
                 </dd>
+                <dt><span jhiTranslate="p1App.tRoute.avg">Average</span></dt>
+                <dd>
+                    {{average}}
+                </dd>
             </dl>
 
             <button type="submit"
@@ -44,5 +48,13 @@
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
         </div>
+    </div>
+    <div class="col-md-3 col-info" id="separator">
+        <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.pointInterest.ratethis">
+            You can rate this point of interest
+        </h3>
+        <button class="btn btn-primary" (click)="goRate()">
+            <span jhiTranslate="p1App.pointInterest.clickhere">Click here to rate this point of interest</span>
+        </button>
     </div>
 </div>

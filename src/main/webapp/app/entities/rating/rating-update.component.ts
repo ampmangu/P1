@@ -12,7 +12,7 @@ import { IRating } from 'app/shared/model/rating.model';
 import { RatingService } from './rating.service';
 import { ITRoute, TRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
-import { IPointInterest } from 'app/shared/model/point-interest.model';
+import { IPointInterest, PointInterest } from 'app/shared/model/point-interest.model';
 import { PointInterestService } from 'app/entities/point-interest';
 import { User, UserService } from 'app/core';
 
@@ -37,7 +37,7 @@ export class RatingUpdateComponent implements OnInit {
     userId: any;
     user: User;
     pointId: any;
-    pointTitle: any;
+    point: PointInterest;
     today: any;
 
     constructor(
@@ -57,7 +57,14 @@ export class RatingUpdateComponent implements OnInit {
             this.routeId = params['routeId'];
             this.userId = params['userId'];
             this.pointId = params['pointId'];
-            this.pointTitle = params['pointTitle'];
+            console.log(params);
+            this.pointInterestService
+                .find(this.pointId)
+                .pipe(
+                    filter((mayBeOk: HttpResponse<PointInterest>) => mayBeOk.ok),
+                    map((response: HttpResponse<PointInterest>) => response.body)
+                )
+                .subscribe((res: PointInterest) => (this.point = res));
             this.userService
                 .find(this.userId)
                 .pipe(
@@ -98,7 +105,7 @@ export class RatingUpdateComponent implements OnInit {
                 filter((response: HttpResponse<TRoute>) => response.ok),
                 map((tRoute: HttpResponse<TRoute>) => tRoute.body)
             )
-            .subscribe((res: TRoute) => (this.route = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: TRoute) => (this.route = res));
     }
 
     previousState() {
@@ -114,6 +121,13 @@ export class RatingUpdateComponent implements OnInit {
                 this.rating.belongsToRoutes.push(this.route);
             } else {
                 this.rating.belongsToRoutes = [this.route];
+            }
+        }
+        if (this.point) {
+            if (this.rating.belongsToPoints) {
+                this.rating.belongsToPoints.push(this.point);
+            } else {
+                this.rating.belongsToPoints = [this.point];
             }
         }
         if (this.rating.id !== undefined) {

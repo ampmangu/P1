@@ -3,7 +3,6 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-rating-heading" jhiTranslate="p1App.rating.home.createOrEditLabel">Create or edit a Rating</h2>
             <div>
-                <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!rating.id">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
@@ -65,10 +64,12 @@
                         <option [ngValue]="getSelected(rating.belongsToRoutes, routeTitle)">{{routeTitle}}</option>
                     </select>
                 </div>
-                <div class="form-group" *ngIf="pointTitle">
+                <div class="form-group" *ngIf="point">
                     <label jhiTranslate="p1App.rating.belongsToPoint" for="field_belongsToPoint">Belongs To Point</label>
                     <select class="form-control" id="field_belongsToPoint" multiple name="belongsToPoint" [(ngModel)]="rating.belongsToPoints">
-                        <option style="height: 0;" [ngValue]="getSelected(rating.belongsToPoints, pointInterestOption)"  *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.title}}</option>
+                        <!--<option [ngValue]="getSelected(rating.belongsToPoints, pointInterestOption)"  *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.title}}</option>-->
+
+                        <option style="height: 0;" [ngValue]="getSelected(rating.belongsToPoints, point.title)">{{point.name}}</option>
                     </select>
                 </div>
             </div>
@@ -83,39 +84,3 @@
         </form>
     </div>
 </div>
-<script>
-    $.fn.setNow = function (onlyBlank) {
-        var now = new Date($.now())
-            , year
-            , month
-            , date
-            , hours
-            , minutes
-            , seconds
-            , formattedDateTime
-        ;
-
-        year = now.getFullYear();
-        month = now.getMonth().toString().length === 1 ? '0' + (now.getMonth() + 1).toString() : now.getMonth() + 1;
-        date = now.getDate().toString().length === 1 ? '0' + (now.getDate()).toString() : now.getDate();
-        hours = now.getHours().toString().length === 1 ? '0' + now.getHours().toString() : now.getHours();
-        minutes = now.getMinutes().toString().length === 1 ? '0' + now.getMinutes().toString() : now.getMinutes();
-        seconds = now.getSeconds().toString().length === 1 ? '0' + now.getSeconds().toString() : now.getSeconds();
-
-        formattedDateTime = year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds;
-
-        if ( onlyBlank === true && $(this).val() ) {
-            return this;
-        }
-
-        $(this).val(formattedDateTime);
-
-        return this;
-    }
-
-    $(function () {
-        // Handler for .ready() called.
-        $('input[type="datetime"]').setNow();
-
-    });
-</script>

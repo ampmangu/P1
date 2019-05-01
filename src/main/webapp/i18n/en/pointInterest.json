@@ -21,7 +21,9 @@
             "description": "Description",
             "tagsInPointInterest": "Tags In Point Interest",
             "pointHasRatings": "Point Has Ratings",
-            "route": "Route it belongs"
+            "route": "Route it belongs",
+            "ratethis": "You can rate this point of interest",
+            "clickhere": "Click here to rate this point of interest"
         }
     }
 }
