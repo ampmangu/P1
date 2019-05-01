@@ -38,12 +38,43 @@
                </button>
             </span>
             <ng-template #admin>
-            <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
-                    [routerLink]="['/t-route', tRoute.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-            </button>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
+                        [routerLink]="['/t-route', tRoute.id, 'edit']"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                </button>
             </ng-template>
+        </div>
+        <br/>
+        <div>
+            <div>
+                <h3 jhiTranslate="p1App.tRoute.haspoi"></h3>
+                <div class="table-responsive" *ngIf="pointInterests">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                            <th><span jhiTranslate="p1App.tRoute.title">Title</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="city"><span jhiTranslate="p1App.pointInterest.city">City</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody infinite-scroll (scrolled)="loadPage(page + 1)"
+                               [infiniteScrollDisabled]="page >= links['last']"
+                               [infiniteScrollDistance]="0">
+                        <tr *ngFor="let pointInterest of pointsInRoute ;trackBy: trackId">
+                            <td><a
+                                [routerLink]="['/point-interest', pointInterest.id, 'view' ]">{{pointInterest.name}}</a>
+                            </td>
+                            <td>{{pointInterest.city}}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3 col-info" id="separator">

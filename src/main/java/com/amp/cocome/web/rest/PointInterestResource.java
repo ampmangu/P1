@@ -8,6 +8,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,5 +118,17 @@ public class PointInterestResource {
         log.debug("REST request to delete PointInterest : {}", id);
         pointInterestService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/point-interests/route/{id}")
+    public ResponseEntity<List<PointInterest>> getPointsByRouteId(@PathVariable Long id) {
+        List<PointInterest> rtnPoints = new ArrayList<>();
+        Page<PointInterest> pointInterests = pointInterestService.findAll(PageRequest.of(0, 3000));
+        for(PointInterest pointInterest : pointInterests.getContent()) {
+            if (pointInterest.getRoute().getId().equals(id)) {
+                rtnPoints.add(pointInterest);
+            }
+        }
+        return new ResponseEntity<>(rtnPoints, HttpStatus.OK);
     }
 }

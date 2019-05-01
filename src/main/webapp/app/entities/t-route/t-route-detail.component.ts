@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ITRoute } from 'app/shared/model/t-route.model';
 import { Account, AccountService } from 'app/core';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 import { IRating } from 'app/shared/model/rating.model';
 import { RatingService } from 'app/entities/rating';
 import { filter, map } from 'rxjs/operators';
+import { IPointInterest } from 'app/shared/model/point-interest.model';
+import { ITEMS_PER_PAGE } from 'app/shared';
+import { PointInterestService } from 'app/entities/point-interest';
 
 @Component({
     selector: 'jhi-t-route-detail',
@@ -18,20 +21,90 @@ export class TRouteDetailComponent implements OnInit {
     account: Account;
     ratings: number[];
     average: number;
+    page: any;
+    links: any;
+    itemsPerPage: number;
+    predicate: any;
+    totalItems: number;
+    pointInterests: IPointInterest[];
+    pointsInRoute: IPointInterest[];
+    reverse: any;
+
     constructor(
         protected activatedRoute: ActivatedRoute,
         protected jhiAlertService: JhiAlertService,
         private accountService: AccountService,
         protected ratingService: RatingService,
+        protected pointInterestService: PointInterestService,
+        protected parseLinks: JhiParseLinks,
         protected router: Router
-    ) {}
+    ) {
+        this.pointInterests = [];
+        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.page = 0;
+        this.links = {
+            last: 0
+        };
+        this.predicate = 'id';
+        this.reverse = true;
+    }
+
+    loadAll() {
+        this.pointInterestService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IPointInterest[]>) => this.paginatePointInterests(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    reset() {
+        this.page = 0;
+        this.pointInterests = [];
+        this.loadAll();
+    }
+
+    loadPage(page) {
+        this.page = page;
+        this.loadAll();
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    protected paginatePointInterests(data: IPointInterest[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.pointInterests.push(data[i]);
+        }
+    }
 
     ngOnInit() {
+        this.loadAll();
         this.ratings = [];
         this.getUser();
         this.activatedRoute.data.subscribe(({ tRoute }) => {
             this.tRoute = tRoute;
         });
+        this.pointInterestService
+            .findByRoute(this.tRoute.id)
+            .pipe(
+                filter((res: HttpResponse<IPointInterest[]>) => res.ok),
+                map((res: HttpResponse<IPointInterest[]>) => res.body)
+            )
+            .subscribe((res: IPointInterest[]) => {
+                this.pointsInRoute = res;
+            });
         this.ratingService
             .query()
             .pipe(
@@ -56,6 +129,17 @@ export class TRouteDetailComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    contained(id) {
+        if (this.tRoute.pointsInterests) {
+            for (const point of this.tRoute.pointsInterests) {
+                if (point.id === id) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     previousState() {

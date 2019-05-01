@@ -35,4 +35,8 @@ export class PointInterestService {
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
+
+    findByRoute(id: number): Observable<EntityArrayResponseType> {
+        return this.http.get<IPointInterest[]>(`${this.resourceUrl}/route/${id}`, { observe: 'response' });
+    }
 }

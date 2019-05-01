@@ -25,7 +25,8 @@
             "user": "User that created it ",
             "ratethis": "You can rate this route!",
             "clickhere": "Click here to rate this route",
-            "avg": "Average rating"
+            "avg": "Average rating",
+            "haspoi": "This route has the following points of interest:"
         }
     }
 }
