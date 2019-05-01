@@ -50,4 +50,8 @@ export class HomeComponent implements OnInit {
     goToPoI() {
         this.router.navigate(['point-interest/']);
     }
+
+    goToRatings() {
+        this.router.navigate(['rating/']);
+    }
 }
