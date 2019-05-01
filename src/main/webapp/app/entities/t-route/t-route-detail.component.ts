@@ -65,7 +65,6 @@ export class TRouteDetailComponent implements OnInit {
     getUser() {
         this.accountService.identifyO().subscribe(
             response => {
-                console.log(response.body);
                 const account = response.body;
                 if (account) {
                     this.account = account;
