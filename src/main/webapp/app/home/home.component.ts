@@ -54,4 +54,8 @@ export class HomeComponent implements OnInit {
     goToRatings() {
         this.router.navigate(['rating/']);
     }
+
+    goToTags() {
+        this.router.navigate(['tag/']);
+    }
 }

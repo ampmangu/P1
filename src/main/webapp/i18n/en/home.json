@@ -20,6 +20,9 @@
         "pointofinterestbtn": "Go to Points of Interest!",
         "ratingsfaq": "You can rate the points of interests and routes available in the site, and check other people's opinions!",
         "ratingsheader": "Ratings",
-        "ratingsbtn": "Go to Ratings!"
+        "ratingsbtn": "Go to Ratings!",
+        "tagsfaq": "Explore the tags that our users created, and check out the premium content!",
+        "tagsbtn": "Go to Tags!",
+        "tagsheader": "Tags"
     }
 }
