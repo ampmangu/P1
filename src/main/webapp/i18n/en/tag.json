@@ -18,7 +18,8 @@
             "name": "Name",
             "premium": "Premium",
             "tRoute": "T Route",
-            "pointInterest": "Point Interest"
+            "pointInterest": "Point Interest",
+            "belong": "The tag can belong to either a point of interest or a route"
         }
     }
 }

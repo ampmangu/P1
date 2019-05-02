@@ -13,7 +13,8 @@ import { PointInterestService } from 'app/entities/point-interest';
 
 @Component({
     selector: 'jhi-tag-update',
-    templateUrl: './tag-update.component.html'
+    templateUrl: './tag-update.component.html',
+    styleUrls: ['tag-update.scss']
 })
 export class TagUpdateComponent implements OnInit {
     tag: ITag;

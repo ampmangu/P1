@@ -31,21 +31,19 @@
                         </small>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.tag.tRoute" for="field_tRoute">T Route</label>
-                    <select class="form-control" id="field_tRoute" name="tRoute" [(ngModel)]="tag.tRoute" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="tRouteOption.id === tag.tRoute?.id ? tag.tRoute : tRouteOption" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="p1App.tag.pointInterest" for="field_pointInterest">Point Interest</label>
-                    <select class="form-control" id="field_pointInterest" name="pointInterest" [(ngModel)]="tag.pointInterest" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="pointInterestOption.id === tag.pointInterest?.id ? tag.pointInterest : pointInterestOption" *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.id}}</option>
-                    </select>
-                </div>
+                <!--<h4 jhitranslate="p1App.tag.belong">The tag can belong to either a point of interest or a route</h4>-->
+                <!--<div class="form-group" *ngIf="!tag.pointInterest">-->
+                    <!--<label class="form-control-label" jhiTranslate="p1App.tag.tRoute" for="field_tRoute">T Route</label>-->
+                    <!--<select class="form-control" id="field_tRoute" name="tRoute" [(ngModel)]="tag.tRoute" >-->
+                        <!--<option [ngValue]="tRouteOption.id === tag.tRoute?.id ? tag.tRoute : tRouteOption" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.title}}</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <!--<div class="form-group" *ngIf="!tag.tRoute">-->
+                    <!--<label class="form-control-label" jhiTranslate="p1App.tag.pointInterest" for="field_pointInterest">Point Interest</label>-->
+                    <!--<select class="form-control" id="field_pointInterest" name="pointInterest" [(ngModel)]="tag.pointInterest" >-->
+                        <!--<option [ngValue]="pointInterestOption.id === tag.pointInterest?.id ? tag.pointInterest : pointInterestOption" *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.name}}</option>-->
+                    <!--</select>-->
+                <!--</div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

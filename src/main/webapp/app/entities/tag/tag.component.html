@@ -26,25 +26,26 @@
             <tr *ngFor="let tag of tags ;trackBy: trackId">
                 <td><a [routerLink]="['/tag', tag.id, 'view' ]">{{tag.id}}</a></td>
                 <td>{{tag.name}}</td>
-                <td>{{tag.premium}}</td>
+                <td *ngIf="tag.premium; else fpremium">{{tag.premium}}</td>
+                <ng-template #fpremium><td><b>-</b></td></ng-template>
                 <td>
-                    <div *ngIf="tag.tRoute">
+                    <div *ngIf="tag.tRoute; else fr">
                         <a [routerLink]="['../t-route', tag.tRoute?.id, 'view' ]" >{{tag.tRoute?.id}}</a>
                     </div>
+                    <ng-template #fr>
+                        <b>-</b>
+                    </ng-template>
                 </td>
                 <td>
-                    <div *ngIf="tag.pointInterest">
+                    <div *ngIf="tag.pointInterest; else fp">
                         <a [routerLink]="['../point-interest', tag.pointInterest?.id, 'view' ]" >{{tag.pointInterest?.id}}</a>
                     </div>
+                    <ng-template #fp>
+                        <b>-</b>
+                    </ng-template>
                 </td>
-                <td class="text-right">
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/tag', tag.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
                         <button type="submit"
                                 [routerLink]="['/tag', tag.id, 'edit']"
                                 class="btn btn-primary btn-sm">
@@ -61,6 +62,7 @@
                         </button>
                     </div>
                 </td>
+                </ng-template>
             </tr>
             </tbody>
         </table>
