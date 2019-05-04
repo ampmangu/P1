@@ -8,7 +8,7 @@ import { ITag } from 'app/shared/model/tag.model';
 import { TagService } from './tag.service';
 import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
-import { IPointInterest } from 'app/shared/model/point-interest.model';
+import { IPointInterest, PointInterest } from 'app/shared/model/point-interest.model';
 import { PointInterestService } from 'app/entities/point-interest';
 
 @Component({
@@ -23,7 +23,9 @@ export class TagUpdateComponent implements OnInit {
     troutes: ITRoute[];
 
     pointinterests: IPointInterest[];
-
+    sub: any;
+    routeId: any;
+    route: ITRoute;
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected tagService: TagService,
@@ -36,6 +38,18 @@ export class TagUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ tag }) => {
             this.tag = tag;
+        });
+        this.sub = this.activatedRoute.params.subscribe(params => {
+            this.routeId = params['routeId'];
+            if (this.routeId) {
+                this.tRouteService
+                    .find(this.routeId)
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<ITRoute>) => mayBeOk.ok),
+                        map((response: HttpResponse<ITRoute>) => response.body)
+                    )
+                    .subscribe((res: ITRoute) => (this.route = res));
+            }
         });
         this.tRouteService
             .query()
@@ -59,6 +73,9 @@ export class TagUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        if (this.route) {
+            this.tag.tRoute = this.route;
+        }
         if (this.tag.id !== undefined) {
             this.subscribeToSaveResponse(this.tagService.update(this.tag));
         } else {

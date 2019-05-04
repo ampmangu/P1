@@ -1,4 +1,5 @@
 package com.amp.cocome.web.rest;
+
 import com.amp.cocome.domain.Tag;
 import com.amp.cocome.service.TagService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
@@ -6,13 +7,14 @@ import com.amp.cocome.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,6 +84,18 @@ public class TagResource {
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
         return tagService.findAll();
+    }
+
+    /**
+     * @param id Id of route
+     * @return ResponseEntity with status 200 and the list of tags of that route
+     */
+    @GetMapping("/tags/route/{id}")
+    public ResponseEntity<List<Tag>> getTagByRouteId(@PathVariable Long id) {
+        List<Tag> rtnList = new ArrayList<>();
+        List<Tag> tagPage = tagService.findAll();
+        tagPage.stream().filter(tag -> tag.getTRoute() != null && tag.getTRoute().getId().equals(id)).forEach(rtnList::add);
+        return new ResponseEntity<>(rtnList, HttpStatus.OK);
     }
 
     /**

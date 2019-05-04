@@ -26,7 +26,9 @@
             "ratethis": "You can rate this route!",
             "clickhere": "Click here to rate this route",
             "avg": "Average rating",
-            "haspoi": "This route has the following points of interest:"
+            "haspoi": "This route has the following points of interest:",
+            "tagsin": "This route has the following tags:",
+            "addtag": "Click here to add new tags"
         }
     }
 }

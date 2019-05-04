@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ITRoute } from 'app/shared/model/t-route.model';
+import { ITag } from 'app/shared/model/tag.model';
 
 type EntityResponseType = HttpResponse<ITRoute>;
 type EntityArrayResponseType = HttpResponse<ITRoute[]>;
@@ -15,7 +16,7 @@ type EntityArrayResponseType = HttpResponse<ITRoute[]>;
 @Injectable({ providedIn: 'root' })
 export class TRouteService {
     public resourceUrl = SERVER_API_URL + 'api/t-routes';
-
+    public tagUrl = SERVER_API_URL + 'api/tags/route';
     constructor(protected http: HttpClient) {}
 
     create(tRoute: ITRoute): Observable<EntityResponseType> {
@@ -48,7 +49,9 @@ export class TRouteService {
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
-
+    queryByRouteId(id: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ITag[]>(`${this.tagUrl}/${id}`, { observe: 'response' });
+    }
     protected convertDateFromClient(tRoute: ITRoute): ITRoute {
         const copy: ITRoute = Object.assign({}, tRoute, {
             date: tRoute.date != null && tRoute.date.isValid() ? tRoute.date.toJSON() : null

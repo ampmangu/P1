@@ -10,6 +10,8 @@ import { filter, map } from 'rxjs/operators';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { PointInterestService } from 'app/entities/point-interest';
+import { ITag } from 'app/shared/model/tag.model';
+import { TRouteService } from 'app/entities/t-route/t-route.service';
 
 @Component({
     selector: 'jhi-t-route-detail',
@@ -29,6 +31,7 @@ export class TRouteDetailComponent implements OnInit {
     pointInterests: IPointInterest[];
     pointsInRoute: IPointInterest[];
     reverse: any;
+    tags: ITag[];
 
     constructor(
         protected activatedRoute: ActivatedRoute,
@@ -37,6 +40,7 @@ export class TRouteDetailComponent implements OnInit {
         protected ratingService: RatingService,
         protected pointInterestService: PointInterestService,
         protected parseLinks: JhiParseLinks,
+        protected routeService: TRouteService,
         protected router: Router
     ) {
         this.pointInterests = [];
@@ -47,6 +51,7 @@ export class TRouteDetailComponent implements OnInit {
         };
         this.predicate = 'id';
         this.reverse = true;
+        this.tags = [];
     }
 
     loadAll() {
@@ -96,6 +101,16 @@ export class TRouteDetailComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ tRoute }) => {
             this.tRoute = tRoute;
         });
+        this.routeService
+            .queryByRouteId(this.tRoute.id)
+            .pipe(
+                filter((res: HttpResponse<ITag[]>) => res.ok),
+                map((res: HttpResponse<ITag[]>) => res.body)
+            )
+            .subscribe((res: ITag[]) => {
+                console.log(res);
+                this.tags = res;
+            });
         this.pointInterestService
             .findByRoute(this.tRoute.id)
             .pipe(
@@ -114,9 +129,11 @@ export class TRouteDetailComponent implements OnInit {
             .subscribe(
                 (res: IRating[]) => {
                     for (const rating of res) {
-                        for (const routeInList of rating.belongsToRoutes) {
-                            if (this.tRoute.id === routeInList.id) {
-                                this.ratings.push(rating.score);
+                        if (rating.belongsToRoutes) {
+                            for (const routeInList of rating.belongsToRoutes) {
+                                if (this.tRoute.id === routeInList.id) {
+                                    this.ratings.push(rating.score);
+                                }
                             }
                         }
                     }
@@ -130,7 +147,9 @@ export class TRouteDetailComponent implements OnInit {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
-
+    addTag() {
+        this.router.navigate(['/tag/new', this.tRoute.id]);
+    }
     contained(id) {
         if (this.tRoute.pointsInterests) {
             for (const point of this.tRoute.pointsInterests) {

@@ -32,12 +32,12 @@
                     </div>
                 </div>
                 <!--<h4 jhitranslate="p1App.tag.belong">The tag can belong to either a point of interest or a route</h4>-->
-                <!--<div class="form-group" *ngIf="!tag.pointInterest">-->
-                    <!--<label class="form-control-label" jhiTranslate="p1App.tag.tRoute" for="field_tRoute">T Route</label>-->
-                    <!--<select class="form-control" id="field_tRoute" name="tRoute" [(ngModel)]="tag.tRoute" >-->
-                        <!--<option [ngValue]="tRouteOption.id === tag.tRoute?.id ? tag.tRoute : tRouteOption" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.title}}</option>-->
-                    <!--</select>-->
-                <!--</div>-->
+                <div class="form-group" *ngIf="route">
+                    <label class="form-control-label" jhiTranslate="p1App.tag.tRoute" for="field_tRoute">T Route</label>
+                    <select class="form-control" id="field_tRoute" name="tRoute" [(ngModel)]="tag.tRoute" >
+                        <option>{{route.title}}</option>
+                    </select>
+                </div>
                 <!--<div class="form-group" *ngIf="!tag.tRoute">-->
                     <!--<label class="form-control-label" jhiTranslate="p1App.tag.pointInterest" for="field_pointInterest">Point Interest</label>-->
                     <!--<select class="form-control" id="field_pointInterest" name="pointInterest" [(ngModel)]="tag.pointInterest" >-->

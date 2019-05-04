@@ -18,7 +18,9 @@ export class TagService {
     create(tag: ITag): Observable<EntityResponseType> {
         return this.http.post<ITag>(this.resourceUrl, tag, { observe: 'response' });
     }
-
+    createWithRoute(tag: ITag, idRoute: number): Observable<EntityResponseType> {
+        return this.http.post<ITag>(`${this.resourceUrl}/route/${idRoute}`, null, { observe: 'response' });
+    }
     update(tag: ITag): Observable<EntityResponseType> {
         return this.http.put<ITag>(this.resourceUrl, tag, { observe: 'response' });
     }
@@ -31,7 +33,9 @@ export class TagService {
         const options = createRequestOption(req);
         return this.http.get<ITag[]>(this.resourceUrl, { params: options, observe: 'response' });
     }
-
+    queryByRouteId(id: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ITag[]>(`${this.resourceUrl}/route/${id}`, { observe: 'response' });
+    }
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

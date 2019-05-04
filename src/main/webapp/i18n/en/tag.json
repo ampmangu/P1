@@ -17,8 +17,8 @@
             },
             "name": "Name",
             "premium": "Premium",
-            "tRoute": "T Route",
-            "pointInterest": "Point Interest",
+            "tRoute": "Routes it appear:",
+            "pointInterest": "Points of Interest it appears",
             "belong": "The tag can belong to either a point of interest or a route"
         }
     }

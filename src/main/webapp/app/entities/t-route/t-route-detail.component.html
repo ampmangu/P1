@@ -35,14 +35,14 @@
             </button>
             <span *ngIf="account?.id === tRoute.user?.id; else admin">
                <button type="button"
-                       [routerLink]="['/t-route', tRoute.id, 'edit']"
+                       [routerLink]="['/t-route', tRoute?.id, 'edit']"
                        class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                </button>
             </span>
             <ng-template #admin>
                 <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
-                        [routerLink]="['/t-route', tRoute.id, 'edit']"
+                        [routerLink]="['/t-route', tRoute?.id, 'edit']"
                         class="btn btn-primary">
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                 </button>
@@ -69,7 +69,7 @@
                                [infiniteScrollDistance]="0">
                         <tr *ngFor="let pointInterest of pointsInRoute ;trackBy: trackId">
                             <td><a
-                                [routerLink]="['/point-interest', pointInterest.id, 'view' ]">{{pointInterest.name}}</a>
+                                [routerLink]="['/point-interest', pointInterest?.id, 'view' ]">{{pointInterest.name}}</a>
                             </td>
                             <td>{{pointInterest.city}}</td>
                         </tr>
@@ -80,12 +80,36 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-info" id="separator">
-        <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.ratethis">
-            You can rate this route
-        </h3>
-        <button class="btn btn-primary" (click)="goRate()">
-            <span jhiTranslate="p1App.tRoute.clickhere">Click here to rate this route</span>
-        </button>
+    <div class="separator separator-right">
+        <div class="col-md-3 col-info" class="separator-top">
+            <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.ratethis">
+                You can rate this route
+            </h3>
+            <button class="btn btn-primary" (click)="goRate()">
+                <span jhiTranslate="p1App.tRoute.clickhere">Click here to rate this route</span>
+            </button>
+        </div>
+        <div class="col-md-3 col-info" class="separator-bottom">
+            <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.tagsin">
+                This route has the following tags:
+            </h3>
+            <div class="tag-info" *ngIf="tags">
+                <div class="tag-container" *ngFor="let tag of tags">
+                    <div class="tag-box">
+                        {{tag.name}}
+                    </div>
+                </div>
+            </div>
+            <div  *ngIf="account?.id === tRoute.user?.id; else admintag">
+                <button class="btn btn-primary btn-away" (click)="addTag()">
+                    <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
+                </button>
+            </div>
+            <ng-template #admintag>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary btn-away" (click)="addTag()">
+                    <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
+                </button>
+            </ng-template>
+        </div>
     </div>
 </div>
