@@ -25,7 +25,6 @@ export class RatingDetailComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ rating }) => {
             this.rating = rating;
         });
-        console.log(this.rating.belongsToPoints);
     }
     getUser() {
         this.accountService.identifyO().subscribe(
