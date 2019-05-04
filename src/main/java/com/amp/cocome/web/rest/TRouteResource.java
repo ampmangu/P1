@@ -1,5 +1,6 @@
 package com.amp.cocome.web.rest;
 import com.amp.cocome.domain.TRoute;
+import com.amp.cocome.domain.Tag;
 import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,6 +107,13 @@ public class TRouteResource {
         return ResponseUtil.wrapOrNotFound(tRoute);
     }
 
+    @GetMapping("/t-routes/tags/{id}")
+    public ResponseEntity<List<Tag>> getAllTagsOfRoute(@PathVariable Long id) {
+        List<Tag> rtnTags = new ArrayList<>();
+        Optional<TRoute> tRoute = tRouteService.findOne(id);
+        tRoute.ifPresent(route -> rtnTags.addAll(route.getTagsInRoutes()));
+        return new ResponseEntity<>(rtnTags, HttpStatus.OK);
+    }
     /**
      * DELETE  /t-routes/:id : delete the "id" tRoute.
      *

@@ -104,10 +104,16 @@
                 <button class="btn btn-primary btn-away" (click)="addTag()">
                     <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
                 </button>
+                <button class="btn btn-primary btn-away" (click)="addExistingTag()">
+                    <span jhiTranslate="p1App.tRoute.addexistingtag">Click here to add existing tags</span>
+                </button>
             </div>
             <ng-template #admintag>
                 <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary btn-away" (click)="addTag()">
                     <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
+                </button>
+                <button class="btn btn-primary btn-away" (click)="addExistingTag()">
+                    <span jhiTranslate="p1App.tRoute.addexistingtag">Click here to add existing tags</span>
                 </button>
             </ng-template>
         </div>

@@ -39,8 +39,8 @@ public class TRoute implements Serializable {
     @NotNull
     @Column(name = "jhi_date", nullable = false)
     private ZonedDateTime date;
-
-    @OneToMany(mappedBy = "tRoute")
+    @JsonIgnore
+    @OneToMany(mappedBy = "tRoute", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tag> tagsInRoutes = new HashSet<>();
     @OneToMany(mappedBy = "tRoute")

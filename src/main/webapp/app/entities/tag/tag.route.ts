@@ -10,6 +10,7 @@ import { TagComponent } from './tag.component';
 import { TagDetailComponent } from './tag-detail.component';
 import { TagUpdateComponent } from './tag-update.component';
 import { TagDeletePopupComponent } from './tag-delete-dialog.component';
+import { TagAddExistingComponent } from 'app/entities/tag/tag-add-existing.component';
 
 @Injectable({ providedIn: 'root' })
 export class TagResolve implements Resolve<ITag> {
@@ -64,6 +65,18 @@ export const tagRoute: Routes = [
     {
         path: 'new/:routeId',
         component: TagUpdateComponent,
+        resolve: {
+            tag: TagResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.tag.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'existing/:routeId',
+        component: TagAddExistingComponent,
         resolve: {
             tag: TagResolve
         },

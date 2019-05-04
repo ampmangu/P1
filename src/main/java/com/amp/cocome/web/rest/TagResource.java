@@ -1,6 +1,8 @@
 package com.amp.cocome.web.rest;
 
+import com.amp.cocome.domain.TRoute;
 import com.amp.cocome.domain.Tag;
+import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.service.TagService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
@@ -30,9 +32,11 @@ public class TagResource {
     private static final String ENTITY_NAME = "tag";
 
     private final TagService tagService;
+    private final TRouteService routeService;
 
-    public TagResource(TagService tagService) {
+    public TagResource(TagService tagService, TRouteService routeService) {
         this.tagService = tagService;
+        this.routeService = routeService;
     }
 
     /**
@@ -72,6 +76,41 @@ public class TagResource {
         Tag result = tagService.save(tag);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
+            .body(result);
+    }
+
+    @PutMapping("/tags/route/{id}")
+    public ResponseEntity<Tag> updateTagWithRoute(@Valid @RequestBody Tag tag, @PathVariable Long id) throws BadRequestAlertException {
+        //TODO This method is a temporal measure, investigate why the one above doesn't receive route. IT may extend to PoI
+        if (tag.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Optional<TRoute> route = routeService.findOne(id);
+        if (route.isPresent()) {
+            tag.setTRoute(route.get());
+        } else {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Tag result = tagService.save(tag);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
+            .body(result);
+    }
+
+    @PostMapping("/tags/route/{id}")
+    public ResponseEntity<Tag> createTagWithRoute(@Valid @RequestBody Tag tag, @PathVariable Long id) throws URISyntaxException {
+        if (tag.getId() != null) {
+            throw new BadRequestAlertException("A new tag cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Optional<TRoute> route = routeService.findOne(id);
+        if (route.isPresent()) {
+            tag.setTRoute(route.get());
+        } else {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Tag result = tagService.save(tag);
+        return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 

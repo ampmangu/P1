@@ -108,7 +108,6 @@ export class TRouteDetailComponent implements OnInit {
                 map((res: HttpResponse<ITag[]>) => res.body)
             )
             .subscribe((res: ITag[]) => {
-                console.log(res);
                 this.tags = res;
             });
         this.pointInterestService
@@ -149,6 +148,9 @@ export class TRouteDetailComponent implements OnInit {
     }
     addTag() {
         this.router.navigate(['/tag/new', this.tRoute.id]);
+    }
+    addExistingTag() {
+        this.router.navigate(['/tag/existing', this.tRoute.id]);
     }
     contained(id) {
         if (this.tRoute.pointsInterests) {

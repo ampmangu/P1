@@ -13,13 +13,21 @@ import {
     tagRoute,
     tagPopupRoute
 } from './';
+import { TagAddExistingComponent } from './tag-add-existing.component';
 
 const ENTITY_STATES = [...tagRoute, ...tagPopupRoute];
 
 @NgModule({
     imports: [P1SharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [TagComponent, TagDetailComponent, TagUpdateComponent, TagDeleteDialogComponent, TagDeletePopupComponent],
-    entryComponents: [TagComponent, TagUpdateComponent, TagDeleteDialogComponent, TagDeletePopupComponent],
+    declarations: [
+        TagComponent,
+        TagDetailComponent,
+        TagUpdateComponent,
+        TagDeleteDialogComponent,
+        TagDeletePopupComponent,
+        TagAddExistingComponent
+    ],
+    entryComponents: [TagComponent, TagUpdateComponent, TagDeleteDialogComponent, TagDeletePopupComponent, TagAddExistingComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

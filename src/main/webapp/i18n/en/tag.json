@@ -4,7 +4,8 @@
             "home": {
                 "title": "Tags",
                 "createLabel": "Create a new Tag",
-                "createOrEditLabel": "Create or edit a Tag"
+                "createOrEditLabel": "Create or edit a Tag",
+                "addexisting": "Add existing tags"
             },
             "created": "A new Tag is created with identifier {{ param }}",
             "updated": "A Tag is updated with identifier {{ param }}",
@@ -19,7 +20,8 @@
             "premium": "Premium",
             "tRoute": "Routes it appear:",
             "pointInterest": "Points of Interest it appears",
-            "belong": "The tag can belong to either a point of interest or a route"
+            "belong": "The tag can belong to either a point of interest or a route",
+            "labeltags": "Click on all the tags to be added"
         }
     }
 }

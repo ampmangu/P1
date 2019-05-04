@@ -12,21 +12,28 @@ type EntityArrayResponseType = HttpResponse<ITag[]>;
 @Injectable({ providedIn: 'root' })
 export class TagService {
     public resourceUrl = SERVER_API_URL + 'api/tags';
-
+    public routesUrl = SERVER_API_URL + 'api/t-routes/tags';
     constructor(protected http: HttpClient) {}
 
     create(tag: ITag): Observable<EntityResponseType> {
         return this.http.post<ITag>(this.resourceUrl, tag, { observe: 'response' });
     }
+
     createWithRoute(tag: ITag, idRoute: number): Observable<EntityResponseType> {
-        return this.http.post<ITag>(`${this.resourceUrl}/route/${idRoute}`, null, { observe: 'response' });
+        return this.http.post<ITag>(`${this.resourceUrl}/route/${idRoute}`, tag, { observe: 'response' });
     }
     update(tag: ITag): Observable<EntityResponseType> {
         return this.http.put<ITag>(this.resourceUrl, tag, { observe: 'response' });
     }
-
+    updateWithRoute(tag: ITag, idRoute: number): Observable<EntityResponseType> {
+        return this.http.put<ITag>(`${this.resourceUrl}/route/${idRoute}`, tag, { observe: 'response' });
+    }
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<ITag>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    findWithRoute(idRoute: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ITag[]>(`${this.routesUrl}/${idRoute}`, { observe: 'response' });
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {
