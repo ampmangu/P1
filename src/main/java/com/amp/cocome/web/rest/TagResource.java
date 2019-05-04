@@ -19,6 +19,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Tag.
@@ -122,7 +127,12 @@ public class TagResource {
     @GetMapping("/tags")
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
-        return tagService.findAll();
+        return tagService.findAll().stream().filter(distinctByKey(Tag::getName)).collect(Collectors.toList());
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 
     /**
@@ -134,7 +144,7 @@ public class TagResource {
         List<Tag> rtnList = new ArrayList<>();
         List<Tag> tagPage = tagService.findAll();
         tagPage.stream().filter(tag -> tag.getTRoute() != null && tag.getTRoute().getId().equals(id)).forEach(rtnList::add);
-        return new ResponseEntity<>(rtnList, HttpStatus.OK);
+        return new ResponseEntity<>(rtnList.stream().filter(distinctByKey(Tag::getName)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     /**
