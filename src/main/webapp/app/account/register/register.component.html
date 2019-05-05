@@ -76,6 +76,20 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="first_name" jhiTranslate="global.form.first_name">First name</label>
+                    <input type="text" class="form-control" [(ngModel)]="registerAccount.firstName" id="first_name"
+                           name="first_name"
+                           #firstName="ngModel" placeholder="{{'global.form.first_name.placeholder' | translate}}"
+                           minlength="1" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="last_name" jhiTranslate="global.form.last_name">Last name</label>
+                    <input type="text" class="form-control" [(ngModel)]="registerAccount.lastName" id="last_name"
+                           name="last_name"
+                           #lastName="ngModel" placeholder="{{'global.form.last_name.placeholder' | translate}}"
+                           minlength="1" maxlength="50">
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="password" jhiTranslate="global.form.newpassword">New
                         password</label>
                     <input type="password" class="form-control" id="password" name="password" #password="ngModel"
