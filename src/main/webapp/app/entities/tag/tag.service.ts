@@ -13,6 +13,8 @@ type EntityArrayResponseType = HttpResponse<ITag[]>;
 export class TagService {
     public resourceUrl = SERVER_API_URL + 'api/tags';
     public routesUrl = SERVER_API_URL + 'api/t-routes/tags';
+    public tagsUrl = SERVER_API_URL + 'api/point-interests/tags';
+
     constructor(protected http: HttpClient) {}
 
     create(tag: ITag): Observable<EntityResponseType> {
@@ -22,12 +24,23 @@ export class TagService {
     createWithRoute(tag: ITag, idRoute: number): Observable<EntityResponseType> {
         return this.http.post<ITag>(`${this.resourceUrl}/route/${idRoute}`, tag, { observe: 'response' });
     }
+
+    createWithPoint(tag: ITag, idPoint: number): Observable<EntityResponseType> {
+        return this.http.post<ITag>(`${this.resourceUrl}/point/${idPoint}`, tag, { observe: 'response' });
+    }
+
     update(tag: ITag): Observable<EntityResponseType> {
         return this.http.put<ITag>(this.resourceUrl, tag, { observe: 'response' });
     }
+
     updateWithRoute(tag: ITag, idRoute: number): Observable<EntityResponseType> {
         return this.http.put<ITag>(`${this.resourceUrl}/route/${idRoute}`, tag, { observe: 'response' });
     }
+
+    updateWithPoint(tag: ITag, idPoint: number): Observable<EntityResponseType> {
+        return this.http.put<ITag>(`${this.resourceUrl}/point/${idPoint}`, tag, { observe: 'response' });
+    }
+
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<ITag>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
@@ -36,13 +49,19 @@ export class TagService {
         return this.http.get<ITag[]>(`${this.routesUrl}/${idRoute}`, { observe: 'response' });
     }
 
+    findWithPoint(idPoint: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ITag[]>(`${this.tagsUrl}/${idPoint}`, { observe: 'response' });
+    }
+
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<ITag[]>(this.resourceUrl, { params: options, observe: 'response' });
     }
+
     queryByRouteId(id: number): Observable<EntityArrayResponseType> {
         return this.http.get<ITag[]>(`${this.resourceUrl}/route/${id}`, { observe: 'response' });
     }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

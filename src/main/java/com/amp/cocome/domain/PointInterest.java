@@ -40,8 +40,8 @@ public class PointInterest implements Serializable {
 
     @Column(name = "description")
     private String description;
-
-    @OneToMany(mappedBy = "pointInterest")
+    @JsonIgnore
+    @OneToMany(mappedBy = "pointInterest", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tag> tagsInPointInterests = new HashSet<>();
     @ManyToMany(mappedBy = "belongsToPoints")

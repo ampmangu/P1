@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
@@ -8,7 +8,7 @@ import { ITag } from 'app/shared/model/tag.model';
 import { TagService } from './tag.service';
 import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
-import { IPointInterest, PointInterest } from 'app/shared/model/point-interest.model';
+import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { PointInterestService } from 'app/entities/point-interest';
 
 @Component({
@@ -26,6 +26,9 @@ export class TagUpdateComponent implements OnInit {
     sub: any;
     routeId: any;
     route: ITRoute;
+    pointId: any;
+    point: IPointInterest;
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected tagService: TagService,
@@ -41,6 +44,7 @@ export class TagUpdateComponent implements OnInit {
         });
         this.sub = this.activatedRoute.params.subscribe(params => {
             this.routeId = params['routeId'];
+            this.pointId = params['pointId'];
             if (this.routeId) {
                 this.tRouteService
                     .find(this.routeId)
@@ -49,6 +53,15 @@ export class TagUpdateComponent implements OnInit {
                         map((response: HttpResponse<ITRoute>) => response.body)
                     )
                     .subscribe((res: ITRoute) => (this.route = res));
+            }
+            if (this.pointId) {
+                this.pointInterestService
+                    .find(this.pointId)
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<IPointInterest>) => mayBeOk.ok),
+                        map((response: HttpResponse<IPointInterest>) => response.body)
+                    )
+                    .subscribe((res: IPointInterest) => (this.point = res));
             }
         });
         this.tRouteService
@@ -75,6 +88,9 @@ export class TagUpdateComponent implements OnInit {
         this.isSaving = true;
         if (this.route) {
             this.tag.tRoute = this.route;
+        }
+        if (this.point) {
+            this.tag.pointInterest = this.point;
         }
         if (this.tag.id !== undefined) {
             this.subscribeToSaveResponse(this.tagService.update(this.tag));

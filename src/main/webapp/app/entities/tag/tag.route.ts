@@ -87,6 +87,30 @@ export const tagRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'pnew/:pointId',
+        component: TagUpdateComponent,
+        resolve: {
+            tag: TagResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.tag.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'pexisting/:pointId',
+        component: TagAddExistingComponent,
+        resolve: {
+            tag: TagResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.tag.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: TagUpdateComponent,
         resolve: {

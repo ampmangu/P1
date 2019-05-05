@@ -80,13 +80,43 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-info" id="separator">
-        <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.pointInterest.ratethis">
-            You can rate this point of interest
-        </h3>
-        <button class="btn btn-primary" (click)="goRate()">
-            <span jhiTranslate="p1App.pointInterest.clickhere">Click here to rate this point of interest</span>
-        </button>
+    <div class="col-md-3 col-info separator-right" id="separator">
+        <div class="col-md-3 col-info" class="separator-top">
+            <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.pointInterest.ratethis">
+                You can rate this point of interest
+            </h3>
+            <button class="btn btn-primary" (click)="goRate()">
+                <span jhiTranslate="p1App.pointInterest.clickhere">Click here to rate this point of interest</span>
+            </button>
+        </div>
+        <div class="col-md-3 col-info" class="separator-bottom">
+            <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.tagsin">
+                This route has the following tags:
+            </h3>
+            <div class="tag-info" *ngIf="tags">
+                <div class="tag-container" *ngFor="let tag of tags">
+                    <div class="tag-box">
+                        {{tag.name}}
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div *ngIf="account?.id === pointInterest?.route?.user?.id; else admintag">
+                <button class="btn btn-primary btn-away" (click)="addTag()">
+                    <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
+                </button>
+                <button class="btn btn-primary btn-away" (click)="addExistingTag()">
+                    <span jhiTranslate="p1App.tRoute.addexistingtag">Click here to add existing tags</span>
+                </button>
+            </div>
+            <ng-template #admintag>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary btn-away" (click)="addTag()">
+                    <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
+                </button>
+                <button class="btn btn-primary btn-away" (click)="addExistingTag()">
+                    <span jhiTranslate="p1App.tRoute.addexistingtag">Click here to add existing tags</span>
+                </button>
+            </ng-template>
+        </div>
     </div>
-
 </div>

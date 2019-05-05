@@ -1,7 +1,9 @@
 package com.amp.cocome.web.rest;
 
+import com.amp.cocome.domain.PointInterest;
 import com.amp.cocome.domain.TRoute;
 import com.amp.cocome.domain.Tag;
+import com.amp.cocome.service.PointInterestService;
 import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.service.TagService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
@@ -38,10 +40,12 @@ public class TagResource {
 
     private final TagService tagService;
     private final TRouteService routeService;
+    private final PointInterestService pointInterestService;
 
-    public TagResource(TagService tagService, TRouteService routeService) {
+    public TagResource(TagService tagService, TRouteService routeService, PointInterestService pointInterestService) {
         this.tagService = tagService;
         this.routeService = routeService;
+        this.pointInterestService = pointInterestService;
     }
 
     /**
@@ -84,6 +88,23 @@ public class TagResource {
             .body(result);
     }
 
+    @PutMapping("/tags/point/{id}")
+    public ResponseEntity<Tag> updateTagWithPoint(@Valid @RequestBody Tag tag, @PathVariable Long id) throws BadRequestAlertException {
+        if (tag.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Optional<PointInterest> point = pointInterestService.findOne(id);
+        if (point.isPresent()) {
+            tag.setPointInterest(point.get());
+        } else {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Tag result = tagService.save(tag);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
+            .body(result);
+    }
+
     @PutMapping("/tags/route/{id}")
     public ResponseEntity<Tag> updateTagWithRoute(@Valid @RequestBody Tag tag, @PathVariable Long id) throws BadRequestAlertException {
         //TODO This method is a temporal measure, investigate why the one above doesn't receive route. IT may extend to PoI
@@ -99,6 +120,23 @@ public class TagResource {
         Tag result = tagService.save(tag);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
+            .body(result);
+    }
+
+    @PostMapping("/tags/point/{id}")
+    public ResponseEntity<Tag> createTagWithPoint(@Valid @RequestBody Tag tag, @PathVariable Long id) throws URISyntaxException {
+        if (tag.getId() != null) {
+            throw new BadRequestAlertException("A new tag cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Optional<PointInterest> point = pointInterestService.findOne(id);
+        if (point.isPresent()) {
+            tag.setPointInterest(point.get());
+        } else {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Tag result = tagService.save(tag);
+        return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -144,6 +182,14 @@ public class TagResource {
         List<Tag> rtnList = new ArrayList<>();
         List<Tag> tagPage = tagService.findAll();
         tagPage.stream().filter(tag -> tag.getTRoute() != null && tag.getTRoute().getId().equals(id)).forEach(rtnList::add);
+        return new ResponseEntity<>(rtnList.stream().filter(distinctByKey(Tag::getName)).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping("/tags/points/{id}")
+    public ResponseEntity<List<Tag>> getTagByPointId(@PathVariable Long id) {
+        List<Tag> rtnList = new ArrayList<>();
+        List<Tag> tagPage = tagService.findAll();
+        tagPage.stream().filter(tag -> tag.getPointInterest() != null && tag.getPointInterest().getId().equals(id)).forEach(rtnList::add);
         return new ResponseEntity<>(rtnList.stream().filter(distinctByKey(Tag::getName)).collect(Collectors.toList()), HttpStatus.OK);
     }
 

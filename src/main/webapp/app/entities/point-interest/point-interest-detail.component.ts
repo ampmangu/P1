@@ -11,6 +11,8 @@ import { filter, map } from 'rxjs/operators';
 import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
 import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITag } from 'app/shared/model/tag.model';
+import { PointInterestService } from 'app/entities/point-interest/point-interest.service';
 
 @Component({
     selector: 'jhi-point-interest-detail',
@@ -28,6 +30,7 @@ export class PointInterestDetailComponent implements OnInit {
     itemsPerPage: number;
     predicate: any;
     totalItems: number;
+    tags: ITag[];
 
     reverse: any;
 
@@ -38,6 +41,7 @@ export class PointInterestDetailComponent implements OnInit {
         protected routesService: TRouteService,
         protected ratingService: RatingService,
         protected parseLinks: JhiParseLinks,
+        protected pointService: PointInterestService,
         protected router: Router
     ) {
         this.links = {
@@ -47,6 +51,7 @@ export class PointInterestDetailComponent implements OnInit {
         this.page = 0;
         this.predicate = 'id';
         this.reverse = true;
+        this.tags = [];
     }
 
     loadAll() {
@@ -82,7 +87,12 @@ export class PointInterestDetailComponent implements OnInit {
         }
         return result;
     }
-
+    addTag() {
+        this.router.navigate(['/tag/pnew', this.pointInterest.id]);
+    }
+    addExistingTag() {
+        this.router.navigate(['/tag/pexisting', this.pointInterest.id]);
+    }
     ngOnInit() {
         this.getUser();
         this.ratings = [];
@@ -113,6 +123,15 @@ export class PointInterestDetailComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.pointService
+            .queryByPointId(this.pointInterest.id)
+            .pipe(
+                filter((res: HttpResponse<ITag[]>) => res.ok),
+                map((res: HttpResponse<ITag[]>) => res.body)
+            )
+            .subscribe((res: ITag[]) => {
+                this.tags = res;
+            });
         this.routesService
             .query()
             .pipe(

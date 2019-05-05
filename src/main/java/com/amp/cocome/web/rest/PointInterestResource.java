@@ -1,5 +1,7 @@
 package com.amp.cocome.web.rest;
+
 import com.amp.cocome.domain.PointInterest;
+import com.amp.cocome.domain.Tag;
 import com.amp.cocome.service.PointInterestService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,6 +95,14 @@ public class PointInterestResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/point-interests/tags/{id}")
+    public ResponseEntity<List<Tag>> getAllTagsOfPoint(@PathVariable Long id) {
+        List<Tag> rtnTags = new ArrayList<>();
+        Optional<PointInterest> pointInterest = pointInterestService.findOne(id);
+        pointInterest.ifPresent(point -> rtnTags.addAll(point.getTagsInPointInterests()));
+        return new ResponseEntity<>(rtnTags, HttpStatus.OK);
+    }
+
     /**
      * GET  /point-interests/:id : get the "id" pointInterest.
      *
@@ -124,7 +133,7 @@ public class PointInterestResource {
     public ResponseEntity<List<PointInterest>> getPointsByRouteId(@PathVariable Long id) {
         List<PointInterest> rtnPoints = new ArrayList<>();
         Page<PointInterest> pointInterests = pointInterestService.findAll(PageRequest.of(0, 3000));
-        for(PointInterest pointInterest : pointInterests.getContent()) {
+        for (PointInterest pointInterest : pointInterests.getContent()) {
             if (pointInterest.getRoute().getId().equals(id)) {
                 rtnPoints.add(pointInterest);
             }

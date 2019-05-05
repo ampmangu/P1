@@ -38,6 +38,12 @@
                         <option>{{route.title}}</option>
                     </select>
                 </div>
+                <div class="form-group" *ngIf="point">
+                    <label class="form-control-label" jhiTranslate="p1App.tag.pointInterest" for="field_point">Points of Interest it appears</label>
+                    <select class="form-control" id="field_point" name="point" [(ngModel)]="tag.pointInterest" >
+                        <option>{{point.name}}</option>
+                    </select>
+                </div>
                 <!--<div class="form-group" *ngIf="!tag.tRoute">-->
                     <!--<label class="form-control-label" jhiTranslate="p1App.tag.pointInterest" for="field_pointInterest">Point Interest</label>-->
                     <!--<select class="form-control" id="field_pointInterest" name="pointInterest" [(ngModel)]="tag.pointInterest" >-->

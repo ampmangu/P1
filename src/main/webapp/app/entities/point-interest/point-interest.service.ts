@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
+import { ITag } from 'app/shared/model/tag.model';
 
 type EntityResponseType = HttpResponse<IPointInterest>;
 type EntityArrayResponseType = HttpResponse<IPointInterest[]>;
@@ -12,6 +13,7 @@ type EntityArrayResponseType = HttpResponse<IPointInterest[]>;
 @Injectable({ providedIn: 'root' })
 export class PointInterestService {
     public resourceUrl = SERVER_API_URL + 'api/point-interests';
+    public tagUrl = SERVER_API_URL + 'api/tags/points';
 
     constructor(protected http: HttpClient) {}
 
@@ -30,6 +32,10 @@ export class PointInterestService {
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IPointInterest[]>(this.resourceUrl, { params: options, observe: 'response' });
+    }
+
+    queryByPointId(id: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ITag[]>(`${this.tagUrl}/${id}`, { observe: 'response' });
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
