@@ -44,6 +44,9 @@
         </createTable>
         <addForeignKeyConstraint baseTableName="point_interest" baseColumnNames="route_id" constraintName="fk_point_route_id" referencedTableName="t_route"
                                  referencedColumnNames="id"/>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/poi.csv"
+                  separator="," tableName="point_interest"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
