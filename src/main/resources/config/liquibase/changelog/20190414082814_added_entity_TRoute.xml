@@ -41,7 +41,9 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="t_route" columnName="jhi_date" columnDataType="datetime"/>
-        
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/routes.csv"
+                  separator="," tableName="t_route"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
