@@ -181,8 +181,8 @@ export class TRouteDetailComponent implements OnInit {
                 } else {
                     this.account = account;
                 }
-                // @ts-ignore
                 this.routeService
+                    // @ts-ignore
                     .isFollowed(this.tRoute.id, this.account.id)
                     .pipe(
                         filter((res: HttpResponse<Account[]>) => res.ok),
