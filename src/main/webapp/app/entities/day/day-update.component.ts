@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IDay } from 'app/shared/model/day.model';
 import { DayService } from './day.service';
-import { ITRoute } from 'app/shared/model/t-route.model';
+import { ITRoute, TRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from 'app/entities/t-route';
-import {User} from 'app/core';
-import {UserService} from 'app/core';
+import { Account, AccountService, User, UserService } from 'app/core';
 
 @Component({
     selector: 'jhi-day-update',
@@ -22,10 +21,15 @@ export class DayUpdateComponent implements OnInit {
     troutes: ITRoute[];
 
     users: User[];
+    sub: any;
+    routeId: any;
+    route: ITRoute;
+    account: Account;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected dayService: DayService,
+        private accountService: AccountService,
         protected tRouteService: TRouteService,
         protected userService: UserService,
         protected activatedRoute: ActivatedRoute
@@ -35,6 +39,19 @@ export class DayUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ day }) => {
             this.day = day;
+        });
+        this.getUser();
+        this.sub = this.activatedRoute.params.subscribe(params => {
+            this.routeId = params['routeId'];
+            if (this.routeId) {
+                this.tRouteService
+                    .find(this.routeId)
+                    .pipe(
+                        filter((response: HttpResponse<TRoute>) => response.ok),
+                        map((tRoute: HttpResponse<TRoute>) => tRoute.body)
+                    )
+                    .subscribe((res: TRoute) => (this.route = res));
+            }
         });
         this.tRouteService
             .query()
@@ -56,8 +73,29 @@ export class DayUpdateComponent implements OnInit {
         window.history.back();
     }
 
+    getUser() {
+        this.accountService.identifyO().subscribe(
+            response => {
+                const account = response.body;
+                if (account) {
+                    this.account = account;
+                } else {
+                    this.account = account;
+                }
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
+
     save() {
         this.isSaving = true;
+        if (this.day.tRoute === undefined) {
+            this.day.tRoute = this.route;
+        }
+        if (this.day.user === undefined) {
+            this.day.user = this.account;
+        }
+        console.log(this.day);
         if (this.day.id !== undefined) {
             this.subscribeToSaveResponse(this.dayService.update(this.day));
         } else {
@@ -88,5 +126,17 @@ export class DayUpdateComponent implements OnInit {
 
     trackUserById(index: number, item: User) {
         return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        console.log(selectedVals);
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }

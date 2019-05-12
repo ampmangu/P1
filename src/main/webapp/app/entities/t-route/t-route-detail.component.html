@@ -39,12 +39,22 @@
                        class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                </button>
+                    <button type="submit"
+                            (click)="addDays()"
+                            class="btn btn-primary">
+                    <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.adddays"> Add days</span>
+                </button>
             </span>
             <ng-template #admin>
                 <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
                         [routerLink]="['/t-route', tRoute?.id, 'edit']"
                         class="btn btn-primary">
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                </button>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
+                        (click)="addDays()"
+                        class="btn btn-primary">
+                    <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.adddays"> Edit</span>
                 </button>
             </ng-template>
             <span *ngIf="followed; else unfollow">
@@ -56,7 +66,6 @@
                 </button>
             </span>
             <ng-template #unfollow>
-
                 <button type="submit"
                         (click)="follow()"
                         class="btn btn-info">

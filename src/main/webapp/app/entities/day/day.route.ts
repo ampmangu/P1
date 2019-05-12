@@ -63,6 +63,18 @@ export const dayRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'route/:routeId',
+        component: DayUpdateComponent,
+        resolve: {
+            day: DayResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.day.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: DayUpdateComponent,
         resolve: {

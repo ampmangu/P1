@@ -28,16 +28,14 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="p1App.day.tRoute" for="field_tRoute">T Route</label>
-                    <select class="form-control" id="field_tRoute" name="tRoute" [(ngModel)]="day.tRoute" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="tRouteOption.id === day.tRoute?.id ? day.tRoute : tRouteOption" *ngFor="let tRouteOption of troutes; trackBy: trackTRouteById">{{tRouteOption.id}}</option>
+                    <select class="form-control" id="field_tRoute" required name="tRoute" [(ngModel)]="route" >
+                        <option [ngValue]="route">{{route?.title}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="p1App.day.user" for="field_User"> User</label>
-                    <select class="form-control" id="field_User" name="user" [(ngModel)]="day.user" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="UserOption.id === day.user?.id ? day.user : UserOption" *ngFor="let UserOption of users; trackBy: trackUserById">{{UserOption.id}}</option>
+                    <select class="form-control" required id="field_User" name="user" [(ngModel)]="day.user" >
+                        <option [ngValue]="account">{{account?.login}}</option>
                     </select>
                 </div>
             </div>

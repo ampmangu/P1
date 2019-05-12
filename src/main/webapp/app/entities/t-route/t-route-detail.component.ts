@@ -171,11 +171,14 @@ export class TRouteDetailComponent implements OnInit {
         window.history.back();
     }
 
+    addDays() {
+        this.router.navigate(['/day/route', this.tRoute.id]);
+    }
+
     getUser() {
         this.accountService.identifyO().subscribe(
             response => {
                 const account = response.body;
-                console.log(account);
                 if (account) {
                     this.account = account;
                 } else {

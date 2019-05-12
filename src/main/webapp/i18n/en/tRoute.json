@@ -31,7 +31,8 @@
             "addtag": "Click here to add new tags",
             "addexistingtag": "Click here to add existing tags",
             "follow": "Follow route",
-            "unfollow": "Unfollow route"
+            "unfollow": "Unfollow route",
+            "adddays": "Add days in route"
         }
     }
 }
