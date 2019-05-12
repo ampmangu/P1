@@ -107,7 +107,7 @@
                                  referencedTableName="jhi_user"/>
         <loadData encoding="UTF-8"
                   file="config/liquibase/users.csv"
-                  separator=";"
+                  separator=","
                   tableName="jhi_user">
             <column name="activated" type="boolean"/>
             <column name="created_date" type="timestamp"/>
