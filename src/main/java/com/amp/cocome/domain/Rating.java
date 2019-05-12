@@ -42,7 +42,6 @@ public class Rating implements Serializable {
     @Column(name = "score", nullable = false)
     private Integer score;
 
-    @JsonIgnore
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "rating_belongs_to_route",

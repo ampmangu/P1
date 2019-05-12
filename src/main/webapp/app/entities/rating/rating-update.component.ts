@@ -140,7 +140,12 @@ export class RatingUpdateComponent implements OnInit {
         if (this.rating.id !== undefined) {
             this.subscribeToSaveResponse(this.ratingService.update(this.rating));
         } else {
-            this.subscribeToSaveResponse(this.ratingService.create(this.rating));
+            if (this.rating.belongsToRoutes.length > 1 && typeof this.rating.belongsToRoutes[0] === 'string') {
+                let routes = this.rating.belongsToRoutes;
+                routes = routes.slice(1, 2);
+                this.rating.belongsToRoutes = routes;
+                this.subscribeToSaveResponse(this.ratingService.create(this.rating));
+            }
         }
     }
 

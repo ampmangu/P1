@@ -2,9 +2,9 @@ package com.amp.cocome;
 
 import com.amp.cocome.config.ApplicationProperties;
 import com.amp.cocome.config.DefaultProfileUtil;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jhipster.config.JHipsterConstants;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +28,11 @@ public class P1App {
 
     private final Environment env;
 
-    public P1App(Environment env) {
+    private ObjectMapper objectMapper;
+
+    public P1App(Environment env, ObjectMapper objectMapper) {
         this.env = env;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -50,6 +53,8 @@ public class P1App {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
+        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
 
     /**
