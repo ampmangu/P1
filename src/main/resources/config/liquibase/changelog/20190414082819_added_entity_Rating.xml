@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
-                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
-    
+
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
@@ -23,25 +21,25 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="creation_date" type="datetime">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="name" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
             <column name="score" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="user_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="rating" columnName="creation_date" columnDataType="datetime"/>
-        
+
         <createTable tableName="rating_belongs_to_route">
             <column name="belongs_to_route_id" type="bigint">
                 <constraints nullable="false"/>
@@ -52,7 +50,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="rating_id, belongs_to_route_id" tableName="rating_belongs_to_route"/>
-        
+
         <createTable tableName="rating_belongs_to_point">
             <column name="belongs_to_point_id" type="bigint">
                 <constraints nullable="false"/>
@@ -66,6 +64,10 @@
         <loadData encoding="UTF-8"
                   file="config/liquibase/ratings.csv"
                   separator="," tableName="rating"/>
+        <loadData tableName="rating_belongs_to_point" file="config/liquibase/rating_poi.csv"
+                  separator="," encoding="UTF-8"/>
+        <loadData tableName="rating_belongs_to_route" file="config/liquibase/rating_route.csv"
+                  separator="," encoding="UTF-8"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
