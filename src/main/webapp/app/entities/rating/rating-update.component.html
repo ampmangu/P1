@@ -69,7 +69,7 @@
                     <select class="form-control" id="field_belongsToPoint" multiple name="belongsToPoint" [(ngModel)]="rating.belongsToPoints">
                         <!--<option [ngValue]="getSelected(rating.belongsToPoints, pointInterestOption)"  *ngFor="let pointInterestOption of pointinterests; trackBy: trackPointInterestById">{{pointInterestOption.title}}</option>-->
 
-                        <option style="height: 0;" [ngValue]="getSelected(rating.belongsToPoints, point.title)">{{point.name}}</option>
+                        <option style="height: 0;" [ngValue]="getSelected(rating.belongsToPoints, point.name)">{{point.name}}</option>
                     </select>
                 </div>
             </div>

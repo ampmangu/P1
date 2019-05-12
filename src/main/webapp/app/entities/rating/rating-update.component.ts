@@ -140,10 +140,24 @@ export class RatingUpdateComponent implements OnInit {
         if (this.rating.id !== undefined) {
             this.subscribeToSaveResponse(this.ratingService.update(this.rating));
         } else {
-            if (this.rating.belongsToRoutes.length > 1 && typeof this.rating.belongsToRoutes[0] === 'string') {
+            console.log(this.rating);
+            if (
+                this.rating.belongsToRoutes !== undefined &&
+                this.rating.belongsToRoutes.length > 1 &&
+                typeof this.rating.belongsToRoutes[0] === 'string'
+            ) {
                 let routes = this.rating.belongsToRoutes;
                 routes = routes.slice(1, 2);
                 this.rating.belongsToRoutes = routes;
+                this.subscribeToSaveResponse(this.ratingService.create(this.rating));
+            } else if (
+                this.rating.belongsToPoints !== undefined &&
+                this.rating.belongsToPoints.length > 1 &&
+                typeof this.rating.belongsToPoints[0] === 'string'
+            ) {
+                let points = this.rating.belongsToPoints;
+                points = points.slice(1, 2);
+                this.rating.belongsToPoints = points;
                 this.subscribeToSaveResponse(this.ratingService.create(this.rating));
             }
         }
