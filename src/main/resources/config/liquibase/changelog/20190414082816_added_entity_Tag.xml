@@ -26,7 +26,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="premium" type="boolean">
+            <column name="premium" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false" />
             </column>
 
@@ -40,7 +40,8 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+        <loadData tableName="tag" file="config/liquibase/tags.csv"
+                  separator="," encoding="UTF-8"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
