@@ -63,7 +63,9 @@
         </createTable>
 
         <addPrimaryKey columnNames="rating_id, belongs_to_point_id" tableName="rating_belongs_to_point"/>
-        
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/ratings.csv"
+                  separator="," tableName="rating"/>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
