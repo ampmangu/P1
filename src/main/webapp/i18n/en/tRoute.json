@@ -29,7 +29,9 @@
             "haspoi": "This route has the following points of interest:",
             "tagsin": "This route has the following tags:",
             "addtag": "Click here to add new tags",
-            "addexistingtag": "Click here to add existing tags"
+            "addexistingtag": "Click here to add existing tags",
+            "follow": "Follow route",
+            "unfollow": "Unfollow route"
         }
     }
 }

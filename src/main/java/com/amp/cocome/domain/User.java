@@ -107,7 +107,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(mappedBy = "User")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Day> createsDays = new HashSet<>();
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "user_follows_route",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

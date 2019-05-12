@@ -47,6 +47,23 @@
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                 </button>
             </ng-template>
+            <span *ngIf="followed; else unfollow">
+                <button type="submit"
+                        (click)="follow()"
+                        class="btn btn-info">
+                    <fa-icon [icon]="'user'"></fa-icon>&nbsp;<span
+                    jhiTranslate="p1App.tRoute.unfollow"> Unfollow route</span>
+                </button>
+            </span>
+            <ng-template #unfollow>
+
+                <button type="submit"
+                        (click)="follow()"
+                        class="btn btn-info">
+                    <fa-icon [icon]="'user'"></fa-icon>&nbsp;<span
+                    jhiTranslate="p1App.tRoute.follow"> Follow route</span>
+                </button>
+            </ng-template>
         </div>
         <br/>
         <div>
@@ -101,7 +118,7 @@
                 </div>
             </div>
             <br/>
-            <div  *ngIf="account?.id === tRoute.user?.id; else admintag">
+            <div *ngIf="account?.id === tRoute.user?.id; else admintag">
                 <button class="btn btn-primary btn-away" (click)="addTag()">
                     <span jhiTranslate="p1App.tRoute.addtag">Click here to add new tags</span>
                 </button>

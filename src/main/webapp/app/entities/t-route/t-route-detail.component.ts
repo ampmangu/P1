@@ -32,6 +32,7 @@ export class TRouteDetailComponent implements OnInit {
     pointsInRoute: IPointInterest[];
     reverse: any;
     tags: ITag[];
+    followed: any;
 
     constructor(
         protected activatedRoute: ActivatedRoute,
@@ -146,12 +147,15 @@ export class TRouteDetailComponent implements OnInit {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
+
     addTag() {
         this.router.navigate(['/tag/new', this.tRoute.id]);
     }
+
     addExistingTag() {
         this.router.navigate(['/tag/existing', this.tRoute.id]);
     }
+
     contained(id) {
         if (this.tRoute.pointsInterests) {
             for (const point of this.tRoute.pointsInterests) {
@@ -171,11 +175,30 @@ export class TRouteDetailComponent implements OnInit {
         this.accountService.identifyO().subscribe(
             response => {
                 const account = response.body;
+                console.log(account);
                 if (account) {
                     this.account = account;
                 } else {
                     this.account = account;
                 }
+                // @ts-ignore
+                this.routeService
+                    .isFollowed(this.tRoute.id, this.account.id)
+                    .pipe(
+                        filter((res: HttpResponse<Account[]>) => res.ok),
+                        map((res: HttpResponse<Account[]>) => res.body)
+                    )
+                    .subscribe((res: Account[]) => {
+                        for (const acc of res) {
+                            // @ts-ignore
+                            if (acc.id === this.account.id) {
+                                this.followed = true;
+                            }
+                        }
+                        if (this.followed !== true) {
+                            this.followed = false;
+                        }
+                    });
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -187,5 +210,12 @@ export class TRouteDetailComponent implements OnInit {
 
     goRate() {
         this.router.navigate(['rating/new', this.tRoute.id, this.tRoute.title, this.account.login]);
+    }
+
+    follow() {
+        // @ts-ignore
+        this.routeService.follow(this.tRoute.id, this.account.id).subscribe(data => {
+            location.reload();
+        });
     }
 }

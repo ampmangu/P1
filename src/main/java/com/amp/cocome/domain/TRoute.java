@@ -51,7 +51,7 @@ public class TRoute implements Serializable {
     @JsonIgnore
     private Set<Rating> routeHasRatings = new HashSet<>();
 
-    @ManyToMany(mappedBy = "followsRoutes")
+    @ManyToMany(mappedBy = "followsRoutes", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<User> isFollowedBies = new HashSet<>();
