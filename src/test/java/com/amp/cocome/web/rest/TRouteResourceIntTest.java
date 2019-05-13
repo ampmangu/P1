@@ -5,6 +5,7 @@ import com.amp.cocome.P1App;
 import com.amp.cocome.domain.TRoute;
 import com.amp.cocome.repository.TRouteRepository;
 import com.amp.cocome.service.TRouteService;
+import com.amp.cocome.service.UserService;
 import com.amp.cocome.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -62,6 +63,8 @@ public class TRouteResourceIntTest {
     private TRouteService tRouteService;
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -83,7 +86,7 @@ public class TRouteResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TRouteResource tRouteResource = new TRouteResource(tRouteService);
+        final TRouteResource tRouteResource = new TRouteResource(tRouteService, userService);
         this.restTRouteMockMvc = MockMvcBuilders.standaloneSetup(tRouteResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

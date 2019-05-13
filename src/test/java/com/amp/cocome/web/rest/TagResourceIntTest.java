@@ -4,6 +4,8 @@ import com.amp.cocome.P1App;
 
 import com.amp.cocome.domain.Tag;
 import com.amp.cocome.repository.TagRepository;
+import com.amp.cocome.service.PointInterestService;
+import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.service.TagService;
 import com.amp.cocome.web.rest.errors.ExceptionTranslator;
 
@@ -54,6 +56,12 @@ public class TagResourceIntTest {
     private TagService tagService;
 
     @Autowired
+    private TRouteService routeService;
+
+    @Autowired
+    private PointInterestService pointInterestService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -75,7 +83,7 @@ public class TagResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TagResource tagResource = new TagResource(tagService);
+        final TagResource tagResource = new TagResource(tagService, routeService, pointInterestService);
         this.restTagMockMvc = MockMvcBuilders.standaloneSetup(tagResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

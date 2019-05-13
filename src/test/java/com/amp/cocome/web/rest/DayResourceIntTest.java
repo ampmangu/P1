@@ -5,6 +5,7 @@ import com.amp.cocome.P1App;
 import com.amp.cocome.domain.Day;
 import com.amp.cocome.repository.DayRepository;
 import com.amp.cocome.service.DayService;
+import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -54,6 +55,9 @@ public class DayResourceIntTest {
     private DayService dayService;
 
     @Autowired
+    private TRouteService routeService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -75,7 +79,7 @@ public class DayResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DayResource dayResource = new DayResource(dayService);
+        final DayResource dayResource = new DayResource(dayService, routeService);
         this.restDayMockMvc = MockMvcBuilders.standaloneSetup(dayResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -108,7 +112,7 @@ public class DayResourceIntTest {
         int databaseSizeBeforeCreate = dayRepository.findAll().size();
 
         // Create the Day
-        restDayMockMvc.perform(post("/api/days")
+        restDayMockMvc.perform(post("/api/days/{routeId}", 1)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(day)))
             .andExpect(status().isCreated());
@@ -130,7 +134,7 @@ public class DayResourceIntTest {
         day.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restDayMockMvc.perform(post("/api/days")
+        restDayMockMvc.perform(post("/api/days/{routeId}", 1)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(day)))
             .andExpect(status().isBadRequest());
@@ -149,7 +153,7 @@ public class DayResourceIntTest {
 
         // Create the Day, which fails.
 
-        restDayMockMvc.perform(post("/api/days")
+        restDayMockMvc.perform(post("/api/days/{routeId}", 1)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(day)))
             .andExpect(status().isBadRequest());
