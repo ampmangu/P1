@@ -99,7 +99,7 @@ export class DayUpdateComponent implements OnInit {
         if (this.day.id !== undefined) {
             this.subscribeToSaveResponse(this.dayService.update(this.day));
         } else {
-            this.subscribeToSaveResponse(this.dayService.create(this.day));
+            this.subscribeToSaveResponse(this.dayService.create(this.day, this.route.id));
         }
     }
 

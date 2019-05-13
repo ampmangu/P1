@@ -1,6 +1,8 @@
 package com.amp.cocome.web.rest;
 import com.amp.cocome.domain.Day;
+import com.amp.cocome.domain.TRoute;
 import com.amp.cocome.service.DayService;
+import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
 import com.amp.cocome.web.rest.util.PaginationUtil;
@@ -33,9 +35,12 @@ public class DayResource {
     private static final String ENTITY_NAME = "day";
 
     private final DayService dayService;
+    private final TRouteService tRouteService;
 
-    public DayResource(DayService dayService) {
+    public DayResource(DayService dayService, TRouteService tRouteService) {
         this.dayService = dayService;
+        this.tRouteService = tRouteService;
+
     }
 
     /**
@@ -45,11 +50,15 @@ public class DayResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new day, or with status 400 (Bad Request) if the day has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/days")
-    public ResponseEntity<Day> createDay(@Valid @RequestBody Day day) throws URISyntaxException {
+    @PostMapping("/days/{routeId}")
+    public ResponseEntity<Day> createDay(@Valid @RequestBody Day day, @PathVariable Long routeId) throws URISyntaxException {
         log.debug("REST request to save Day : {}", day);
         if (day.getId() != null) {
             throw new BadRequestAlertException("A new day cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (day.getTRoute() == null) {
+            Optional<TRoute> optionalTRoute = tRouteService.findOne(routeId);
+            optionalTRoute.ifPresent(day::setTRoute);
         }
         Day result = dayService.save(day);
         return ResponseEntity.created(new URI("/api/days/" + result.getId()))

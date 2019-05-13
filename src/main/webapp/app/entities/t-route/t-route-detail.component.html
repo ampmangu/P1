@@ -115,6 +115,18 @@
                 <span jhiTranslate="p1App.tRoute.clickhere">Click here to rate this route</span>
             </button>
         </div>
+        <div class="col-md-3 col-info" class="separator-top">
+            <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.daysin">
+                These are the days that the route is done
+            </h3>
+            <div class="tag-info" *ngIf="days">
+                <div class="tag-container" *ngFor="let day of days">
+                    <div class="tag-box">
+                        {{day.title}}
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-3 col-info" class="separator-bottom">
             <h3 class="col-info-header col-info-flexitem" jhitranslate="p1App.tRoute.tagsin">
                 This route has the following tags:

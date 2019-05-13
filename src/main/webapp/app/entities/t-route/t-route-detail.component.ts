@@ -12,6 +12,8 @@ import { ITEMS_PER_PAGE } from 'app/shared';
 import { PointInterestService } from 'app/entities/point-interest';
 import { ITag } from 'app/shared/model/tag.model';
 import { TRouteService } from 'app/entities/t-route/t-route.service';
+import { IDay } from 'app/shared/model/day.model';
+import { DayService } from 'app/entities/day';
 
 @Component({
     selector: 'jhi-t-route-detail',
@@ -33,12 +35,14 @@ export class TRouteDetailComponent implements OnInit {
     reverse: any;
     tags: ITag[];
     followed: any;
+    days: IDay[];
 
     constructor(
         protected activatedRoute: ActivatedRoute,
         protected jhiAlertService: JhiAlertService,
         private accountService: AccountService,
         protected ratingService: RatingService,
+        protected dayService: DayService,
         protected pointInterestService: PointInterestService,
         protected parseLinks: JhiParseLinks,
         protected routeService: TRouteService,
@@ -53,6 +57,7 @@ export class TRouteDetailComponent implements OnInit {
         this.predicate = 'id';
         this.reverse = true;
         this.tags = [];
+        this.days = [];
     }
 
     loadAll() {
@@ -146,6 +151,23 @@ export class TRouteDetailComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.dayService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<IDay[]>) => res.ok),
+                map((res: HttpResponse<IDay[]>) => res.body)
+            )
+            .subscribe((res: IDay[]) => {
+                for (const day of res) {
+                    try {
+                        console.log(day);
+                        // @ts-ignore
+                        if (day.troute.id === this.tRoute.id) {
+                            this.days.push(day);
+                        }
+                    } catch (e) {}
+                }
+            });
     }
 
     addTag() {

@@ -15,8 +15,8 @@ export class DayService {
 
     constructor(protected http: HttpClient) {}
 
-    create(day: IDay): Observable<EntityResponseType> {
-        return this.http.post<IDay>(this.resourceUrl, day, { observe: 'response' });
+    create(day: IDay, routeId: number): Observable<EntityResponseType> {
+        return this.http.post<IDay>(`${this.resourceUrl}/${routeId}`, day, { observe: 'response' });
     }
 
     update(day: IDay): Observable<EntityResponseType> {
