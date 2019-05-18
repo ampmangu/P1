@@ -23,6 +23,10 @@ export class DayService {
         return this.http.put<IDay>(this.resourceUrl, day, { observe: 'response' });
     }
 
+    queryByRoute(idRoute: number): Observable<EntityArrayResponseType> {
+        return this.http.get<IDay[]>(`${this.resourceUrl}/route/${idRoute}`, { observe: 'response' });
+    }
+
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<IDay>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

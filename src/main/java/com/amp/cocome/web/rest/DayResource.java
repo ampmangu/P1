@@ -10,6 +10,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Day.
@@ -65,7 +68,12 @@ public class DayResource {
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
-
+    @GetMapping("/days/route/{routeId}")
+    public ResponseEntity<List<Day>> getAllDaysByRoute(@PathVariable Long routeId) {
+        Page<Day> page = dayService.findAll(PageRequest.of(0, 3000));
+        List<Day> days = page.getContent().stream().filter(day -> day.getTRoute() != null && day.getTRoute().getId().equals(routeId)).collect(Collectors.toList());
+        return ResponseEntity.ok(days);
+    }
     /**
      * PUT  /days : Updates an existing day.
      *
@@ -123,7 +131,17 @@ public class DayResource {
     @DeleteMapping("/days/{id}")
     public ResponseEntity<Void> deleteDay(@PathVariable Long id) {
         log.debug("REST request to delete Day : {}", id);
-        dayService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        Optional<Day> day = dayService.findOne(id);
+        if(day.isPresent()) {
+            TRoute route = day.get().getTRoute();
+            Set<Day> daysInRoute = route.getDaysInRoutes();
+            daysInRoute.remove(day.get());
+            route.setDaysInRoutes(daysInRoute);
+            tRouteService.save(route);
+            dayService.delete(id);
+            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        } else {
+            throw new BadRequestAlertException("Can't delete day", ENTITY_NAME, "idexists");
+        }
     }
 }

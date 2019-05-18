@@ -13,13 +13,21 @@ import {
     dayRoute,
     dayPopupRoute
 } from './';
+import { DayDeleteDaysComponent } from 'app/entities/day/day-delete-days.component';
 
 const ENTITY_STATES = [...dayRoute, ...dayPopupRoute];
 
 @NgModule({
     imports: [P1SharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [DayComponent, DayDetailComponent, DayUpdateComponent, DayDeleteDialogComponent, DayDeletePopupComponent],
-    entryComponents: [DayComponent, DayUpdateComponent, DayDeleteDialogComponent, DayDeletePopupComponent],
+    declarations: [
+        DayComponent,
+        DayDetailComponent,
+        DayUpdateComponent,
+        DayDeleteDialogComponent,
+        DayDeletePopupComponent,
+        DayDeleteDaysComponent
+    ],
+    entryComponents: [DayComponent, DayUpdateComponent, DayDeleteDialogComponent, DayDeletePopupComponent, DayDeleteDaysComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

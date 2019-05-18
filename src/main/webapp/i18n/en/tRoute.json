@@ -33,7 +33,8 @@
             "follow": "Follow route",
             "unfollow": "Unfollow route",
             "adddays": "Add days in route",
-            "daysin": "These are the days that the route is done"
+            "daysin": "These are the days that the route is done",
+            "deletedays": "Delete days in route"
         }
     }
 }

@@ -43,8 +43,9 @@ public class TRoute implements Serializable {
     @OneToMany(mappedBy = "tRoute", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tag> tagsInRoutes = new HashSet<>();
-    @OneToMany(mappedBy = "tRoute")
+    @OneToMany(mappedBy = "tRoute", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
     private Set<Day> daysInRoutes = new HashSet<>();
     @ManyToMany(mappedBy = "belongsToRoutes")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

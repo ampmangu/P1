@@ -4,7 +4,8 @@
             "home": {
                 "title": "Days",
                 "createLabel": "Create a new Day",
-                "createOrEditLabel": "Create or edit a Day"
+                "createOrEditLabel": "Create or edit a Day",
+                "delete": "Delete days in Route"
             },
             "created": "A new Day is created with identifier {{ param }}",
             "updated": "A Day is updated with identifier {{ param }}",
@@ -18,7 +19,8 @@
             "title": "Title",
             "description": "Description",
             "tRoute": "T Route",
-            "user": "User"
+            "user": "User",
+            "labeldays": "Click on all the days to be deleted"
         }
     }
 }

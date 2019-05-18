@@ -160,7 +160,6 @@ export class TRouteDetailComponent implements OnInit {
             .subscribe((res: IDay[]) => {
                 for (const day of res) {
                     try {
-                        console.log(day);
                         // @ts-ignore
                         if (day.troute.id === this.tRoute.id) {
                             this.days.push(day);
@@ -195,6 +194,10 @@ export class TRouteDetailComponent implements OnInit {
 
     addDays() {
         this.router.navigate(['/day/route', this.tRoute.id]);
+    }
+
+    deleteDays() {
+        this.router.navigate(['/day/route/del', this.tRoute.id]);
     }
 
     getUser() {
