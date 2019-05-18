@@ -140,7 +140,6 @@ export class RatingUpdateComponent implements OnInit {
         if (this.rating.id !== undefined) {
             this.subscribeToSaveResponse(this.ratingService.update(this.rating));
         } else {
-            console.log(this.rating);
             if (
                 this.rating.belongsToRoutes !== undefined &&
                 this.rating.belongsToRoutes.length > 1 &&

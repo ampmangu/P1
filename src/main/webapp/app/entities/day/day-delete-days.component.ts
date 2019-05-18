@@ -54,17 +54,7 @@ export class DayDeleteDaysComponent implements OnInit {
         if (this.route) {
             const route = this.route;
             for (const days of iDays) {
-                console.log(days);
                 this.dayService.delete(days.id).subscribe(null);
-                // if (days.tRoute === null) {
-                //     days.tRoute = route;
-                //     this.dayService.delete(days).subscribe(null);
-                // } else {
-                //     const newDay = Object.assign({}, days);
-                //     newDay.tRoute = route;
-                //     newDay.id = null;
-                //     this.dayService.delete(newDay, route.id).subscribe(null);
-                // }
             }
         }
         this.previousState();

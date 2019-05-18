@@ -95,7 +95,6 @@ export class DayUpdateComponent implements OnInit {
         if (this.day.user === undefined) {
             this.day.user = this.account;
         }
-        console.log(this.day);
         if (this.day.id !== undefined) {
             this.subscribeToSaveResponse(this.dayService.update(this.day));
         } else {
@@ -129,7 +128,6 @@ export class DayUpdateComponent implements OnInit {
     }
 
     getSelected(selectedVals: Array<any>, option: any) {
-        console.log(selectedVals);
         if (selectedVals) {
             for (let i = 0; i < selectedVals.length; i++) {
                 if (option.id === selectedVals[i].id) {
