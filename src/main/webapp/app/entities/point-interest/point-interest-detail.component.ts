@@ -114,11 +114,13 @@ export class PointInterestDetailComponent implements OnInit {
                             }
                         }
                     }
-                    if (this.ratings.length) {
+                    if (this.ratings.length > 1) {
                         const sum = this.ratings.reduce(function(a, b) {
                             return a.score + b.score;
                         });
                         this.average = sum / this.ratings.length;
+                    } else {
+                        this.average = this.ratings[0].score;
                     }
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)

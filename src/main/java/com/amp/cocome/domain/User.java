@@ -112,6 +112,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JoinTable(name = "user_follows_route",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "follows_route_id", referencedColumnName = "id"))
+    @JsonIgnore
     private Set<TRoute> followsRoutes = new HashSet<>();
 
     public Long getId() {
