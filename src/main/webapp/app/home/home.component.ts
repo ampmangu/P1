@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { LoginModalService, AccountService, Account } from 'app/core';
+import { Account, AccountService, LoginModalService } from 'app/core';
 
 @Component({
     selector: 'jhi-home',
@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
     login() {
         this.modalRef = this.loginModalService.open();
     }
+
     goToRoutes() {
         this.router.navigate(['t-route/']);
     }
@@ -57,5 +58,9 @@ export class HomeComponent implements OnInit {
 
     goToTags() {
         this.router.navigate(['tag/']);
+    }
+
+    goToFollowed() {
+        this.router.navigate(['t-route/', this.account.login]);
     }
 }

@@ -41,6 +41,17 @@
                         <span jhiTranslate="home.pointofinterestbtn">Go to Points of Interest</span>
                     </button>
                 </div>
+                <div *ngIf="account" class="col-md-3 col-info">
+                    <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.followedheader">
+                        Points of Interest
+                    </h3>
+                    <p jhiTranslate="home.followedfaq" class="col-info-flexitem">
+                        Check out the points of interest that you can see in the world, and add your own!
+                    </p>
+                    <button class="btn btn-primary float-right" (click)="goToFollowed()">
+                        <span jhiTranslate="home.followedbtn">Go to Points of Interest</span>
+                    </button>
+                </div>
             </div>
             <div class="section-info">
                 <div class="col-md-3 col-info">
@@ -69,5 +80,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

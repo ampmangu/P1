@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {Subscription} from 'rxjs';
-import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
-import {ITRoute} from 'app/shared/model/t-route.model';
-import {Account, AccountService} from 'app/core';
-import {ITEMS_PER_PAGE} from 'app/shared';
-import {TRouteService} from './t-route.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { ITRoute } from 'app/shared/model/t-route.model';
+import { Account, AccountService } from 'app/core';
+import { ITEMS_PER_PAGE } from 'app/shared';
+import { TRouteService } from './t-route.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'jhi-t-route',
@@ -28,7 +29,8 @@ export class TRouteComponent implements OnInit, OnDestroy {
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        private accountService: AccountService,
+        protected activatedRoute: ActivatedRoute,
+        private accountService: AccountService
     ) {
         this.tRoutes = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -41,16 +43,35 @@ export class TRouteComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.tRouteService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.activatedRoute.params.subscribe(params => {
+            const user = params['user'];
+            if (user) {
+                this.tRouteService
+                    .queryByLogin(
+                        {
+                            page: this.page,
+                            size: this.itemsPerPage,
+                            sort: this.sort()
+                        },
+                        user
+                    )
+                    .subscribe(
+                        (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.tRouteService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort()
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
+        });
     }
 
     reset() {
@@ -71,16 +92,19 @@ export class TRouteComponent implements OnInit, OnDestroy {
     }
 
     getUser() {
-        this.accountService.identifyO().subscribe((response: HttpResponse<Account>) => {
-            const account = response.body;
-            if (account) {
-                // After retrieve the account info, the language will be changed to
-                // the user's preferred language configured in the account setting
-                this.account = account;
-            } else {
-                this.account = account;
-            }
-        }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.accountService.identifyO().subscribe(
+            (response: HttpResponse<Account>) => {
+                const account = response.body;
+                if (account) {
+                    // After retrieve the account info, the language will be changed to
+                    // the user's preferred language configured in the account setting
+                    this.account = account;
+                } else {
+                    this.account = account;
+                }
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
     }
 
     ngOnDestroy() {

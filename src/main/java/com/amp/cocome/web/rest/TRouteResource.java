@@ -12,6 +12,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing TRoute.
@@ -140,6 +142,16 @@ public class TRouteResource {
         Page<TRoute> page = tRouteService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/t-routes");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/t-routes/user/{username}")
+    public ResponseEntity<List<TRoute>> getTRouteByUser(@PathVariable String username) {
+        Page<TRoute> page = tRouteService.findAll(PageRequest.of(0, 4000));
+        List<TRoute> routes = page.getContent().stream().filter(tRoute -> tRoute.getIsFollowedBies() != null && !tRoute.getIsFollowedBies().isEmpty()).collect(Collectors.toList());
+        List<TRoute> rtnRoutes = routes.stream().filter(tRoute -> tRoute.getIsFollowedBies().stream().anyMatch(user -> user.getLogin().equalsIgnoreCase(username))).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/t-routes");
+
+        return ResponseEntity.ok().headers(headers).body(rtnRoutes);
     }
 
     @GetMapping("/t-routes/followers/{idRoute}/{idUser}")

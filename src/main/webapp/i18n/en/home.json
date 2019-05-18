@@ -23,6 +23,9 @@
         "ratingsbtn": "Go to Ratings!",
         "tagsfaq": "Explore the tags that our users created, and check out the premium content!",
         "tagsbtn": "Go to Tags!",
-        "tagsheader": "Tags"
+        "tagsheader": "Tags",
+        "followedheader": "Followed routes",
+        "followedfaq": "Check again the routes that you are following!",
+        "followedbtn": "Go to your followed routes!"
     }
 }
