@@ -87,17 +87,27 @@ export class PointInterestDetailComponent implements OnInit {
         }
         return result;
     }
+
     addTag() {
         this.router.navigate(['/tag/pnew', this.pointInterest.id]);
     }
+
     addExistingTag() {
         this.router.navigate(['/tag/pexisting', this.pointInterest.id]);
     }
+
     ngOnInit() {
         this.getUser();
         this.ratings = [];
         this.activatedRoute.data.subscribe(({ pointInterest }) => {
             this.pointInterest = pointInterest;
+            this.routesService
+                .queryByPointId(this.pointInterest.id)
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ITRoute[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ITRoute[]>) => response.body)
+                )
+                .subscribe((res: ITRoute[]) => (this.routesIn = res), (res: HttpErrorResponse) => this.onError(res.message));
         });
         this.ratingService
             .query()
@@ -134,13 +144,6 @@ export class PointInterestDetailComponent implements OnInit {
             .subscribe((res: ITag[]) => {
                 this.tags = res;
             });
-        this.routesService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ITRoute[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ITRoute[]>) => response.body)
-            )
-            .subscribe((res: ITRoute[]) => (this.routesIn = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     getUser() {

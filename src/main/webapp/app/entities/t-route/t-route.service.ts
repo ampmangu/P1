@@ -54,6 +54,10 @@ export class TRouteService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    queryByPointId(idPoint: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ITRoute[]>(`${this.resourceUrl}/point/${idPoint}`, { observe: 'response' });
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

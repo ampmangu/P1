@@ -154,6 +154,14 @@ public class TRouteResource {
         return ResponseEntity.ok().headers(headers).body(rtnRoutes);
     }
 
+    @GetMapping("/t-routes/point/{pointId}")
+    public ResponseEntity<List<TRoute>> getTRouteWithPoint(@PathVariable Long pointId) {
+        Page<TRoute> page = tRouteService.findAll(PageRequest.of(0, 4000));
+        List<TRoute> routes = page.getContent().stream().filter(tRoute -> tRoute.getPointInterests() != null && tRoute.getPointInterests().stream().anyMatch(pointInterest -> pointInterest.getId().equals(pointId))).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/t-routes");
+        return ResponseEntity.ok().headers(headers).body(routes);
+    }
+
     @GetMapping("/t-routes/followers/{idRoute}/{idUser}")
     public ResponseEntity<List<User>> getUserFollower(@PathVariable Long idRoute, @PathVariable Long idUser) {
         Optional<TRoute> route = tRouteService.findOne(idRoute);

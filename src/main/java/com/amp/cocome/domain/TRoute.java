@@ -7,13 +7,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A TRoute.
@@ -24,7 +23,7 @@ import java.util.Objects;
 public class TRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,9 +60,11 @@ public class TRoute implements Serializable {
     @JsonIgnoreProperties("createsRoutes")
     private User user;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
     private Set<PointInterest> pointInterests;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -224,6 +225,14 @@ public class TRoute implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Set<PointInterest> getPointInterests() {
+        return pointInterests;
+    }
+
+    public void setPointInterests(Set<PointInterest> pointInterests) {
+        this.pointInterests = pointInterests;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -255,4 +264,5 @@ public class TRoute implements Serializable {
             ", date='" + getDate() + "'" +
             "}";
     }
+
 }

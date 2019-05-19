@@ -69,7 +69,7 @@
                                [infiniteScrollDistance]="0">
                         <tr *ngFor="let tRoute of routesIn ;trackBy: trackId">
 
-                            <td *ngIf="tRoute.id===pointInterest.route?.id"><a
+                            <td ><a
                                 [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
 
                         </tr>
