@@ -47,17 +47,37 @@ $separatorValue: 1px solid #e5e5e5;
         }
     }
 }
-
+.btn-back {
+    background-color: #e70000;
+    border-color: #e70000;
+}
+.btn-edit {
+    background-color: #ff8c00;
+    border-color: #ff8c00;
+}
 .btn-add-days {
-    background-color: #ffc107;
-    border-color: #ffc107;
+    background-color: #ffef00;
+    border-color: #ffef00;
+}
+.btn-delete-days {
+    background-color: #00811f;
+    border-color: #00811f;
+}
+.btn-add-poi {
+    background-color: #0044ff;
+    border-color: #0044ff;
 }
 
-.btn-delete-days {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
 .btn-unfollow {
-    background-color: darkorange;
-    border-color: darkorange;
+    background-color: #760089;
+    border-color: #760089;
+}
+
+.btn-back,
+.btn-edit,
+.btn-add-days,
+.btn-delete-days,
+.btn-add-poi,
+.btn-unfollow {
+    color: black;
 }

@@ -1,0 +1,24 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save(editForm)" #editForm="ngForm">
+            <h2 id="jhi-tag-heading" jhiTranslate="p1App.pointInterest.home.addexisting">Add existing Point of Interest</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="p1App.pointInterest.labelpoi" for="field_tags">Click on all the Point of Interest to be added</label>
+                    <select multiple class="form-control" id="field_tags" name="field_tags" [(ngModel)]="choices">
+                        <option [ngValue]="point" *ngFor="let point of points">{{point.name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

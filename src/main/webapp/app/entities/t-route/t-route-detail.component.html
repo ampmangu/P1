@@ -30,13 +30,13 @@
             </dl>
             <button type="submit"
                     (click)="previousState()"
-                    class="btn btn-info">
+                    class="btn btn-info btn-back">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
             <span *ngIf="account?.id === tRoute.user?.id; else admin">
                    <button type="button"
                            [routerLink]="['/t-route', tRoute?.id, 'edit']"
-                           class="btn btn-primary">
+                           class="btn btn-primary btn-edit">
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                    </button>
                     <button type="submit" (click)="addDays()" class="btn btn-primary btn-add-days">
@@ -47,11 +47,15 @@
                             class="btn btn-primary btn-delete-days">
                         <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.deletedays"> Delete days</span>
                     </button>
+                    <button type="submit" (click)="addPoI()" class="btn btn-primary btn-add-poi">
+                        <fa-icon icon="star"></fa-icon>&nbsp;<span
+                        jhiTranslate="p1App.tRoute.addpoi"> Add existing Points</span>
+                    </button>
             </span>
             <ng-template #admin>
                 <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="button"
                         [routerLink]="['/t-route', tRoute?.id, 'edit']"
-                        class="btn btn-primary">
+                        class="btn btn-primary btn-edit">
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                 </button>
                 <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit" (click)="addDays()"
@@ -64,6 +68,10 @@
                         <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.deletedays"> Delete days</span>
                     </button>
                 </span>
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'"type="submit" (click)="addPoI()" class="btn btn-primary btn-add-poi">
+                    <fa-icon icon="star"></fa-icon>&nbsp;<span
+                    jhiTranslate="p1App.tRoute.addpoi"> Add existing Points</span>
+                </button>
             </ng-template>
             <span *ngIf="followed; else unfollow">
                 <button type="submit"

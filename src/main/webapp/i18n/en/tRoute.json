@@ -34,7 +34,8 @@
             "unfollow": "Unfollow route",
             "adddays": "Add days in route",
             "daysin": "These are the days that the route is done",
-            "deletedays": "Delete days in route"
+            "deletedays": "Delete days in route",
+            "addpoi": "Add existing Points"
         }
     }
 }

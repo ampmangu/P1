@@ -11,6 +11,7 @@ import { PointInterestDetailComponent } from './point-interest-detail.component'
 import { PointInterestUpdateComponent } from './point-interest-update.component';
 import { PointInterestDeletePopupComponent } from './point-interest-delete-dialog.component';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
+import { PointInterestAddExistingComponent } from 'app/entities/point-interest/point-interest-add-existing.component';
 
 @Injectable({ providedIn: 'root' })
 export class PointInterestResolve implements Resolve<IPointInterest> {
@@ -53,6 +54,18 @@ export const pointInterestRoute: Routes = [
     {
         path: 'new',
         component: PointInterestUpdateComponent,
+        resolve: {
+            pointInterest: PointInterestResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.pointInterest.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'existing/:routeId',
+        component: PointInterestAddExistingComponent,
         resolve: {
             pointInterest: PointInterestResolve
         },

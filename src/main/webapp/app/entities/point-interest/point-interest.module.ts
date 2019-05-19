@@ -13,6 +13,7 @@ import {
     pointInterestRoute,
     pointInterestPopupRoute
 } from './';
+import { PointInterestAddExistingComponent } from 'app/entities/point-interest/point-interest-add-existing.component';
 
 const ENTITY_STATES = [...pointInterestRoute, ...pointInterestPopupRoute];
 
@@ -23,13 +24,15 @@ const ENTITY_STATES = [...pointInterestRoute, ...pointInterestPopupRoute];
         PointInterestDetailComponent,
         PointInterestUpdateComponent,
         PointInterestDeleteDialogComponent,
-        PointInterestDeletePopupComponent
+        PointInterestDeletePopupComponent,
+        PointInterestAddExistingComponent
     ],
     entryComponents: [
         PointInterestComponent,
         PointInterestUpdateComponent,
         PointInterestDeleteDialogComponent,
-        PointInterestDeletePopupComponent
+        PointInterestDeletePopupComponent,
+        PointInterestAddExistingComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

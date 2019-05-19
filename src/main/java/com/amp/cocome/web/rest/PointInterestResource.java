@@ -23,6 +23,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing PointInterest.
@@ -93,6 +94,16 @@ public class PointInterestResource {
         Page<PointInterest> page = pointInterestService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/point-interests");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/point-interests/nroute/{routeId}")
+    public ResponseEntity<List<PointInterest>> getPointsNotInRoute(@PathVariable Long routeId) {
+        Page<PointInterest> page = pointInterestService.findAll(PageRequest.of(0, 4000));
+        List<PointInterest> pointsNotInRoute = page.getContent().
+            stream().filter(pointInterest -> pointInterest.getRoute() != null).
+            filter(pointInterest -> !pointInterest.getRoute().getId().equals(routeId)).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/point-interests");
+        return ResponseEntity.ok().headers(headers).body(pointsNotInRoute);
     }
 
     @GetMapping("/point-interests/tags/{id}")

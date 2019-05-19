@@ -4,7 +4,8 @@
             "home": {
                 "title": "Point Interests",
                 "createLabel": "Create a new Point Interest",
-                "createOrEditLabel": "Create or edit a Point Interest"
+                "createOrEditLabel": "Create or edit a Point Interest",
+                "addexisting": "Add existing Points of Interest"
             },
             "created": "A new Point Interest is created with identifier {{ param }}",
             "updated": "A Point Interest is updated with identifier {{ param }}",
@@ -25,7 +26,8 @@
             "ratethis": "You can rate this point of interest",
             "clickhere": "Click here to rate this point of interest",
             "appearsIn": "This point of interest appears in the following routes:",
-            "latest": "Latest ratings:"
+            "latest": "Latest ratings:",
+            "labelpoi": "Click on all the Point of Interest to be added"
         }
     }
 }

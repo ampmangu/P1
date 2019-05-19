@@ -34,6 +34,12 @@ export class PointInterestService {
         return this.http.get<IPointInterest[]>(this.resourceUrl, { params: options, observe: 'response' });
     }
 
+    queryPointsNotInRoute(idRoute: number): Observable<EntityArrayResponseType> {
+        return this.http.get<IPointInterest[]>(`${this.resourceUrl}/nroute/${idRoute}`, {
+            observe: 'response'
+        });
+    }
+
     queryByPointId(id: number): Observable<EntityArrayResponseType> {
         return this.http.get<ITag[]>(`${this.tagUrl}/${id}`, { observe: 'response' });
     }
