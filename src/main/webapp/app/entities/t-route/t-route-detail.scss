@@ -1,11 +1,13 @@
 $separatorValue: 1px solid #e5e5e5;
 .separator {
     border-left: $separatorValue;
+
     .separator-top,
     .separator-bottom {
         min-height: 25%;
         padding-left: 1em;
     }
+
     .separator-bottom {
         .btn-away {
             margin-top: 1em;
@@ -15,17 +17,21 @@ $separatorValue: 1px solid #e5e5e5;
 
 .separator-right {
     max-width: 33.3%;
+
     .tag-info {
         display: inline-block;
+
         > div {
             justify-content: center;
             display: inline;
         }
+
         .tag-container {
             > div {
                 padding: 1px;
                 float: left;
             }
+
             .tag-box {
                 height: auto;
                 width: 100px;
@@ -40,4 +46,18 @@ $separatorValue: 1px solid #e5e5e5;
             }
         }
     }
+}
+
+.btn-add-days {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-delete-days {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.btn-unfollow {
+    background-color: darkorange;
+    border-color: darkorange;
 }

@@ -39,10 +39,12 @@
                            class="btn btn-primary">
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                    </button>
-                    <button type="submit" (click)="addDays()" class="btn btn-primary">
-                        <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.adddays"> Add days</span>
+                    <button type="submit" (click)="addDays()" class="btn btn-primary btn-add-days">
+                        <fa-icon icon="calendar"></fa-icon>&nbsp;<span
+                        jhiTranslate="p1App.tRoute.adddays"> Add days</span>
                     </button>
-                    <button *ngIf="days?.length > 0" type="submit" (click)="deleteDays()" class="btn btn-primary">
+                    <button *ngIf="days?.length > 0" type="submit" (click)="deleteDays()"
+                            class="btn btn-primary btn-delete-days">
                         <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.deletedays"> Delete days</span>
                     </button>
             </span>
@@ -52,11 +54,13 @@
                         class="btn btn-primary">
                     <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
                 </button>
-                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit" (click)="addDays()" class="btn btn-primary">
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit" (click)="addDays()"
+                        class="btn btn-primary btn-add-days">
                     <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.adddays"> Add days</span>
                 </button>
                 <span *ngIf="days?.length > 0">
-                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit" (click)="deleteDays()" class="btn btn-primary">
+                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit" (click)="deleteDays()"
+                            class="btn btn-primary btn-delete-days">
                         <fa-icon icon="calendar"></fa-icon>&nbsp;<span jhiTranslate="p1App.tRoute.deletedays"> Delete days</span>
                     </button>
                 </span>
@@ -64,7 +68,7 @@
             <span *ngIf="followed; else unfollow">
                 <button type="submit"
                         (click)="follow()"
-                        class="btn btn-info">
+                        class="btn btn-info btn-unfollow">
                     <fa-icon [icon]="'user'"></fa-icon>&nbsp;<span
                     jhiTranslate="p1App.tRoute.unfollow"> Unfollow route</span>
                 </button>
