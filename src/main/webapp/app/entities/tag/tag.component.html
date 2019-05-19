@@ -14,7 +14,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="p1App.tag.name">Name</span></th>
             <th><span jhiTranslate="p1App.tag.premium">Premium</span></th>
             <th><span jhiTranslate="p1App.tag.tRoute">T Route</span></th>
@@ -24,8 +23,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let tag of tags ;trackBy: trackId">
-                <td><a [routerLink]="['/tag', tag.id, 'view' ]">{{tag.id}}</a></td>
-                <td>{{tag.name}}</td>
+                <td><a [routerLink]="['/tag', tag.id, 'view' ]">{{tag.name}}</a></td>
                 <td *ngIf="tag.premium; else fpremium">{{tag.premium}}</td>
                 <ng-template #fpremium><td><b>-</b></td></ng-template>
                 <td>
