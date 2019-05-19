@@ -14,6 +14,7 @@ import {
     tRoutePopupRoute
 } from './';
 import { RatingComponent } from 'app/entities/rating';
+import { RatingRouteComponent } from 'app/entities/rating/rating-route.component';
 
 const ENTITY_STATES = [...tRouteRoute, ...tRoutePopupRoute];
 
@@ -25,9 +26,15 @@ const ENTITY_STATES = [...tRouteRoute, ...tRoutePopupRoute];
         TRouteUpdateComponent,
         TRouteDeleteDialogComponent,
         TRouteDeletePopupComponent,
-        RatingComponent
+        RatingRouteComponent
     ],
-    entryComponents: [TRouteComponent, TRouteUpdateComponent, TRouteDeleteDialogComponent, TRouteDeletePopupComponent, RatingComponent],
+    entryComponents: [
+        TRouteComponent,
+        TRouteUpdateComponent,
+        TRouteDeleteDialogComponent,
+        TRouteDeletePopupComponent,
+        RatingRouteComponent
+    ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

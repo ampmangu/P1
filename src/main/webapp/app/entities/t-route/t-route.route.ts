@@ -11,6 +11,7 @@ import { TRouteDetailComponent } from './t-route-detail.component';
 import { TRouteUpdateComponent } from './t-route-update.component';
 import { TRouteDeletePopupComponent } from './t-route-delete-dialog.component';
 import { RatingComponent } from 'app/entities/rating';
+import { RatingRouteComponent } from 'app/entities/rating/rating-route.component';
 
 @Injectable({ providedIn: 'root' })
 export class TRouteResolve implements Resolve<ITRoute> {
@@ -61,7 +62,7 @@ export const tRouteRoute: Routes = [
     },
     {
         path: 'ratings/:routeId',
-        component: RatingComponent,
+        component: RatingRouteComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'p1App.rating.home.title'
