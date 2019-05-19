@@ -134,10 +134,12 @@ public class DayResource {
         Optional<Day> day = dayService.findOne(id);
         if(day.isPresent()) {
             TRoute route = day.get().getTRoute();
-            Set<Day> daysInRoute = route.getDaysInRoutes();
-            daysInRoute.remove(day.get());
-            route.setDaysInRoutes(daysInRoute);
-            tRouteService.save(route);
+            if(route != null) {
+                Set<Day> daysInRoute = route.getDaysInRoutes();
+                daysInRoute.remove(day.get());
+                route.setDaysInRoutes(daysInRoute);
+                tRouteService.save(route);
+            }
             dayService.delete(id);
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
         } else {
