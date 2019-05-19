@@ -114,6 +114,28 @@
                                 [routerLink]="['/point-interest', pointInterest?.id, 'view' ]">{{pointInterest.name}}</a>
                             </td>
                             <td>{{pointInterest.city}}</td>
+                            <td *ngIf="account?.id === tRoute.user?.id; else admin">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            (click)="deletePoI(pointInterest.id)"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <ng-template #admin>
+                                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                                (click)="deletePoI(pointInterest.id)"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-template>
                         </tr>
 
                         </tbody>

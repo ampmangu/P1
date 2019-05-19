@@ -199,9 +199,17 @@ export class TRouteDetailComponent implements OnInit {
     deleteDays() {
         this.router.navigate(['/day/route/del', this.tRoute.id]);
     }
+
     addPoI() {
         this.router.navigate(['/point-interest/existing', this.tRoute.id]);
     }
+
+    deletePoI(pointId) {
+        this.pointInterestService.delete(pointId).subscribe(data => {
+            this.ngOnInit();
+        });
+    }
+
     getUser() {
         this.accountService.identifyO().subscribe(
             response => {
