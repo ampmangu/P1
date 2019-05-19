@@ -13,6 +13,7 @@ import { PointInterestDeletePopupComponent } from './point-interest-delete-dialo
 import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { PointInterestAddExistingComponent } from 'app/entities/point-interest/point-interest-add-existing.component';
 import { RatingComponent } from 'app/entities/rating';
+import { RatingPoiComponent } from 'app/entities/rating/rating-poi.component';
 
 @Injectable({ providedIn: 'root' })
 export class PointInterestResolve implements Resolve<IPointInterest> {
@@ -78,7 +79,7 @@ export const pointInterestRoute: Routes = [
     },
     {
         path: 'ratings/:pointId',
-        component: RatingComponent,
+        component: RatingPoiComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'p1App.rating.home.title'
