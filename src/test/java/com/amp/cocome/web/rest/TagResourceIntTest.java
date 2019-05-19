@@ -196,7 +196,7 @@ public class TagResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].premium").value(hasItem(DEFAULT_PREMIUM.booleanValue())));
+            .andExpect(jsonPath("$.[*].premium").value(hasItem(DEFAULT_PREMIUM)));
     }
     
     @Test
@@ -211,7 +211,7 @@ public class TagResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.premium").value(DEFAULT_PREMIUM.booleanValue()));
+            .andExpect(jsonPath("$.premium").value(DEFAULT_PREMIUM));
     }
 
     @Test
