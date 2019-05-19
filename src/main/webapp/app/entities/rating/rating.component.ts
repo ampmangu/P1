@@ -11,7 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'jhi-rating',
-    templateUrl: './rating.component.html'
+    templateUrl: './rating.component.html',
+    styleUrls: ['rating.scss']
 })
 export class RatingComponent implements OnInit, OnDestroy {
     ratings: IRating[];
@@ -19,20 +20,23 @@ export class RatingComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
     account: Account;
     sub: any;
-
+    back: boolean;
     constructor(
         protected ratingService: RatingService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute
-    ) {}
+    ) {
+        this.back = false;
+    }
 
     loadAll() {
         this.sub = this.activatedRoute.params.subscribe(params => {
             const routeId = params['routeId'];
             const pointId = params['pointId'];
             if (routeId) {
+                this.back = true;
                 this.ratingService
                     .queryByRoute(routeId)
                     .pipe(
@@ -46,6 +50,7 @@ export class RatingComponent implements OnInit, OnDestroy {
                         (res: HttpErrorResponse) => this.onError(res.message)
                     );
             } else if (pointId) {
+                this.back = true;
                 this.ratingService
                     .queryByPoint(pointId)
                     .pipe(
@@ -114,5 +119,9 @@ export class RatingComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    previousState() {
+        window.history.back();
     }
 }
