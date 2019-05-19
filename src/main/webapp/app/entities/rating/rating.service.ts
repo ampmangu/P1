@@ -50,6 +50,12 @@ export class RatingService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    queryByPoint(idPoint: number): Observable<EntityArrayResponseType> {
+        return this.http
+            .get<IRating[]>(`${this.resourceUrl}/point/${idPoint}`, { observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }

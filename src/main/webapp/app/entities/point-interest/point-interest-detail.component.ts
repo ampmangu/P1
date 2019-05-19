@@ -177,4 +177,7 @@ export class PointInterestDetailComponent implements OnInit {
     goRate() {
         this.router.navigate(['rating/new', this.pointInterest.id, this.account.login]);
     }
+    goRatings() {
+        this.router.navigate(['point-interest/ratings', this.pointInterest.id]);
+    }
 }

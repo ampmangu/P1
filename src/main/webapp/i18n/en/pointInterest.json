@@ -23,8 +23,8 @@
             "tagsInPointInterest": "Tags In Point Interest",
             "pointHasRatings": "Point Has Ratings",
             "route": "Route it belongs",
-            "ratethis": "You can rate this point of interest",
-            "clickhere": "Click here to rate this point of interest",
+            "ratethis": "You can rate this point",
+            "clickhere": "Click here to rate this point",
             "appearsIn": "This point of interest appears in the following routes:",
             "latest": "Latest ratings:",
             "labelpoi": "Click on all the Point of Interest to be added"

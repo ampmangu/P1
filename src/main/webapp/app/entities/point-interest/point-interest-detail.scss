@@ -11,9 +11,15 @@
             width: 45%;
         }
     }
+    .separator-top {
+        .btn {
+            width: 40%;
+        }
+    }
 }
 .separator-right {
     max-width: 33.3%;
+    flex: none;
     .tag-info {
         display: inline-block;
         > div {

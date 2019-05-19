@@ -31,9 +31,23 @@ export class RatingComponent implements OnInit, OnDestroy {
     loadAll() {
         this.sub = this.activatedRoute.params.subscribe(params => {
             const routeId = params['routeId'];
+            const pointId = params['pointId'];
             if (routeId) {
                 this.ratingService
                     .queryByRoute(routeId)
+                    .pipe(
+                        filter((res: HttpResponse<IRating[]>) => res.ok),
+                        map((res: HttpResponse<IRating[]>) => res.body)
+                    )
+                    .subscribe(
+                        (res: IRating[]) => {
+                            this.ratings = res;
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else if (pointId) {
+                this.ratingService
+                    .queryByPoint(pointId)
                     .pipe(
                         filter((res: HttpResponse<IRating[]>) => res.ok),
                         map((res: HttpResponse<IRating[]>) => res.body)

@@ -96,6 +96,12 @@ public class RatingResource {
         return ResponseEntity.ok().body(ratings);
     }
 
+    @GetMapping("/ratings/point/{pointId}")
+    public ResponseEntity<List<Rating>> getRatingsByPoint(@PathVariable Long pointId) {
+        List<Rating> ratings = ratingService.findAll().stream().filter(rating -> rating.getBelongsToPoints() != null).filter(rating -> rating.getBelongsToPoints().stream().anyMatch(pointInterest -> pointInterest.getId().equals(pointId))).collect(Collectors.toList());
+        return ResponseEntity.ok().body(ratings);
+    }
+
     /**
      * GET  /ratings/:id : get the "id" rating.
      *
