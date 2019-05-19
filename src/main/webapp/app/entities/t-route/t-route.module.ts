@@ -13,13 +13,21 @@ import {
     tRouteRoute,
     tRoutePopupRoute
 } from './';
+import { RatingComponent } from 'app/entities/rating';
 
 const ENTITY_STATES = [...tRouteRoute, ...tRoutePopupRoute];
 
 @NgModule({
     imports: [P1SharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [TRouteComponent, TRouteDetailComponent, TRouteUpdateComponent, TRouteDeleteDialogComponent, TRouteDeletePopupComponent],
-    entryComponents: [TRouteComponent, TRouteUpdateComponent, TRouteDeleteDialogComponent, TRouteDeletePopupComponent],
+    declarations: [
+        TRouteComponent,
+        TRouteDetailComponent,
+        TRouteUpdateComponent,
+        TRouteDeleteDialogComponent,
+        TRouteDeletePopupComponent,
+        RatingComponent
+    ],
+    entryComponents: [TRouteComponent, TRouteUpdateComponent, TRouteDeleteDialogComponent, TRouteDeletePopupComponent, RatingComponent],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

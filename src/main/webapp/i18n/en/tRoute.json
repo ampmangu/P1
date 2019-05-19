@@ -35,7 +35,8 @@
             "adddays": "Add days in route",
             "daysin": "These are the days that the route is done",
             "deletedays": "Delete days in route",
-            "addpoi": "Add existing Points"
+            "addpoi": "Add existing Points",
+            "clicksee": "Click here to see its ratings"
         }
     }
 }

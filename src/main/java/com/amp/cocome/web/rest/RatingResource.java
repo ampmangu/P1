@@ -1,6 +1,8 @@
 package com.amp.cocome.web.rest;
+
 import com.amp.cocome.domain.Rating;
 import com.amp.cocome.service.RatingService;
+import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -12,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Rating.
@@ -29,8 +31,11 @@ public class RatingResource {
 
     private final RatingService ratingService;
 
-    public RatingResource(RatingService ratingService) {
+    private final TRouteService tRouteService;
+
+    public RatingResource(RatingService ratingService, TRouteService tRouteService) {
         this.ratingService = ratingService;
+        this.tRouteService = tRouteService;
     }
 
     /**
@@ -83,6 +88,12 @@ public class RatingResource {
     public List<Rating> getAllRatings(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Ratings");
         return ratingService.findAll();
+    }
+
+    @GetMapping("/ratings/route/{routeId}")
+    public ResponseEntity<List<Rating>> getRatingsByRoute(@PathVariable Long routeId) {
+        List<Rating> ratings = ratingService.findAll().stream().filter(rating -> rating.getBelongsToRoutes() != null).filter(rating -> rating.getBelongsToRoutes().stream().anyMatch(tRoute -> tRoute.getId().equals(routeId))).collect(Collectors.toList());
+        return ResponseEntity.ok().body(ratings);
     }
 
     /**

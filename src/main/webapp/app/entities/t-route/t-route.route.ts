@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { TRoute } from 'app/shared/model/t-route.model';
+import { ITRoute, TRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from './t-route.service';
 import { TRouteComponent } from './t-route.component';
 import { TRouteDetailComponent } from './t-route-detail.component';
 import { TRouteUpdateComponent } from './t-route-update.component';
 import { TRouteDeletePopupComponent } from './t-route-delete-dialog.component';
-import { ITRoute } from 'app/shared/model/t-route.model';
+import { RatingComponent } from 'app/entities/rating';
 
 @Injectable({ providedIn: 'root' })
 export class TRouteResolve implements Resolve<ITRoute> {
@@ -56,6 +56,15 @@ export const tRouteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'p1App.tRoute.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'ratings/:routeId',
+        component: RatingComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.rating.home.title'
         },
         canActivate: [UserRouteAccessService]
     },

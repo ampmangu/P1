@@ -250,6 +250,10 @@ export class TRouteDetailComponent implements OnInit {
         this.router.navigate(['rating/new', this.tRoute.id, this.tRoute.title, this.account.login]);
     }
 
+    goRatings() {
+        this.router.navigate(['t-route/ratings', this.tRoute.id]);
+    }
+
     follow() {
         // @ts-ignore
         this.routeService.follow(this.tRoute.id, this.account.id).subscribe(data => {

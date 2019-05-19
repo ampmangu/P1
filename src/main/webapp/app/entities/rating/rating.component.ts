@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 import { IRating } from 'app/shared/model/rating.model';
 import { Account, AccountService } from 'app/core';
 import { RatingService } from './rating.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'jhi-rating',
@@ -17,28 +18,49 @@ export class RatingComponent implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;
     account: Account;
+    sub: any;
 
     constructor(
         protected ratingService: RatingService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     loadAll() {
-        this.ratingService
-            .query()
-            .pipe(
-                filter((res: HttpResponse<IRating[]>) => res.ok),
-                map((res: HttpResponse<IRating[]>) => res.body)
-            )
-            .subscribe(
-                (res: IRating[]) => {
-                    this.ratings = res;
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.sub = this.activatedRoute.params.subscribe(params => {
+            const routeId = params['routeId'];
+            if (routeId) {
+                this.ratingService
+                    .queryByRoute(routeId)
+                    .pipe(
+                        filter((res: HttpResponse<IRating[]>) => res.ok),
+                        map((res: HttpResponse<IRating[]>) => res.body)
+                    )
+                    .subscribe(
+                        (res: IRating[]) => {
+                            this.ratings = res;
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.ratingService
+                    .query()
+                    .pipe(
+                        filter((res: HttpResponse<IRating[]>) => res.ok),
+                        map((res: HttpResponse<IRating[]>) => res.body)
+                    )
+                    .subscribe(
+                        (res: IRating[]) => {
+                            this.ratings = res;
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
+        });
     }
+
     getUser() {
         this.accountService.identifyO().subscribe(
             (response: HttpResponse<Account>) => {
@@ -54,6 +76,7 @@ export class RatingComponent implements OnInit, OnDestroy {
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
+
     ngOnInit() {
         this.getUser();
         this.loadAll();
