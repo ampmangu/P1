@@ -32,7 +32,7 @@
             <tbody>
             <tr *ngFor="let rating of ratings ;trackBy: trackId">
                 <td><a [routerLink]="['/rating', rating.id, 'view' ]">{{rating.id}}</a></td>
-                <td>{{rating.creationDate | date:'medium'}}</td>
+                <td>{{rating.creationDate | date:'dd/MM/yyyy'}}</td>
                 <td>{{rating.name}}</td>
                 <td>{{rating.score}}</td>
                 <td>

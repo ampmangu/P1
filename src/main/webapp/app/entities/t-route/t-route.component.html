@@ -37,7 +37,7 @@
                 <!--<td>{{tRoute.id}}</a></td>-->
                 <td><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
                 <td>{{tRoute.description}}</td>
-                <td>{{tRoute.date | date:'medium'}}</td>
+                <td>{{tRoute.date | date:'dd/MM/yyyy'}}</td>
                 <td>{{tRoute.user?.login}}</td>
 
                 <td *ngIf="account?.id === tRoute.user?.id; else admin">
