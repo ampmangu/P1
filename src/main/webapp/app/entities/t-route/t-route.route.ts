@@ -40,7 +40,7 @@ export const tRouteRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':user',
+        path: 'user/:user',
         component: TRouteComponent,
         data: {
             authorities: ['ROLE_USER'],

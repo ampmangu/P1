@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
     }
 
     goToFollowed() {
-        this.router.navigate(['t-route/', this.account.login]).catch(err => {
+        this.router.navigate(['t-route/user/', this.account.login]).catch(err => {
             this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
                 window.alert(res);
             });
