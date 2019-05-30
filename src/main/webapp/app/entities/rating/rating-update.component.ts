@@ -66,13 +66,15 @@ export class RatingUpdateComponent implements OnInit {
                     )
                     .subscribe((res: PointInterest) => (this.point = res));
             }
-            this.userService
-                .find(this.userId)
-                .pipe(
-                    filter((mayBeOk: HttpResponse<User>) => mayBeOk.ok),
-                    map((response: HttpResponse<User>) => response.body)
-                )
-                .subscribe((res: User) => (this.user = res), (res: HttpErrorResponse) => this.onError(res.message));
+            if (this.userId) {
+                this.userService
+                    .find(this.userId)
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<User>) => mayBeOk.ok),
+                        map((response: HttpResponse<User>) => response.body)
+                    )
+                    .subscribe((res: User) => (this.user = res), (res: HttpErrorResponse) => this.onError(res.message));
+            }
         });
 
         this.activatedRoute.data.subscribe(({ rating }) => {

@@ -1,12 +1,6 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="p1App.rating.home.title">Ratings</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-rating" [routerLink]="['/rating/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="p1App.rating.home.createLabel">
-            Create new Rating
-            </span>
-        </button>
         <button type="submit"
                 (click)="previousState()"
                 class="btn btn-info float-right">
