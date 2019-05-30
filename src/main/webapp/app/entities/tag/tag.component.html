@@ -8,7 +8,6 @@
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" *ngIf="tags">
         <table class="table table-striped">
@@ -24,7 +23,7 @@
             <tbody>
             <tr *ngFor="let tag of tags ;trackBy: trackId">
                 <td><a [routerLink]="['/tag', tag.id, 'view' ]">{{tag.name}}</a></td>
-                <td *ngIf="tag.premium; else fpremium">{{tag.premium}}</td>
+                <td *ngIf="tag.premium; else fpremium">&#10004;</td>
                 <ng-template #fpremium><td><b>-</b></td></ng-template>
                 <td>
                     <div *ngIf="tag.tRoute; else fr">
