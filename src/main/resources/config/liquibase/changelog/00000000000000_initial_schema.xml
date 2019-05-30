@@ -42,6 +42,9 @@
             </column>
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
+            <column name="premium" type="boolean" valueBoolean="false">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
 
         <createTable tableName="jhi_authority">
@@ -110,12 +113,13 @@
                   separator=","
                   tableName="jhi_user">
             <column name="activated" type="boolean"/>
+            <column name="premium" type="boolean"/>
             <column name="created_date" type="timestamp"/>
         </loadData>
         <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
         <loadData encoding="UTF-8"
                   file="config/liquibase/authorities.csv"
-                  separator=";"
+                  separator=","
                   tableName="jhi_authority"/>
 
         <loadData encoding="UTF-8"

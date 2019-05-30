@@ -83,6 +83,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column(name = "premium")
+    private Boolean premium = false;
 
     @JsonIgnore
     @ManyToMany
@@ -329,6 +331,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
         return this;
     }
 
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -360,4 +370,5 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", langKey='" + langKey + '\'' +
             '}';
     }
+
 }
