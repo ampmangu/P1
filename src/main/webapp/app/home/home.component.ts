@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Account, AccountService, LoginModalService } from 'app/core';
 
@@ -18,8 +19,14 @@ export class HomeComponent implements OnInit {
         private accountService: AccountService,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
-        protected router: Router
-    ) {}
+        protected router: Router,
+        protected translate: TranslateService
+    ) {
+        translate.setDefaultLang('en');
+
+        // the lang to use, if the lang isn't available, it will use the current loader to get them
+        translate.use('en');
+    }
 
     ngOnInit() {
         this.accountService.identity().then((account: Account) => {
@@ -45,22 +52,42 @@ export class HomeComponent implements OnInit {
     }
 
     goToRoutes() {
-        this.router.navigate(['t-route/']);
+        this.router.navigate(['t-route/']).catch(err => {
+            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
+                window.alert(res);
+            });
+        });
     }
 
     goToPoI() {
-        this.router.navigate(['point-interest/']);
+        this.router.navigate(['point-interest/']).catch(err => {
+            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
+                window.alert(res);
+            });
+        });
     }
 
     goToRatings() {
-        this.router.navigate(['rating/']);
+        this.router.navigate(['rating/']).catch(err => {
+            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
+                window.alert(res);
+            });
+        });
     }
 
     goToTags() {
-        this.router.navigate(['tag/']);
+        this.router.navigate(['tag/']).catch(err => {
+            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
+                window.alert(res);
+            });
+        });
     }
 
     goToFollowed() {
-        this.router.navigate(['t-route/', this.account.login]);
+        this.router.navigate(['t-route/', this.account.login]).catch(err => {
+            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
+                window.alert(res);
+            });
+        });
     }
 }
