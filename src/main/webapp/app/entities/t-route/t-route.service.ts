@@ -54,6 +54,13 @@ export class TRouteService {
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 
+    queryNonPremium(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<ITRoute[]>(`${this.resourceUrl}/npremium}`, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
     queryByPointId(idPoint: number): Observable<EntityArrayResponseType> {
         return this.http.get<ITRoute[]>(`${this.resourceUrl}/point/${idPoint}`, { observe: 'response' });
     }

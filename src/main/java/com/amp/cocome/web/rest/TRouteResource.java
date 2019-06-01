@@ -144,6 +144,23 @@ public class TRouteResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/t-routes/npremium")
+    public ResponseEntity<List<TRoute>> getNonPremiumTRoutes() {
+        Page<TRoute> page = tRouteService.findAll(PageRequest.of(0, 4000));
+        List<TRoute> routes = page.getContent().stream().filter(tRoute -> tRoute.getTagsInRoutes() != null).filter(tRoute -> tRoute.getTagsInRoutes().stream().anyMatch(tag -> tag.isPremium() == false)).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/t-routes/npremium");
+        return ResponseEntity.ok().headers(headers).body(routes);
+    }
+
+    @GetMapping("/t-routes/premium")
+    public ResponseEntity<List<TRoute>> getPremiumTRoutes() {
+        Page<TRoute> page = tRouteService.findAll(PageRequest.of(0, 4000));
+        List<TRoute> routes = page.getContent().stream().filter(tRoute -> tRoute.getTagsInRoutes() != null).filter(tRoute -> tRoute.getTagsInRoutes().stream().anyMatch(Tag::isPremium)).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/t-routes/premium");
+        return ResponseEntity.ok().headers(headers).body(routes);
+
+    }
+
     @GetMapping("/t-routes/user/{username}")
     public ResponseEntity<List<TRoute>> getTRouteByUser(@PathVariable String username) {
         Page<TRoute> page = tRouteService.findAll(PageRequest.of(0, 4000));

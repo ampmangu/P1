@@ -43,7 +43,7 @@ export class TRouteComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.activatedRoute.params.subscribe(params => {
+        this.activatedRoute.params.subscribe(async params => {
             const user = params['user'];
             if (user) {
                 this.tRouteService
@@ -60,16 +60,35 @@ export class TRouteComponent implements OnInit, OnDestroy {
                         (res: HttpErrorResponse) => this.onError(res.message)
                     );
             } else {
-                this.tRouteService
-                    .query({
-                        page: this.page,
-                        size: this.itemsPerPage,
-                        sort: this.sort()
-                    })
-                    .subscribe(
-                        (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
-                        (res: HttpErrorResponse) => this.onError(res.message)
-                    );
+                this.accountService.identifyO().subscribe(userAccount => {
+                    // @ts-ignore
+                    if (userAccount.body !== undefined && userAccount.body.premium) {
+                        this.tRouteService
+                            .query({
+                                page: this.page,
+                                size: this.itemsPerPage,
+                                sort: this.sort()
+                            })
+                            .subscribe(
+                                (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
+                    } else {
+                        // @ts-ignore
+                        if (userAccount.body !== undefined && userAccount.body.premium === false) {
+                            this.tRouteService
+                                .queryNonPremium({
+                                    page: this.page,
+                                    size: this.itemsPerPage,
+                                    sort: this.sort()
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        }
+                    }
+                });
             }
         });
     }
