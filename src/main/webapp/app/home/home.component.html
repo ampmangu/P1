@@ -8,7 +8,8 @@
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
-                      [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}". </span>
+                      [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}
+                    ". </span>
             </div>
             <div class="alert alert-warning" *ngSwitchCase="false">
                 <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
@@ -16,7 +17,8 @@
                     new account</a>
                 <br>
                 <span jhiTranslate="global.messages.info.register.login">Or login now</span>
-                <a class="alert-link" (click)="login()"jhiTranslate="global.messages.info.register.loginclick">Click in here to log in</a>
+                <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.register.loginclick">Click in
+                    here to log in</a>
             </div>
             <div class="section-info">
                 <div class="col-md-3 col-info">
@@ -49,9 +51,10 @@
                         Check out the points of interest that you can see in the world, and add your own!
                     </p>
                     <button class="btn btn-primary float-right" (click)="goToFollowed()">
-                        <span jhiTranslate="home.followedbtn">Go to Points of Interest</span>
+                        <span jhiTranslate="home.followedbtn">Go to your followed routes!</span>
                     </button>
                 </div>
+
             </div>
             <div class="section-info">
                 <div class="col-md-3 col-info">
@@ -76,6 +79,23 @@
                     <button class="btn btn-primary float-right" (click)="goToTags()">
                         <span jhiTranslate="home.tagsbtn">Go to Tags</span>
                     </button>
+                </div>
+                <div class="col-md-3 col-info">
+                    <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.premiumheader">
+                        Premium-exclusive content
+                    </h3>
+                    <p jhiTranslate="home.premiumfaq" class="col-info-flexitem">
+                        Check content exclusive to our premium users!
+                    </p>
+                    <button *ngIf="account?.premium; else try" class="btn btn-primary float-right" (click)="goToTags()">
+                        <span jhiTranslate="home.premiumbtn">Access premium content</span>
+                    </button>
+                    <ng-template #try>
+                        <button class="btn btn-primary float-right" (click)="goToTags()">
+                            <span jhiTranslate="home.premiumbuy">Get exclusive access now!</span>
+                        </button>
+                    </ng-template>
+
                 </div>
             </div>
         </div>

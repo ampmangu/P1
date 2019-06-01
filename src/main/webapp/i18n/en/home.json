@@ -26,6 +26,10 @@
         "tagsheader": "Tags",
         "followedheader": "Followed routes",
         "followedfaq": "Check again the routes that you are following!",
-        "followedbtn": "Go to your followed routes!"
+        "followedbtn": "Go to your followed routes!",
+        "premiumheader": "Premium-exclusive content",
+        "premiumfaq": "Check content exclusive to our premium users!",
+        "premiumbuy": "Get exclusive access now!",
+        "premiumbtn": "Access premium content"
     }
 }
