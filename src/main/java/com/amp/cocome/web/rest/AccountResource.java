@@ -2,8 +2,8 @@ package com.amp.cocome.web.rest;
 
 
 import com.amp.cocome.domain.PersistentToken;
-import com.amp.cocome.repository.PersistentTokenRepository;
 import com.amp.cocome.domain.User;
+import com.amp.cocome.repository.PersistentTokenRepository;
 import com.amp.cocome.repository.UserRepository;
 import com.amp.cocome.security.SecurityUtils;
 import com.amp.cocome.service.MailService;
@@ -13,18 +13,19 @@ import com.amp.cocome.service.dto.UserDTO;
 import com.amp.cocome.web.rest.errors.*;
 import com.amp.cocome.web.rest.vm.KeyAndPasswordVM;
 import com.amp.cocome.web.rest.vm.ManagedUserVM;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.
@@ -55,7 +56,7 @@ public class AccountResource {
      * POST  /register : register the user.
      *
      * @param managedUserVM the managed user View Model
-     * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
+     * @throws InvalidPasswordException  400 (Bad Request) if the password is incorrect
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      * @throws LoginAlreadyUsedException 400 (Bad Request) if the login is already used
      */
@@ -113,7 +114,7 @@ public class AccountResource {
      *
      * @param userDTO the current user information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
-     * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
+     * @throws RuntimeException          500 (Internal Server Error) if the user login wasn't found
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
@@ -128,6 +129,20 @@ public class AccountResource {
         }
         userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
             userDTO.getLangKey(), userDTO.getImageUrl());
+    }
+
+    @PutMapping("/account")
+    public ResponseEntity<User> makeUserPremium(@Valid @RequestBody String login) {
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPremium(true);
+            userService.updateUser(user);
+            return ResponseEntity.ok().body(user);
+
+        } else {
+            throw new InternalServerErrorException("User could not be found");
+        }
     }
 
     /**
@@ -155,22 +170,22 @@ public class AccountResource {
         return persistentTokenRepository.findByUser(
             userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()
                 .orElseThrow(() -> new InternalServerErrorException("Current user login not found")))
-                    .orElseThrow(() -> new InternalServerErrorException("User could not be found"))
+                .orElseThrow(() -> new InternalServerErrorException("User could not be found"))
         );
     }
 
     /**
      * DELETE  /account/sessions?series={series} : invalidate an existing session.
-     *
+     * <p>
      * - You can only delete your own sessions, not any other user's session
      * - If you delete one of your existing sessions, and that you are currently logged in on that session, you will
-     *   still be able to use that session, until you quit your browser: it does not work in real time (there is
-     *   no API for that), it only removes the "remember me" cookie
+     * still be able to use that session, until you quit your browser: it does not work in real time (there is
+     * no API for that), it only removes the "remember me" cookie
      * - This is also true if you invalidate your current session: you will still be able to use it until you close
-     *   your browser or that the session times out. But automatic login (the "remember me" cookie) will not work
-     *   anymore.
-     *   There is an API to invalidate the current session, but there is no API to check which session uses which
-     *   cookie.
+     * your browser or that the session times out. But automatic login (the "remember me" cookie) will not work
+     * anymore.
+     * There is an API to invalidate the current session, but there is no API to check which session uses which
+     * cookie.
      *
      * @param series the series of an existing session
      * @throws UnsupportedEncodingException if the series couldnt be URL decoded
@@ -194,10 +209,10 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestBody String mail) {
-       mailService.sendPasswordResetMail(
-           userService.requestPasswordReset(mail)
-               .orElseThrow(EmailNotFoundException::new)
-       );
+        mailService.sendPasswordResetMail(
+            userService.requestPasswordReset(mail)
+                .orElseThrow(EmailNotFoundException::new)
+        );
     }
 
     /**
@@ -205,7 +220,7 @@ public class AccountResource {
      *
      * @param keyAndPassword the generated key and the new password
      * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
-     * @throws RuntimeException 500 (Internal Server Error) if the password could not be reset
+     * @throws RuntimeException         500 (Internal Server Error) if the password could not be reset
      */
     @PostMapping(path = "/account/reset-password/finish")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {

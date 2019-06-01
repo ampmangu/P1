@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -85,7 +85,9 @@ export class HomeComponent implements OnInit {
     }
 
     goPremium() {
-        this.router.navigate(['t-route/premium/']);
+        this.router.navigate(['t-route/premium/']).catch(err => {
+            this.alertUnauthenticated();
+        });
     }
 
     goBuyPremium() {

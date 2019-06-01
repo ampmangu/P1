@@ -1,27 +1,30 @@
-import {Injectable} from '@angular/core';
-import {JhiLanguageService} from 'ng-jhipster';
-import {SessionStorageService} from 'ngx-webstorage';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { JhiLanguageService } from 'ng-jhipster';
+import { SessionStorageService } from 'ngx-webstorage';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 
-import {SERVER_API_URL} from 'app/app.constants';
-import {Account} from 'app/core/user/account.model';
+import { SERVER_API_URL } from 'app/app.constants';
+import { Account } from 'app/core/user/account.model';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AccountService {
     private userIdentity: any;
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
-    constructor(private languageService: JhiLanguageService, private sessionStorage: SessionStorageService, private http: HttpClient) {
-    }
+    constructor(private languageService: JhiLanguageService, private sessionStorage: SessionStorageService, private http: HttpClient) {}
 
     fetch(): Observable<HttpResponse<Account>> {
-        return this.http.get<Account>(SERVER_API_URL + 'api/account', {observe: 'response'});
+        return this.http.get<Account>(SERVER_API_URL + 'api/account', { observe: 'response' });
     }
 
     save(account: any): Observable<HttpResponse<any>> {
-        return this.http.post(SERVER_API_URL + 'api/account', account, {observe: 'response'});
+        return this.http.post(SERVER_API_URL + 'api/account', account, { observe: 'response' });
+    }
+
+    makeUserPremium(login: string): Observable<HttpResponse<any>> {
+        return this.http.put(SERVER_API_URL + 'api/account', login, { observe: 'response' });
     }
 
     authenticate(identity) {
@@ -59,7 +62,7 @@ export class AccountService {
         );
     }
 
-    identifyO(): Observable<HttpResponse<Account>>  {
+    identifyO(): Observable<HttpResponse<Account>> {
         return this.fetch();
     }
 

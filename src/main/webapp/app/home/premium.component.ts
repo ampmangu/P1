@@ -17,13 +17,19 @@ export class PremiumComponent implements OnInit {
         });
     }
 
-    constructor(private accountService: AccountService, private eventManager: JhiEventManager, protected router: Router) {}
+    constructor(private accountService: AccountService, private eventManager: JhiEventManager, protected router: Router) {
+        this.router.routeReuseStrategy.shouldReuseRoute = function() {
+            return false;
+        };
+    }
 
     save() {
-        this.eventManager.broadcast({
-            name: 'paymentDone',
-            content: `Payment was done for user ${this.account.login}!`
+        this.accountService.makeUserPremium(this.account.login).subscribe(response => {
+            this.eventManager.broadcast({
+                name: 'paymentDone',
+                content: `Payment was done for user ${this.account.login}!`
+            });
+            this.router.navigate([''], { queryParams: { refresh: true } });
         });
-        this.router.navigate(['']);
     }
 }
