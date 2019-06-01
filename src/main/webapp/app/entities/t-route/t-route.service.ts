@@ -57,7 +57,14 @@ export class TRouteService {
     queryNonPremium(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http
-            .get<ITRoute[]>(`${this.resourceUrl}/npremium}`, { params: options, observe: 'response' })
+            .get<ITRoute[]>(`${this.resourceUrl}/npremium`, { params: options, observe: 'response' })
+            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    }
+
+    queryPremium(req?: any): Observable<EntityArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http
+            .get<ITRoute[]>(`${this.resourceUrl}/premium`, { params: options, observe: 'response' })
             .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
     }
 

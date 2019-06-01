@@ -40,6 +40,15 @@ export const tRouteRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: 'premium',
+        component: TRouteComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'p1App.tRoute.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: 'user/:user',
         component: TRouteComponent,
         data: {

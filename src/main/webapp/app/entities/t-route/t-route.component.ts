@@ -105,9 +105,29 @@ export class TRouteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.getUser();
-        this.loadAll();
-        this.registerChangeInTRoutes();
+        const path = window.location.href.split('/').pop();
+        if (path === 'premium') {
+            this.getUser();
+            this.loadAllPremium();
+            this.registerChangeInTRoutes();
+        } else {
+            this.getUser();
+            this.loadAll();
+            this.registerChangeInTRoutes();
+        }
+    }
+
+    loadAllPremium(): any {
+        this.tRouteService
+            .queryPremium({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<ITRoute[]>) => this.paginateTRoutes(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     getUser() {
