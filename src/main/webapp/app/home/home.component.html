@@ -11,6 +11,7 @@
                       [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}
                     ". </span>
             </div>
+            <jhi-alert></jhi-alert>
             <div class="alert alert-warning" *ngSwitchCase="false">
                 <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
                 <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a

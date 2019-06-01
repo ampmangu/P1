@@ -6,6 +6,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { NgJhipsterModule } from 'ng-jhipster';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
@@ -19,6 +21,7 @@ import { P1EntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     imports: [
@@ -37,7 +40,10 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         P1AccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         P1EntityModule,
-        P1AppRoutingModule
+        P1AppRoutingModule,
+        CommonModule,
+        BrowserAnimationsModule, // required animations module
+        ToastrModule.forRoot() // ToastrModule added
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
     providers: [

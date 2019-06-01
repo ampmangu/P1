@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 import { Account, AccountService, LoginModalService } from 'app/core';
 
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager,
         protected router: Router,
-        protected translate: TranslateService
+        protected translate: TranslateService,
+        private toastr: ToastrService
     ) {
         translate.setDefaultLang('en');
 
@@ -32,6 +34,7 @@ export class HomeComponent implements OnInit {
         this.accountService.identity().then((account: Account) => {
             this.account = account;
         });
+        this.registerPayment();
         this.registerAuthenticationSuccess();
     }
 
@@ -82,13 +85,11 @@ export class HomeComponent implements OnInit {
     }
 
     goPremium() {
-        this.router.navigate(['t-route/premium/']).catch(err => {
-            this.alertUnauthenticated();
-        });
+        this.router.navigate(['t-route/premium/']);
     }
 
     goBuyPremium() {
-        this.router.navigate(['t-route/']).catch(err => {
+        this.router.navigate(['getpremium/']).catch(err => {
             this.alertUnauthenticated();
         });
     }
@@ -97,5 +98,13 @@ export class HomeComponent implements OnInit {
         this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
             window.alert(res);
         });
+    }
+
+    registerPayment() {
+        this.eventManager.subscribe('paymentDone', response => this.processPayment(response));
+    }
+
+    processPayment(response: any): any {
+        this.toastr.success(response.content);
     }
 }

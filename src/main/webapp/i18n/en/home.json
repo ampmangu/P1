@@ -10,6 +10,9 @@
             "homepage": "Prepared Adventurer homepage",
             "follow": "follow @Prepared_Adventurer on Twitter"
         },
+        "premium": {
+            "header": "Buy premium access"
+        },
         "like": "",
         "github": "",
         "routesfaq": "You can create the routes that you have done when travelling, and checkout other users routes!",

@@ -1,0 +1,117 @@
+/* Start Input Fields */
+#page-heading {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.paypal-mock {
+    margin: auto;
+    width: 50%;
+    #paypal-img {
+        display: inline-block;
+        width: 100px;
+        height: 40px;
+        background: url('../../content/images/PayPal.svg') no-repeat center top;
+        background-size: contain;
+    }
+
+    input[name='email'] {
+        width: 355px;
+        height: 40px;
+        font-family: Arial, sans-serif;
+        border: 1px solid #9da3a6;
+        border-radius: 4px;
+        padding-left: 10px;
+    }
+
+    input[name='pass'] {
+        width: 355px;
+        height: 40px;
+        margin-top: 10px;
+        font-family: Arial, sans-serif;
+        border: 1px solid #9da3a6;
+        border-radius: 4px;
+        padding-left: 10px;
+    }
+
+    /* End Input Fields */
+
+    /* Start Link */
+    a {
+        color: #2886c5;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        position: absolute;
+        top: 420px;
+        left: 595px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* End Link */
+
+    /* Start Log In */
+    input[class='log'] {
+        width: 368px;
+        height: 44px;
+        border: 1px solid #0171bb;
+        border-radius: 4px;
+        background-color: #0171bb;
+        color: #ffffff;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    input[class='log']:hover {
+        background-color: #005ea6;
+    }
+
+    /* End Log In */
+
+    .before {
+        width: 170px;
+        height: 1px;
+        background-color: #b6babc;
+        position: absolute;
+        top: 470px;
+        left: 500px;
+    }
+
+    p {
+        font-size: 18px;
+        color: #757b80;
+        position: absolute;
+        top: 440px;
+        left: 677px;
+    }
+
+    .after {
+        width: 170px;
+        height: 1px;
+        background-color: #b6babc;
+        position: absolute;
+        top: 470px;
+        left: 698px;
+    }
+
+    /* Start Sign Up */
+    input[class='sign'] {
+        width: 368px;
+        height: 44px;
+        border: 1px solid #e3e6eb;
+        border-radius: 4px;
+        background-color: #e3e6eb;
+        color: #2c2e2f;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+    }
+
+    input[class='sign']:hover {
+        background-color: #d2dbe1;
+    }
+
+    /* End Sign Up */
+}

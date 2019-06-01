@@ -1,0 +1,19 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="home.premium.header">Buy premium header</span>
+    </h2>
+    <br/>
+    <div class="table-responsive paypal-mock">
+        <form (ngSubmit)="save()" method = 'POST'>
+            <div id="paypal-img"></div>
+            <br/>
+            <input type = 'email' name = 'email' placeholder = 'Email address'><br>
+            <input type = 'password' name = 'pass' placeholder = 'Enter your password'><br>
+
+            <input class = 'log' type = 'submit' value = 'Log In'>
+
+
+        </form>
+
+    </div>
+</div>
