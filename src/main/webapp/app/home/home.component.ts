@@ -53,41 +53,49 @@ export class HomeComponent implements OnInit {
 
     goToRoutes() {
         this.router.navigate(['t-route/']).catch(err => {
-            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
-                window.alert(res);
-            });
+            this.alertUnauthenticated();
         });
     }
 
     goToPoI() {
         this.router.navigate(['point-interest/']).catch(err => {
-            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
-                window.alert(res);
-            });
+            this.alertUnauthenticated();
         });
     }
 
     goToRatings() {
         this.router.navigate(['rating/']).catch(err => {
-            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
-                window.alert(res);
-            });
+            this.alertUnauthenticated();
         });
     }
 
     goToTags() {
         this.router.navigate(['tag/']).catch(err => {
-            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
-                window.alert(res);
-            });
+            this.alertUnauthenticated();
         });
     }
 
     goToFollowed() {
         this.router.navigate(['t-route/user/', this.account.login]).catch(err => {
-            this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
-                window.alert(res);
-            });
+            this.alertUnauthenticated();
+        });
+    }
+
+    goPremium() {
+        this.router.navigate(['t-route/premium/']).catch(err => {
+            this.alertUnauthenticated();
+        });
+    }
+
+    goBuyPremium() {
+        this.router.navigate(['t-route/']).catch(err => {
+            this.alertUnauthenticated();
+        });
+    }
+
+    alertUnauthenticated() {
+        this.translate.get('global.messages.info.register.loginnow').subscribe((res: String) => {
+            window.alert(res);
         });
     }
 }

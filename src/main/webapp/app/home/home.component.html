@@ -43,18 +43,22 @@
                         <span jhiTranslate="home.pointofinterestbtn">Go to Points of Interest</span>
                     </button>
                 </div>
-                <div *ngIf="account" class="col-md-3 col-info">
-                    <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.followedheader">
-                        Points of Interest
+                <div class="col-md-3 col-info">
+                    <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.premiumheader">
+                        Premium-exclusive content
                     </h3>
-                    <p jhiTranslate="home.followedfaq" class="col-info-flexitem">
-                        Check out the points of interest that you can see in the world, and add your own!
+                    <p jhiTranslate="home.premiumfaq" class="col-info-flexitem">
+                        Check content exclusive to our premium users!
                     </p>
-                    <button class="btn btn-primary float-right" (click)="goToFollowed()">
-                        <span jhiTranslate="home.followedbtn">Go to your followed routes!</span>
+                    <button *ngIf="account?.premium; else premium" class="btn btn-primary float-right" (click)="goPremium()">
+                        <span jhiTranslate="home.premiumbtn">Access premium content</span>
                     </button>
+                    <ng-template #premium>
+                        <button class="btn btn-primary float-right" (click)="goBuyPremium()">
+                            <span jhiTranslate="home.premiumbuy">Get exclusive access now!</span>
+                        </button>
+                    </ng-template>
                 </div>
-
             </div>
             <div class="section-info">
                 <div class="col-md-3 col-info">
@@ -80,22 +84,16 @@
                         <span jhiTranslate="home.tagsbtn">Go to Tags</span>
                     </button>
                 </div>
-                <div class="col-md-3 col-info">
-                    <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.premiumheader">
-                        Premium-exclusive content
+                <div *ngIf="account" class="col-md-3 col-info">
+                    <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.followedheader">
+                        Points of Interest
                     </h3>
-                    <p jhiTranslate="home.premiumfaq" class="col-info-flexitem">
-                        Check content exclusive to our premium users!
+                    <p jhiTranslate="home.followedfaq" class="col-info-flexitem">
+                        Check out the points of interest that you can see in the world, and add your own!
                     </p>
-                    <button *ngIf="account?.premium; else try" class="btn btn-primary float-right" (click)="goToTags()">
-                        <span jhiTranslate="home.premiumbtn">Access premium content</span>
+                    <button class="btn btn-primary float-right" (click)="goToFollowed()">
+                        <span jhiTranslate="home.followedbtn">Go to your followed routes!</span>
                     </button>
-                    <ng-template #try>
-                        <button class="btn btn-primary float-right" (click)="goToTags()">
-                            <span jhiTranslate="home.premiumbuy">Get exclusive access now!</span>
-                        </button>
-                    </ng-template>
-
                 </div>
             </div>
         </div>
