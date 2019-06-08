@@ -137,7 +137,7 @@ public class AccountResource {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setPremium(true);
-            userService.updateUser(user);
+            user = userService.updateUser(user);
             return ResponseEntity.ok().body(user);
 
         } else {
