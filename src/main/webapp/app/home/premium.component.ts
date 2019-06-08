@@ -29,7 +29,10 @@ export class PremiumComponent implements OnInit {
                 name: 'paymentDone',
                 content: `Payment was done for user ${this.account.login}!`
             });
-            this.router.navigate([''], { queryParams: { refresh: true } });
+            this.router.navigateByUrl('/RefrshComponent', { skipLocationChange: true }).then(data => {
+                this.router.navigated = false;
+                this.router.navigate([''], { queryParams: { refresh: true } });
+            });
         });
     }
 }

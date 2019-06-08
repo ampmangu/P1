@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,9 +12,10 @@ import { Account, AccountService, LoginModalService } from 'app/core';
     templateUrl: './home.component.html',
     styleUrls: ['home.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
     account: Account;
     modalRef: NgbModalRef;
+    mySubscription: any;
 
     constructor(
         private accountService: AccountService,
@@ -22,20 +23,44 @@ export class HomeComponent implements OnInit {
         private eventManager: JhiEventManager,
         protected router: Router,
         protected translate: TranslateService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private activatedRoute: ActivatedRoute
     ) {
         translate.setDefaultLang('en');
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         translate.use('en');
+        this.router.routeReuseStrategy.shouldReuseRoute = function() {
+            return false;
+        };
+        this.mySubscription = this.router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                // Trick the Router into believing it's last link wasn't previously loaded
+                this.router.navigated = false;
+            }
+        });
+        toastr.toastrConfig.preventDuplicates = true;
+        toastr.toastrConfig.maxOpened = 1;
     }
 
     ngOnInit() {
+        this.activatedRoute.queryParamMap.subscribe(data => {
+            if (data.get('refresh') === 'true') {
+                window.location.href = window.location.href.split('?refresh=true')[0];
+                window.location.reload();
+            }
+        });
         this.accountService.identity().then((account: Account) => {
             this.account = account;
         });
         this.registerPayment();
         this.registerAuthenticationSuccess();
+    }
+
+    ngOnDestroy() {
+        if (this.mySubscription) {
+            this.mySubscription.unsubscribe();
+        }
     }
 
     registerAuthenticationSuccess() {
