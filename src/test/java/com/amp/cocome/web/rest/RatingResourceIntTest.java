@@ -1,12 +1,11 @@
 package com.amp.cocome.web.rest;
 
 import com.amp.cocome.P1App;
-
 import com.amp.cocome.domain.Rating;
 import com.amp.cocome.repository.RatingRepository;
 import com.amp.cocome.service.RatingService;
+import com.amp.cocome.service.TRouteService;
 import com.amp.cocome.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,15 +25,14 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import static com.amp.cocome.web.rest.TestUtil.sameInstant;
 import static com.amp.cocome.web.rest.TestUtil.createFormattingConversionService;
+import static com.amp.cocome.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
@@ -69,9 +66,13 @@ public class RatingResourceIntTest {
     @Mock
     private RatingService ratingServiceMock;
 
+    @Mock
+    private TRouteService routeServiceMock;
     @Autowired
     private RatingService ratingService;
 
+    @Autowired
+    private TRouteService routeService;
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -94,7 +95,7 @@ public class RatingResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final RatingResource ratingResource = new RatingResource(ratingService);
+        final RatingResource ratingResource = new RatingResource(ratingService, routeService);
         this.restRatingMockMvc = MockMvcBuilders.standaloneSetup(ratingResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -105,7 +106,7 @@ public class RatingResourceIntTest {
 
     /**
      * Create an entity for this test.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -212,10 +213,10 @@ public class RatingResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].score").value(hasItem(DEFAULT_SCORE)));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllRatingsWithEagerRelationshipsIsEnabled() throws Exception {
-        RatingResource ratingResource = new RatingResource(ratingServiceMock);
+        RatingResource ratingResource = new RatingResource(ratingServiceMock, routeServiceMock);
         when(ratingServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restRatingMockMvc = MockMvcBuilders.standaloneSetup(ratingResource)
@@ -225,25 +226,25 @@ public class RatingResourceIntTest {
             .setMessageConverters(jacksonMessageConverter).build();
 
         restRatingMockMvc.perform(get("/api/ratings?eagerload=true"))
-        .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         verify(ratingServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @SuppressWarnings({"unchecked"})
     public void getAllRatingsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        RatingResource ratingResource = new RatingResource(ratingServiceMock);
-            when(ratingServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-            MockMvc restRatingMockMvc = MockMvcBuilders.standaloneSetup(ratingResource)
+        RatingResource ratingResource = new RatingResource(ratingServiceMock, routeServiceMock);
+        when(ratingServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        MockMvc restRatingMockMvc = MockMvcBuilders.standaloneSetup(ratingResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
             .setMessageConverters(jacksonMessageConverter).build();
 
         restRatingMockMvc.perform(get("/api/ratings?eagerload=true"))
-        .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
-            verify(ratingServiceMock, times(1)).findAllWithEagerRelationships(any());
+        verify(ratingServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
