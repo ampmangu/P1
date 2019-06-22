@@ -6,7 +6,7 @@
         <h1 class="display-4" jhiTranslate="home.htitle">Welcome Prepared Adventurer</h1>
         <p class="lead" jhiTranslate="home.subtitle">This is your ss</p>
         <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
+            <div class="alert alert-success" id="hide" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
                       [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}
                     ". </span>
