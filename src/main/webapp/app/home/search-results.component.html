@@ -4,9 +4,9 @@
     </h2>
     <br/>
     <h3>
-        <span jhiTranslate="p1App.tRoute.home.title">Routes</span>
+        <span jhiTranslate="p1App.tRoute.home.title" (click)="toggle('table-routes')">Routes</span>
     </h3>
-    <div class="table-responsive" *ngIf="routesSearch">
+    <div id="table-routes"  class="table-responsive" *ngIf="routesSearch">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -73,9 +73,9 @@
     </div>
     <br/>
     <h3>
-        <span jhiTranslate="p1App.pointInterest.home.title">Point Interest</span>
+        <span jhiTranslate="p1App.pointInterest.home.title" (click)="toggle('table-points')">Point Interest</span>
     </h3>
-    <div class="table-responsive" *ngIf="pointsSearch">
+    <div id="table-points" class="table-responsive" *ngIf="pointsSearch">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -141,9 +141,9 @@
     </div>
     <br/>
     <h3>
-        <span jhiTranslate="p1App.tag.home.title">Tags</span>
+        <span jhiTranslate="p1App.tag.home.title" (click)="toggle('table-tags')">Tags</span>
     </h3>
-    <div class="table-responsive" *ngIf="tagsSearch">
+    <div id="table-tags" class="table-responsive" *ngIf="tagsSearch">
         <table class="table table-striped">
             <thead>
             <tr>

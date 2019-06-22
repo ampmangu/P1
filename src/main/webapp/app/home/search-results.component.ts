@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Account, AccountService } from 'app/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITRoute } from 'app/shared/model/t-route.model';
@@ -6,6 +6,7 @@ import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IPointInterest } from 'app/shared/model/point-interest.model';
 import { ITag } from 'app/shared/model/tag.model';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'jhi-search-results',
@@ -17,7 +18,6 @@ export class SearchResultsComponent implements OnInit {
     pointsSearch: IPointInterest[];
     tagsSearch: ITag[];
     account: Account;
-
     constructor(private accountService: AccountService, private activatedRoute: ActivatedRoute) {
         this.routesSearch = [];
         this.pointsSearch = [];
@@ -82,5 +82,15 @@ export class SearchResultsComponent implements OnInit {
 
     trackTagId(index: number, item: ITag) {
         return item.id;
+    }
+
+    toggle(name: string) {
+        if (name === 'table-routes') {
+            $('#table-routes').toggle();
+        } else if (name === 'table-points') {
+            $('#table-points').toggle();
+        } else if (name === 'table-tags') {
+            $('#table-tags').toggle();
+        }
     }
 }
