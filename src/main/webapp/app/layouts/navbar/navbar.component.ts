@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager, JhiLanguageService } from 'ng-jhipster';
 import { SessionStorageService } from 'ngx-webstorage';
 
 import { VERSION } from 'app/app.constants';
@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
         private loginService: LoginService,
         private languageService: JhiLanguageService,
         private languageHelper: JhiLanguageHelper,
+        private eventManager: JhiEventManager,
         private sessionStorage: SessionStorageService,
         private accountService: AccountService,
         private loginModalService: LoginModalService,
@@ -40,6 +41,7 @@ export class NavbarComponent implements OnInit {
         this.languageHelper.getAll().then(languages => {
             this.languages = languages;
         });
+        this.registerAuthenticationSuccessful();
         this.getUser();
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
@@ -87,6 +89,13 @@ export class NavbarComponent implements OnInit {
         this.collapseNavbar();
         this.loginService.logout();
         this.router.navigate(['']);
+        this.ngOnInit();
+    }
+
+    registerAuthenticationSuccessful() {
+        this.eventManager.subscribe('authenticationSuccess', message => {
+            this.ngOnInit();
+        });
     }
 
     toggleNavbar() {
