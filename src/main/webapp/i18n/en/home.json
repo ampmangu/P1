@@ -13,6 +13,9 @@
         "premium": {
             "header": "Buy premium access"
         },
+        "search": {
+            "results": "Search results:"
+        },
         "like": "",
         "github": "",
         "routesfaq": "You can create the routes that you have done when travelling, and checkout other users routes!",

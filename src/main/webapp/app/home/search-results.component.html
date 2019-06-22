@@ -1,0 +1,202 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="home.search.results">Search results</span>
+    </h2>
+    <br/>
+    <h3>
+        <span jhiTranslate="p1App.tRoute.home.title">Routes</span>
+    </h3>
+    <div class="table-responsive" *ngIf="routesSearch">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span jhiTranslate="p1App.tRoute.title">Title</span>
+                </th>
+                <th><span jhiTranslate="p1App.tRoute.description">Description</span>
+                </th>
+                <th><span jhiTranslate="p1App.tRoute.date">Date</span>
+                </th>
+                <th><span jhiTranslate="p1App.tRoute.user">User</span>
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let tRoute of routesSearch ;trackBy: trackRouteId">
+                <!--<td>{{tRoute.id}}</a></td>-->
+                <td><a [routerLink]="['/t-route', tRoute.id, 'view' ]">{{tRoute.title}}</a></td>
+                <td>{{tRoute.description}}</td>
+                <td>{{tRoute.date | date:'dd/MM/yyyy'}}</td>
+                <td>{{tRoute.user?.login}}</td>
+
+                <td *ngIf="account?.id === tRoute.user?.id; else admin">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/t-route', tRoute.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 't-route', { outlets: { popup: tRoute.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+                <ng-template #admin>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/t-route', tRoute.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 't-route', { outlets: { popup: tRoute.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </ng-template>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <h3>
+        <span jhiTranslate="p1App.pointInterest.home.title">Point Interest</span>
+    </h3>
+    <div class="table-responsive" *ngIf="pointsSearch">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span jhiTranslate="p1App.pointInterest.name">Name</span>
+                </th>
+                <th><span jhiTranslate="p1App.pointInterest.city">City</span>
+                </th>
+                <th><span jhiTranslate="p1App.pointInterest.description">Description</span>
+                </th>
+                <th><span jhitranslate="p1App.pointInterest.route">Route it belongs</span>
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pointInterest of pointsSearch ;trackBy: trackPointId">
+                <td><a [routerLink]="['/point-interest', pointInterest.id, 'view' ]">{{pointInterest.name}}</a></td>
+                <td>{{pointInterest.city}}</td>
+                <td>{{pointInterest.description}}</td>
+                <td><a [routerLink]="['/t-route', pointInterest.route?.id, 'view' ]">{{pointInterest.route?.title}}</a>
+                </td>
+                <td *ngIf="account?.id === pointInterest?.route?.user?.id; else admin">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/point-interest', pointInterest.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'point-interest', { outlets: { popup: pointInterest.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+                <ng-template #admin>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/point-interest', pointInterest.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 'point-interest', { outlets: { popup: pointInterest.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </ng-template>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <h3>
+        <span jhiTranslate="p1App.tag.home.title">Tags</span>
+    </h3>
+    <div class="table-responsive" *ngIf="tagsSearch">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span jhiTranslate="p1App.tag.name">Name</span></th>
+                <th><span jhiTranslate="p1App.tag.premium">Premium</span></th>
+                <th><span jhiTranslate="p1App.tag.tRoute">T Route</span></th>
+                <th><span jhiTranslate="p1App.tag.pointInterest">Point Interest</span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let tag of tagsSearch ;trackBy: trackTagId">
+                <td><a [routerLink]="['/tag', tag.id, 'view' ]">{{tag.name}}</a></td>
+                <td *ngIf="tag.premium; else fpremium">&#10004;</td>
+                <ng-template #fpremium>
+                    <td><b>-</b></td>
+                </ng-template>
+                <td>
+                    <div *ngIf="tag.tRoute; else fr">
+                        <a [routerLink]="['../t-route', tag.tRoute?.id, 'view' ]">{{tag.tRoute?.id}}</a>
+                    </div>
+                    <ng-template #fr>
+                        <b>-</b>
+                    </ng-template>
+                </td>
+                <td>
+                    <div *ngIf="tag.pointInterest; else fp">
+                        <a [routerLink]="['../point-interest', tag.pointInterest?.id, 'view' ]">{{tag.pointInterest?.id}}</a>
+                    </div>
+                    <ng-template #fp>
+                        <b>-</b>
+                    </ng-template>
+                </td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/tag', tag.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'tag', { outlets: { popup: tag.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

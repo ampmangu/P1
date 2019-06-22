@@ -7,6 +7,7 @@ import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
 import com.amp.cocome.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -94,6 +95,23 @@ public class PointInterestResource {
         Page<PointInterest> page = pointInterestService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/point-interests");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/point-interests/search/{searchValue}")
+    public ResponseEntity<List<PointInterest>> getPointInterestBySearch(@PathVariable String searchValue) {
+        Page<PointInterest> page = pointInterestService.findAll(PageRequest.of(0, 4000));
+        List<PointInterest> pointInterests = page.getContent().stream().filter(
+            pointInterest -> addPoint(pointInterest, searchValue)
+        ).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/point-interests");
+        return ResponseEntity.ok().headers(headers).body(pointInterests);
+    }
+
+    private boolean addPoint(PointInterest pointInterest, String searchValue) {
+        return StringUtils.containsIgnoreCase(pointInterest.getName(), searchValue)
+            || (pointInterest.getDescription() != null && StringUtils.containsIgnoreCase(pointInterest.getDescription(), searchValue))
+            || (pointInterest.getCity() != null && StringUtils.containsIgnoreCase(pointInterest.getCity(), searchValue))
+            || (pointInterest.getAddress() != null && StringUtils.containsIgnoreCase(pointInterest.getAddress(), searchValue));
     }
 
     @GetMapping("/point-interests/nroute/{routeId}")

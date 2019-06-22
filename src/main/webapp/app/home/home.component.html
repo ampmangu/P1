@@ -21,6 +21,13 @@
                 <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.register.loginclick">Click in
                     here to log in</a>
             </div>
+            <div *ngSwitchCase="true" class="search-box">
+                <form (ngSubmit)="search(searchValue.value)" id="content-search-form" #editForm="ngForm">
+                    <i class="fa fa-search"></i>
+                    <input aria-label="Search" id="search-input" name="search-input" placeholder="Search"
+                           type="search" #searchValue>
+                </form>
+            </div>
             <div class="section-info">
                 <div class="col-md-3 col-info">
                     <h3 class="col-info-header col-info-flexitem" jhiTranslate="home.routesheader">
@@ -51,7 +58,8 @@
                     <p jhiTranslate="home.premiumfaq" class="col-info-flexitem">
                         Check content exclusive to our premium users!
                     </p>
-                    <button *ngIf="account?.premium; else premium" class="btn btn-primary float-right" (click)="goPremium()">
+                    <button *ngIf="account?.premium; else premium" class="btn btn-primary float-right"
+                            (click)="goPremium()">
                         <span jhiTranslate="home.premiumbtn">Access premium content</span>
                     </button>
                     <ng-template #premium>

@@ -9,6 +9,7 @@ import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
 import com.amp.cocome.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 /**
  * REST controller for managing TRoute.
  */
@@ -208,6 +208,14 @@ public class TRouteResource {
         log.debug("REST request to get TRoute : {}", id);
         Optional<TRoute> tRoute = tRouteService.findOne(id);
         return ResponseUtil.wrapOrNotFound(tRoute);
+    }
+
+    @GetMapping("/t-routes/search/{searchValue}")
+    public ResponseEntity<List<TRoute>> getTRouteByName(@PathVariable String searchValue) {
+        Page<TRoute> tRoutePage = tRouteService.findAll(PageRequest.of(0, 4000));
+        List<TRoute> rtnRoutes =  tRoutePage.getContent().stream().filter(tRoute -> StringUtils.containsIgnoreCase(tRoute.getTitle(), searchValue) || (tRoute.getDescription() != null && StringUtils.containsIgnoreCase(tRoute.getDescription(),searchValue))).collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(tRoutePage, "/api/t-routes");
+        return ResponseEntity.ok().headers(headers).body(rtnRoutes);
     }
 
     @GetMapping("/t-routes/tags/{id}")

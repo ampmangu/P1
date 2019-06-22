@@ -9,6 +9,7 @@ import com.amp.cocome.service.TagService;
 import com.amp.cocome.web.rest.errors.BadRequestAlertException;
 import com.amp.cocome.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -166,6 +167,11 @@ public class TagResource {
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
         return tagService.findAll().stream().filter(distinctByKey(Tag::getName)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/tags/search/{searchvalue}")
+    public List<Tag> getTagBySearch(@PathVariable String searchvalue) {
+        return tagService.findAll().stream().filter(distinctByKey(Tag::getName)).filter(tag -> StringUtils.containsIgnoreCase(tag.getName(), searchvalue)).collect(Collectors.toList());
     }
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {

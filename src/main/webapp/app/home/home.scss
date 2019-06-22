@@ -13,10 +13,10 @@ Main page styles
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 //noinspection ALL
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (-moz-min-device-pixel-ratio: 2),
-only screen and (-o-min-device-pixel-ratio: 2/1),
-only screen and (min-resolution: 192dpi),
-only screen and (min-resolution: 2dppx) {
+    only screen and (-moz-min-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx) {
     .hipster {
         background: url('../../content/images/earth.svg') no-repeat center top;
         background-size: contain;
@@ -43,6 +43,56 @@ only screen and (min-resolution: 2dppx) {
         .col-info-header {
             text-decoration: underline;
             font-weight: bold;
+        }
+    }
+}
+.search-box {
+    font-family: sans-serif;
+    label {
+        display: none;
+        font-weight: 500;
+        margin: 0 5px 0 0;
+    }
+    #content-search-form {
+        align-items: center;
+        display: flex;
+        max-width: 600px;
+        button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196f3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none; /* Prevent double borders */
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0b7dda;
+        }
+        @media all and (min-width: 500px) {
+            div#search label {
+                display: inline;
+            }
+            div#search input::placeholder {
+                opacity: 0;
+            }
+        }
+        #search-input {
+            width: 25%;
+            outline: none;
+            border: solid #ccc;
+            border-width: 1px 0 1px 1px;
+            border-radius: 2px 0 0 2px;
+            flex: 1;
+            font-size: 16px;
+            font-weight: 200;
+            height: 33px;
+            margin: 0;
+            min-width: 90px;
+            padding: 5px;
+            -webkit-appearance: textfield;
         }
     }
 }

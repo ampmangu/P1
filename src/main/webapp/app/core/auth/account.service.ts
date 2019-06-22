@@ -27,6 +27,18 @@ export class AccountService {
         return this.http.put(SERVER_API_URL + 'api/account', login, { observe: 'response' });
     }
 
+    searchRoute(searchValue: string): Observable<HttpResponse<any>> {
+        return this.http.get(SERVER_API_URL + 'api/t-routes/search/' + searchValue, { observe: 'response' });
+    }
+
+    searchPoint(searchValue: string): Observable<HttpResponse<any>> {
+        return this.http.get(SERVER_API_URL + 'api/point-interests/search/' + searchValue, { observe: 'response' });
+    }
+
+    searchTags(searchValue: string): Observable<HttpResponse<any>> {
+        return this.http.get(SERVER_API_URL + 'api/tags/search/' + searchValue, { observe: 'response' });
+    }
+
     authenticate(identity) {
         this.userIdentity = identity;
         this.authenticated = identity !== null;

@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { Account, AccountService, LoginModalService } from 'app/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'jhi-home',
@@ -133,5 +134,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     processPayment(response: any): any {
         this.toastr.success(response.content);
+    }
+
+    search(searchValue: string) {
+        if (searchValue.length > 0) {
+            this.router.navigate(['search/', searchValue]);
+        }
     }
 }
