@@ -128,7 +128,7 @@ liquibase {
             referenceUrl 'jdbc:mariadb://localhost:3306/P1'
             referenceUsername 'root'
             username 'root'
-            password ''
+            password 'uN1v3rsItY_0f_vVi3n'
             changeLogFile 'src/main/resources/config/liquibase/master.xml'
             defaultSchemaName ''
             logLevel 'severe'
