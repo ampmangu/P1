@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Account, AccountService } from 'app/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITRoute } from 'app/shared/model/t-route.model';
@@ -18,6 +18,7 @@ export class SearchResultsComponent implements OnInit {
     pointsSearch: IPointInterest[];
     tagsSearch: ITag[];
     account: Account;
+
     constructor(private accountService: AccountService, private activatedRoute: ActivatedRoute) {
         this.routesSearch = [];
         this.pointsSearch = [];
@@ -51,7 +52,15 @@ export class SearchResultsComponent implements OnInit {
                     .subscribe((result: IPointInterest[]) => {
                         this.pointsSearch = result;
                     });
-                this.accountService.searchTags(this.searchValue);
+                this.accountService
+                    .searchTags(this.searchValue)
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<ITag[]>) => mayBeOk.ok),
+                        map((response: HttpResponse<ITag[]>) => response.body)
+                    )
+                    .subscribe((result: ITag[]) => {
+                        this.tagsSearch = result;
+                    });
             }
         });
     }
