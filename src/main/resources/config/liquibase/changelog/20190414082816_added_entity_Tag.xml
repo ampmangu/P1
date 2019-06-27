@@ -41,7 +41,9 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData tableName="tag" file="config/liquibase/tags.csv"
-                  separator="," encoding="UTF-8"/>
+                  separator="," encoding="UTF-8">
+            <column name="premium" type="boolean"/>
+        </loadData>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
