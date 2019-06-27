@@ -53,7 +53,7 @@ dependencyManagement {
 defaultTasks 'bootRun'
 
 group = 'com.amp.cocome'
-version = '0.1'
+version = '1.0'
 
 description = ''
 
