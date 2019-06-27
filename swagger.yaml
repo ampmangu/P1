@@ -1,0 +1,2193 @@
+swagger: '2.0'
+info:
+    description: P1 API documentation
+    version: 0.0.1
+    title: P1 API
+    contact:
+        email: "a11824566@unet.univie.ac.at"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: 'localhost:8080'
+basePath: /
+tags:
+    - name: account-resource
+      description: Account Resource
+    - name: day-resource
+      description: Day Resource
+    - name: point-interest-resource
+      description: Point Interest Resource
+    - name: rating-resource
+      description: Rating Resource
+    - name: t-route-resource
+      description: T Route Resource
+    - name: tag-resource
+      description: Tag Resource
+    - name: user-resource
+      description: User Resource
+paths:
+    /api/account:
+        get:
+            tags:
+                - account-resource
+            summary: getAccount
+            operationId: getAccountUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/UserDTO'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - account-resource
+            summary: saveAccount
+            operationId: saveAccountUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: userDTO
+                  description: userDTO
+                  required: true
+                  schema:
+                      $ref: '#/definitions/UserDTO'
+            responses:
+                '200':
+                    description: OK
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - account-resource
+            summary: makeUserPremium
+            operationId: makeUserPremiumUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: login
+                  description: login
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/User'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/account/change-password:
+        post:
+            tags:
+                - account-resource
+            summary: changePassword
+            operationId: changePasswordUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: passwordChangeDto
+                  description: passwordChangeDto
+                  required: true
+                  schema:
+                      $ref: '#/definitions/PasswordChangeDTO'
+            responses:
+                '200':
+                    description: OK
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/account/reset-password/finish:
+        post:
+            tags:
+                - account-resource
+            summary: finishPasswordReset
+            operationId: finishPasswordResetUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: keyAndPassword
+                  description: keyAndPassword
+                  required: true
+                  schema:
+                      $ref: '#/definitions/KeyAndPasswordVM'
+            responses:
+                '200':
+                    description: OK
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/account/reset-password/init:
+        post:
+            tags:
+                - account-resource
+            summary: requestPasswordReset
+            operationId: requestPasswordResetUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: mail
+                  description: mail
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: OK
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/account/sessions:
+        get:
+            tags:
+                - account-resource
+            summary: getCurrentSessions
+            operationId: getCurrentSessionsUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/PersistentToken'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/account/sessions/{series}':
+        delete:
+            tags:
+                - account-resource
+            summary: invalidateSession
+            operationId: invalidateSessionUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: series
+                  in: path
+                  description: series
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+    /api/activate:
+        get:
+            tags:
+                - account-resource
+            summary: activateAccount
+            operationId: activateAccountUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: key
+                  in: query
+                  description: key
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/authenticate:
+        get:
+            tags:
+                - account-resource
+            summary: isAuthenticated
+            operationId: isAuthenticatedUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: string
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/days:
+        get:
+            tags:
+                - day-resource
+            summary: getAllDays
+            operationId: getAllDaysUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number of the requested page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: size
+                  in: query
+                  description: Size of a page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: sort
+                  in: query
+                  description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+                  required: false
+                  type: array
+                  items:
+                      type: string
+                  collectionFormat: multi
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Day'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - day-resource
+            summary: updateDay
+            operationId: updateDayUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: day
+                  description: day
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Day'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Day'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/days/route/{routeId}':
+        get:
+            tags:
+                - day-resource
+            summary: getAllDaysByRoute
+            operationId: getAllDaysByRouteUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: routeId
+                  in: path
+                  description: routeId
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Day'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/days/{id}':
+        get:
+            tags:
+                - day-resource
+            summary: getDay
+            operationId: getDayUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Day'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        delete:
+            tags:
+                - day-resource
+            summary: deleteDay
+            operationId: deleteDayUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+    '/api/days/{routeId}':
+        post:
+            tags:
+                - day-resource
+            summary: createDay
+            operationId: createDayUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: day
+                  description: day
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Day'
+                - name: routeId
+                  in: path
+                  description: routeId
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Day'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/point-interests:
+        get:
+            tags:
+                - point-interest-resource
+            summary: getAllPointInterests
+            operationId: getAllPointInterestsUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number of the requested page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: size
+                  in: query
+                  description: Size of a page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: sort
+                  in: query
+                  description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+                  required: false
+                  type: array
+                  items:
+                      type: string
+                  collectionFormat: multi
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/PointInterest'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - point-interest-resource
+            summary: createPointInterest
+            operationId: createPointInterestUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: pointInterest
+                  description: pointInterest
+                  required: true
+                  schema:
+                      $ref: '#/definitions/PointInterest'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/PointInterest'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - point-interest-resource
+            summary: updatePointInterest
+            operationId: updatePointInterestUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: pointInterest
+                  description: pointInterest
+                  required: true
+                  schema:
+                      $ref: '#/definitions/PointInterest'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/PointInterest'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/point-interests/nroute/{routeId}':
+        get:
+            tags:
+                - point-interest-resource
+            summary: getPointsNotInRoute
+            operationId: getPointsNotInRouteUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: routeId
+                  in: path
+                  description: routeId
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/PointInterest'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/point-interests/route/{id}':
+        get:
+            tags:
+                - point-interest-resource
+            summary: getPointsByRouteId
+            operationId: getPointsByRouteIdUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/PointInterest'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/point-interests/search/{searchValue}':
+        get:
+            tags:
+                - point-interest-resource
+            summary: getPointInterestBySearch
+            operationId: getPointInterestBySearchUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: searchValue
+                  in: path
+                  description: searchValue
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/PointInterest'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/point-interests/tags/{id}':
+        get:
+            tags:
+                - point-interest-resource
+            summary: getAllTagsOfPoint
+            operationId: getAllTagsOfPointUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/point-interests/{id}':
+        get:
+            tags:
+                - point-interest-resource
+            summary: getPointInterest
+            operationId: getPointInterestUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/PointInterest'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        delete:
+            tags:
+                - point-interest-resource
+            summary: deletePointInterest
+            operationId: deletePointInterestUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+    /api/ratings:
+        get:
+            tags:
+                - rating-resource
+            summary: getAllRatings
+            operationId: getAllRatingsUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: eagerload
+                  in: query
+                  description: eagerload
+                  required: false
+                  type: boolean
+                  default: false
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Rating'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - rating-resource
+            summary: createRating
+            operationId: createRatingUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: rating
+                  description: rating
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Rating'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Rating'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - rating-resource
+            summary: updateRating
+            operationId: updateRatingUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: rating
+                  description: rating
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Rating'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Rating'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/ratings/point/{pointId}':
+        get:
+            tags:
+                - rating-resource
+            summary: getRatingsByPoint
+            operationId: getRatingsByPointUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: pointId
+                  in: path
+                  description: pointId
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Rating'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/ratings/route/{routeId}':
+        get:
+            tags:
+                - rating-resource
+            summary: getRatingsByRoute
+            operationId: getRatingsByRouteUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: routeId
+                  in: path
+                  description: routeId
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Rating'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/ratings/{id}':
+        get:
+            tags:
+                - rating-resource
+            summary: getRating
+            operationId: getRatingUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Rating'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        delete:
+            tags:
+                - rating-resource
+            summary: deleteRating
+            operationId: deleteRatingUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+    /api/register:
+        post:
+            tags:
+                - account-resource
+            summary: registerAccount
+            operationId: registerAccountUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: managedUserVM
+                  description: managedUserVM
+                  required: true
+                  schema:
+                      $ref: '#/definitions/ManagedUserVM'
+            responses:
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/t-routes:
+        get:
+            tags:
+                - t-route-resource
+            summary: getAllTRoutes
+            operationId: getAllTRoutesUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number of the requested page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: size
+                  in: query
+                  description: Size of a page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: sort
+                  in: query
+                  description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+                  required: false
+                  type: array
+                  items:
+                      type: string
+                  collectionFormat: multi
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - t-route-resource
+            summary: createTRoute
+            operationId: createTRouteUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: tRoute
+                  description: tRoute
+                  required: true
+                  schema:
+                      $ref: '#/definitions/TRoute'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/TRoute'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - t-route-resource
+            summary: updateTRoute
+            operationId: updateTRouteUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: tRoute
+                  description: tRoute
+                  required: true
+                  schema:
+                      $ref: '#/definitions/TRoute'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/TRoute'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/followers/{idRoute}/{idUser}':
+        get:
+            tags:
+                - t-route-resource
+            summary: getUserFollower
+            operationId: getUserFollowerUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: idRoute
+                  in: path
+                  description: idRoute
+                  required: true
+                  type: integer
+                  format: int64
+                - name: idUser
+                  in: path
+                  description: idUser
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/User'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/t-routes/npremium:
+        get:
+            tags:
+                - t-route-resource
+            summary: getNonPremiumTRoutes
+            operationId: getNonPremiumTRoutesUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/point/{pointId}':
+        get:
+            tags:
+                - t-route-resource
+            summary: getTRouteWithPoint
+            operationId: getTRouteWithPointUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: pointId
+                  in: path
+                  description: pointId
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/t-routes/premium:
+        get:
+            tags:
+                - t-route-resource
+            summary: getPremiumTRoutes
+            operationId: getPremiumTRoutesUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/route/{idRoute}/user/{idUser}/{hash}':
+        post:
+            tags:
+                - t-route-resource
+            summary: userFollow
+            operationId: userFollowUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - name: hash
+                  in: path
+                  description: hash
+                  required: true
+                  type: string
+                - name: idRoute
+                  in: path
+                  description: idRoute
+                  required: true
+                  type: integer
+                  format: int64
+                - name: idUser
+                  in: path
+                  description: idUser
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/TRoute'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/search/{searchValue}':
+        get:
+            tags:
+                - t-route-resource
+            summary: getTRouteByName
+            operationId: getTRouteByNameUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: searchValue
+                  in: path
+                  description: searchValue
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/tags/{id}':
+        get:
+            tags:
+                - t-route-resource
+            summary: getAllTagsOfRoute
+            operationId: getAllTagsOfRouteUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/user/{username}':
+        get:
+            tags:
+                - t-route-resource
+            summary: getTRouteByUser
+            operationId: getTRouteByUserUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: username
+                  in: path
+                  description: username
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/t-routes/{id}':
+        get:
+            tags:
+                - t-route-resource
+            summary: getTRoute
+            operationId: getTRouteUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/TRoute'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        delete:
+            tags:
+                - t-route-resource
+            summary: deleteTRoute
+            operationId: deleteTRouteUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+    /api/tags:
+        get:
+            tags:
+                - tag-resource
+            summary: getAllTags
+            operationId: getAllTagsUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - tag-resource
+            summary: createTag
+            operationId: createTagUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: tag
+                  description: tag
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Tag'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - tag-resource
+            summary: updateTag
+            operationId: updateTagUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: tag
+                  description: tag
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Tag'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/tags/point/{id}':
+        post:
+            tags:
+                - tag-resource
+            summary: createTagWithPoint
+            operationId: createTagWithPointUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+                - in: body
+                  name: tag
+                  description: tag
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Tag'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - tag-resource
+            summary: updateTagWithPoint
+            operationId: updateTagWithPointUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+                - in: body
+                  name: tag
+                  description: tag
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Tag'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/tags/points/{id}':
+        get:
+            tags:
+                - tag-resource
+            summary: getTagByPointId
+            operationId: getTagByPointIdUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/tags/route/{id}':
+        get:
+            tags:
+                - tag-resource
+            summary: getTagByRouteId
+            operationId: getTagByRouteIdUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - tag-resource
+            summary: createTagWithRoute
+            operationId: createTagWithRouteUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+                - in: body
+                  name: tag
+                  description: tag
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Tag'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - tag-resource
+            summary: updateTagWithRoute
+            operationId: updateTagWithRouteUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+                - in: body
+                  name: tag
+                  description: tag
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Tag'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/tags/search/{searchvalue}':
+        get:
+            tags:
+                - tag-resource
+            summary: getTagBySearch
+            operationId: getTagBySearchUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: searchvalue
+                  in: path
+                  description: searchvalue
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/tags/{id}':
+        get:
+            tags:
+                - tag-resource
+            summary: getTag
+            operationId: getTagUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/Tag'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        delete:
+            tags:
+                - tag-resource
+            summary: deleteTag
+            operationId: deleteTagUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  type: integer
+                  format: int64
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+    /api/users:
+        get:
+            tags:
+                - user-resource
+            summary: getAllUsers
+            operationId: getAllUsersUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number of the requested page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: size
+                  in: query
+                  description: Size of a page
+                  required: false
+                  type: integer
+                  format: int32
+                - name: sort
+                  in: query
+                  description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+                  required: false
+                  type: array
+                  items:
+                      type: string
+                  collectionFormat: multi
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/UserDTO'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        post:
+            tags:
+                - user-resource
+            summary: createUser
+            operationId: createUserUsingPOST
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: userDTO
+                  description: userDTO
+                  required: true
+                  schema:
+                      $ref: '#/definitions/UserDTO'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/User'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        put:
+            tags:
+                - user-resource
+            summary: updateUser
+            operationId: updateUserUsingPUT
+            consumes:
+                - application/json
+            produces:
+                - '*/*'
+            parameters:
+                - in: body
+                  name: userDTO
+                  description: userDTO
+                  required: true
+                  schema:
+                      $ref: '#/definitions/UserDTO'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/UserDTO'
+                '201':
+                    description: Created
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    /api/users/authorities:
+        get:
+            tags:
+                - user-resource
+            summary: getAuthorities
+            operationId: getAuthoritiesUsingGET
+            produces:
+                - '*/*'
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+    '/api/users/{login}':
+        get:
+            tags:
+                - user-resource
+            summary: getUser
+            operationId: getUserUsingGET
+            produces:
+                - '*/*'
+            parameters:
+                - name: login
+                  in: path
+                  description: login
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/UserDTO'
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+                '404':
+                    description: Not Found
+            deprecated: false
+        delete:
+            tags:
+                - user-resource
+            summary: deleteUser
+            operationId: deleteUserUsingDELETE
+            produces:
+                - '*/*'
+            parameters:
+                - name: login
+                  in: path
+                  description: login
+                  required: true
+                  type: string
+            responses:
+                '200':
+                    description: OK
+                '204':
+                    description: No Content
+                '401':
+                    description: Unauthorized
+                '403':
+                    description: Forbidden
+            deprecated: false
+definitions:
+    Day:
+        type: object
+        required:
+            - title
+        properties:
+            description:
+                type: string
+            id:
+                type: integer
+                format: int64
+            title:
+                type: string
+            troute:
+                $ref: '#/definitions/TRoute'
+            user:
+                $ref: '#/definitions/User'
+        title: Day
+    KeyAndPasswordVM:
+        type: object
+        properties:
+            key:
+                type: string
+            newPassword:
+                type: string
+        title: KeyAndPasswordVM
+    ManagedUserVM:
+        type: object
+        properties:
+            activated:
+                type: boolean
+            authorities:
+                type: array
+                items:
+                    type: string
+            createdBy:
+                type: string
+            createdDate:
+                type: string
+                format: date-time
+            email:
+                type: string
+                minLength: 5
+                maxLength: 254
+            firstName:
+                type: string
+                minLength: 0
+                maxLength: 50
+            id:
+                type: integer
+                format: int64
+            imageUrl:
+                type: string
+                minLength: 0
+                maxLength: 256
+            langKey:
+                type: string
+                minLength: 2
+                maxLength: 6
+            lastModifiedBy:
+                type: string
+            lastModifiedDate:
+                type: string
+                format: date-time
+            lastName:
+                type: string
+                minLength: 0
+                maxLength: 50
+            login:
+                type: string
+                minLength: 1
+                maxLength: 50
+                pattern: '^[_.@A-Za-z0-9-]*$'
+            password:
+                type: string
+                minLength: 4
+                maxLength: 100
+            premium:
+                type: boolean
+        title: ManagedUserVM
+    PasswordChangeDTO:
+        type: object
+        properties:
+            currentPassword:
+                type: string
+            newPassword:
+                type: string
+        title: PasswordChangeDTO
+    PersistentToken:
+        type: object
+        properties:
+            ipAddress:
+                type: string
+                minLength: 0
+                maxLength: 39
+            series:
+                type: string
+            tokenDate:
+                type: string
+                format: date
+            userAgent:
+                type: string
+        title: PersistentToken
+    PointInterest:
+        type: object
+        required:
+            - address
+            - city
+            - name
+        properties:
+            address:
+                type: string
+            city:
+                type: string
+            description:
+                type: string
+            id:
+                type: integer
+                format: int64
+            name:
+                type: string
+            route:
+                $ref: '#/definitions/TRoute'
+        title: PointInterest
+    Rating:
+        type: object
+        required:
+            - creationDate
+            - score
+        properties:
+            belongsToPoints:
+                type: array
+                items:
+                    $ref: '#/definitions/PointInterest'
+            belongsToRoutes:
+                type: array
+                items:
+                    $ref: '#/definitions/TRoute'
+            creationDate:
+                type: string
+                format: date-time
+            id:
+                type: integer
+                format: int64
+            name:
+                type: string
+            score:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 5
+                exclusiveMinimum: false
+                exclusiveMaximum: false
+            user:
+                $ref: '#/definitions/User'
+        title: Rating
+    TRoute:
+        type: object
+        required:
+            - date
+            - title
+        properties:
+            date:
+                type: string
+                format: date-time
+            description:
+                type: string
+            id:
+                type: integer
+                format: int64
+            title:
+                type: string
+            user:
+                $ref: '#/definitions/User'
+        title: TRoute
+    Tag:
+        type: object
+        required:
+            - name
+            - premium
+        properties:
+            id:
+                type: integer
+                format: int64
+            name:
+                type: string
+            pointInterest:
+                $ref: '#/definitions/PointInterest'
+            premium:
+                type: boolean
+            tRoute:
+                $ref: '#/definitions/TRoute'
+            troute:
+                $ref: '#/definitions/TRoute'
+        title: Tag
+    User:
+        type: object
+        required:
+            - activated
+            - login
+        properties:
+            activated:
+                type: boolean
+            createsDays:
+                type: array
+                items:
+                    $ref: '#/definitions/Day'
+            createsRatings:
+                type: array
+                items:
+                    $ref: '#/definitions/Rating'
+            createsRoutes:
+                type: array
+                items:
+                    $ref: '#/definitions/TRoute'
+            email:
+                type: string
+                minLength: 5
+                maxLength: 254
+            firstName:
+                type: string
+                minLength: 0
+                maxLength: 50
+            id:
+                type: integer
+                format: int64
+            imageUrl:
+                type: string
+                minLength: 0
+                maxLength: 256
+            langKey:
+                type: string
+                minLength: 2
+                maxLength: 6
+            lastName:
+                type: string
+                minLength: 0
+                maxLength: 50
+            login:
+                type: string
+                minLength: 1
+                maxLength: 50
+                pattern: '^[_.@A-Za-z0-9-]*$'
+            premium:
+                type: boolean
+            resetDate:
+                type: string
+                format: date-time
+        title: User
+    UserDTO:
+        type: object
+        properties:
+            activated:
+                type: boolean
+            authorities:
+                type: array
+                items:
+                    type: string
+            createdBy:
+                type: string
+            createdDate:
+                type: string
+                format: date-time
+            email:
+                type: string
+                minLength: 5
+                maxLength: 254
+            firstName:
+                type: string
+                minLength: 0
+                maxLength: 50
+            id:
+                type: integer
+                format: int64
+            imageUrl:
+                type: string
+                minLength: 0
+                maxLength: 256
+            langKey:
+                type: string
+                minLength: 2
+                maxLength: 6
+            lastModifiedBy:
+                type: string
+            lastModifiedDate:
+                type: string
+                format: date-time
+            lastName:
+                type: string
+                minLength: 0
+                maxLength: 50
+            login:
+                type: string
+                minLength: 1
+                maxLength: 50
+                pattern: '^[_.@A-Za-z0-9-]*$'
+            premium:
+                type: boolean
+        title: UserDTO
