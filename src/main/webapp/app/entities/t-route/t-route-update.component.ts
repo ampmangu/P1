@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -10,8 +10,7 @@ import { ITRoute } from 'app/shared/model/t-route.model';
 import { TRouteService } from './t-route.service';
 import { IRating } from 'app/shared/model/rating.model';
 import { RatingService } from 'app/entities/rating';
-import {User} from 'app/core';
-import {UserService} from 'app/core';
+import { Account, AccountService, User, UserService } from 'app/core';
 
 @Component({
     selector: 'jhi-t-route-update',
@@ -25,16 +24,20 @@ export class TRouteUpdateComponent implements OnInit {
 
     users: User[];
     date: string;
+    account: Account;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected tRouteService: TRouteService,
         protected ratingService: RatingService,
         protected userService: UserService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        private accountService: AccountService
     ) {}
 
     ngOnInit() {
+        this.getUser();
+
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ tRoute }) => {
             this.tRoute = tRoute;
@@ -54,6 +57,15 @@ export class TRouteUpdateComponent implements OnInit {
                 map((response: HttpResponse<User[]>) => response.body)
             )
             .subscribe((res: User[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    getUser() {
+        this.accountService.identifyO().subscribe(response => {
+            const account = response.body;
+            if (account) {
+                this.account = account;
+            }
+        });
     }
 
     previousState() {
