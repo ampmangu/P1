@@ -28,7 +28,7 @@ task webpack_test(type: NpmTask, dependsOn: 'npm_install') {
 }
 
 task webpack(type: NpmTask, dependsOn: 'npm_install') {
-    args = ["run", "webpack:prod"]
+    args = ["run", "webpack:build"]
 }
 
 task copyIntoStatic (type: Copy) {
